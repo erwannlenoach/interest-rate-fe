@@ -6,13 +6,11 @@ export default function footer() {
   return (
     <footer className="uk-section uk-section-secondary uk-light">
       <div className="uk-container">
-        <div className="uk-grid-match uk-child-width-1-2@m">
+        <div className="uk-flex">
           <div>
             <h4>About Us</h4>
             <p>
-              We are a company dedicated to providing the best services to our
-              customers. Our mission is to deliver high-quality solutions
-              tailored to your needs.
+              Simulation of arm's length loans
             </p>
           </div>
           <div>
