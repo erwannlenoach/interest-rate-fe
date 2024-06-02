@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import 'uikit/dist/css/uikit.min.css';
 import UIkit from 'uikit';
@@ -33,7 +35,7 @@ const LoanForm = () => {
 
   return (
     <div className="uk-container uk-container-small uk-margin-large-top">
-      <h1 className="uk-heading-line uk-text-center"><span>Loan Information Form</span></h1>
+      <h1 className="uk-text-center"><span>Loan Information</span></h1>
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         {[
           { label: 'Debt to Income Ratio', name: 'debt_to_income_ratio' },

@@ -8,7 +8,8 @@ const financialConstants = {
     SECTOR: 'Sector',
     LOAN_TERM: 'Loan Term',
     COMPANY_CREDIT_RATING: 'Company Credit Rating',
-    SUBORDINATION: 'Subordination'
+    SUBORDINATION: 'Subordination',
+    INTEREST_RATE: 'Interest Rate',
 }
 
 export default financialConstants;
