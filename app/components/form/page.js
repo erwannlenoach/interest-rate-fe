@@ -33,7 +33,7 @@ const LoanForm = () => {
   };
 
   return (
-    <div className="uk-container uk-container-small uk-margin-large-top">
+    <div className="uk-container uk-container-small uk-margin-large-top uk-padding-medium">
       <h1 className="uk-text-center">
         <span>Loan Information</span>
       </h1>

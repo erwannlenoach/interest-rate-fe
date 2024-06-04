@@ -31,9 +31,9 @@ const History = () => {
   ];
 
   return (
-    <div className="uk-container">
+    <div className="uk-container uk-text-center uk-margin-medium-top">
       <h2>Loan History</h2>
-      <table className="uk-table uk-table-striped">
+      <table className="uk-table uk-table-striped uk-margin-medium-bottom">
         <thead>
           <tr>
             {Object.keys(financialConstants).map((key) => (

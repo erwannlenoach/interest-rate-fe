@@ -15,8 +15,8 @@ export default function Header() {
 
   return (
     <header uk-sticky="true">
-      <nav className="uk-margin-medium-left">
-        <div className="uk-navbar-right">
+      <nav className="uk-background-primary">
+        <div className="uk-navbar-right uk-margin-medium-left">
           <ul className="uk-navbar-nav">
             <li>
               <Link href="/" passHref
