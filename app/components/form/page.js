@@ -1,24 +1,27 @@
 "use client";
-
+import axios from 'axios'
 import { useState } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
+import { industrySectors, regions, creditRatings } from "@/app/utils/constant";
 UIkit.use(Icons);
 
 const LoanForm = () => {
   const [formData, setFormData] = useState({
-    debt_to_income_ratio: "",
-    loan_to_value_ratio: "",
-    annual_income: "",
-    loan_amount: "",
-    collateral_value: "",
-    political_stability_index: "",
-    sector_index: "",
-    loan_term_years: "",
-    company_credit_rating_value: "",
-    subordination: "",
+    Debt_to_Income_Ratio: "",
+    Loan_to_Value_Ratio: "",
+    Annual_Income: "",
+    Loan_Amount: "",
+    Loan_Term_Years: "",
+    Subordination: "",
+    Collateral_Value: "",
+    Sector: "Finance",
+    Region: "Northern Europe",
+    Assigned_Credit_Rating: "B1"
   });
+
+  const [prediction, setPrediction] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,8 +31,25 @@ const LoanForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8800/loans",
+        formData
+      );
+      setPrediction(response.data.prediction);
+      UIkit.notification({
+        message: "Prediction received!",
+        status: "success",
+      });
+    } catch (error) {
+      console.error("Failed to submit the form:", error);
+      UIkit.notification({
+        message: "Error fetching prediction!",
+        status: "danger",
+      });
+    }
   };
 
   return (
@@ -39,37 +59,53 @@ const LoanForm = () => {
       </h1>
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         {[
-          { label: "Debt to Income Ratio", name: "debt_to_income_ratio" },
-          { label: "Loan to Value Ratio", name: "loan_to_value_ratio" },
-          { label: "Annual Income", name: "annual_income" },
-          { label: "Loan Amount", name: "loan_amount" },
-          { label: "Collateral Value", name: "collateral_value" },
+          { label: "Loan Amount", name: "Loan_Amount" },
+          { label: "Collateral Value", name: "Collateral_Value" },
+          { label: "Loan Term Years", name: "Loan_Term_Years" },
+          { label: "Loan to Value Ratio", name: "Loan_to_Value_Ratio" },
+          { label: "Debt to Income Ratio", name: "Debt_to_Income_Ratio" },
+          { label: "Annual Income", name: "Annual_Income" },
+          { label: "Sector", name: "Sector", options: industrySectors },
+          { label: "Region", name: "Region", options: regions },
           {
-            label: "Political Stability Index",
-            name: "political_stability_index",
+            label: "Assigned Credit Rating",
+            name: "Assigned_Credit_Rating",
+            options: creditRatings,
           },
-          { label: "Sector Index", name: "sector_index" },
-          { label: "Loan Term Years", name: "loan_term_years" },
-          {
-            label: "Company Credit Rating Value",
-            name: "company_credit_rating_value",
-          },
-          { label: "Subordination", name: "subordination" },
+          { label: "Subordination", name: "Subordination" },
         ].map((field, index) => (
           <div className="uk-margin" key={index}>
             <label className="uk-form-label" htmlFor={field.name}>
               {field.label}
             </label>
             <div className="uk-form-controls">
-              <input
-                className="uk-input"
-                id={field.name}
-                type="text"
-                name={field.name}
-                value={formData[field.name]}
-                onChange={handleChange}
-                required
-              />
+              {field.options ? (
+                <select
+                  className="uk-select"
+                  id={field.name}
+                  name={field.name}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Please select...</option>
+                  {field.options.map((option, idx) => (
+                  <option key={`${field.name}-${idx}`} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  className="uk-input"
+                  id={field.name}
+                  type="text"
+                  name={field.name}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  required
+                />
+              )}
             </div>
           </div>
         ))}
@@ -79,6 +115,11 @@ const LoanForm = () => {
           </button>
         </div>
       </form>
+      {prediction && (
+        <div className="uk-margin uk-alert-success" uk-alert="true">
+          <p>Predicted Interest Rate: {prediction}</p>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import financialConstants from "../utils/constant";
+import {financialConstants}  from "../utils/constant";
 
 const History = () => {
   const loanData = [
