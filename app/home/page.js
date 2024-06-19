@@ -11,14 +11,14 @@ export default function HomeScreen() {
     >
       <div
         className="uk-background-cover"
-        style={{ backgroundImage: "url('/splashscreen.jpg')" }}
+        style={{ backgroundImage: "url('/image.jpg')" }}
       ></div>
       <div className="uk-flex uk-flex-center uk-flex-middle uk-background-secondary uk-light">
         <div className="uk-text-center">
-          <h2>AI-boosted transfer pricing benchmarking</h2>
+          <h2>Go further with an AI-powered transfer pricing benchmarking for loans and other financial transactions.</h2>
           <Link href="/interest_rates">
             <button className="uk-button uk-button-primary uk-margin-top">
-              Get started
+              Get Started with Interest Rates Simulation
             </button>
           </Link>
         </div>

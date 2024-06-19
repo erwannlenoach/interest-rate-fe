@@ -24,12 +24,12 @@ export default function Header() {
             </li>
             <li>
               <Link href="/interest_rates" passHref className="uk-text-large">
-                Interest Rates
+                Interest Rate Simulation
               </Link>
             </li>
             <li>
               <Link href="/history" passHref className="uk-text-large">
-                History
+                Loan History
               </Link>
             </li>
           </ul>
