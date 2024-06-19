@@ -1,56 +1,60 @@
-import {financialConstants}  from "../utils/constant";
+"use client";
+
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 const History = () => {
-  const loanData = [
-    {
-      DTI: "25%",
-      LVR: "80%",
-      INCOME: "$100,000",
-      LOAN_AMOUNT: "$250,000",
-      COLLATERAL: "$300,000",
-      POLITICAL: "Stable",
-      SECTOR: "Technology",
-      LOAN_TERM: "30 years",
-      COMPANY_CREDIT_RATING: "A",
-      SUBORDINATION: "Senior",
-      INTEREST_RATE: "3%",
-    },
-    {
-      DTI: "25%",
-      LVR: "80%",
-      INCOME: "$100,000",
-      LOAN_AMOUNT: "$250,000",
-      COLLATERAL: "$300,000",
-      POLITICAL: "Stable",
-      SECTOR: "Technology",
-      LOAN_TERM: "30 years",
-      COMPANY_CREDIT_RATING: "A",
-      SUBORDINATION: "Senior",
-      INTEREST_RATE: "4%",
-    },
-  ];
+  const [loans, setLoans] = useState([]);
+
+  useEffect(() => {
+    fetchLoans();
+  }, []);
+
+  useEffect(() => {
+    console.log("loans", loans); // This will log the loans array after updates
+  }, [loans]);
+
+  const fetchLoans = async () => {
+    try {
+      const response = await axios.get("http://localhost:8800/api/loans");
+      setLoans(response.data.loans); // Assuming the API returns an object with a 'loans' array
+    } catch (error) {
+      console.log("Error fetching loans", error);
+    }
+  };
+
+  // Function to filter out unwanted keys
+  const filterKeys = (keys) => {
+    return keys.filter(key => key !== "id" && key !== "createdAt" && key !== "updatedAt");
+  };
 
   return (
     <div className="uk-container uk-text-center uk-margin-medium-top">
       <h2>Loan History</h2>
-      <table className="uk-table uk-table-striped uk-margin-medium-bottom">
-        <thead>
-          <tr>
-            {Object.keys(financialConstants).map((key) => (
-              <th key={key}>{financialConstants[key]}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {loanData.map((loan, index) => (
-            <tr key={index}>
-              {Object.keys(financialConstants).map((key) => (
-                <td key={key}>{loan[key]}</td>
-              ))}
+      {loans.length > 0 ? (
+        <table className="uk-table uk-table-striped uk-margin-medium-bottom">
+          <thead>
+            <tr>
+              {loans.length > 0 && Object.keys(loans[0])
+                .filter(key => key !== "id" && key !== "createdAt" && key !== "updatedAt")
+                .map(key => (
+                  <th key={key}>{key}</th> // Using filtered keys for headers
+                ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {loans.map((loan, index) => (
+              <tr key={index}>
+                {filterKeys(Object.keys(loans[0])).map(key => (
+                  <td key={`${key}-${index}`}>{loan[key]}</td> // Use filtered keys for data cells
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No loans available.</p>
+      )}
     </div>
   );
 };

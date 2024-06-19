@@ -1,31 +1,35 @@
 "use client";
 
-import Link from 'next/link';
-import { useEffect } from 'react';
+import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Header() {
   useEffect(() => {
-    // This ensures that the UIkit scripts are run after the component is mounted
-    if (typeof window !== 'undefined') {
-      const UIkit = require('uikit');
-      const Icons = require('uikit/dist/js/uikit-icons');
+    if (typeof window !== "undefined") {
+      const UIkit = require("uikit");
+      const Icons = require("uikit/dist/js/uikit-icons");
       UIkit.use(Icons);
     }
   }, []);
 
   return (
-    <header uk-sticky="true">
-      <nav className="uk-background-primary">
+    <header>
+      <nav className="uk-background-secondary">
         <div className="uk-navbar-right uk-margin-medium-left">
           <ul className="uk-navbar-nav">
             <li>
-              <Link href="/" passHref
-                className="uk-text-large">&#x1F3E0;
+              <Link href="/" passHref className="uk-text-large">
+                <span uk-icon="icon: home"></span>
               </Link>
             </li>
             <li>
-              <Link href="/history" passHref
-                className="uk-text-large">Loan History
+              <Link href="/interest_rates" passHref className="uk-text-large">
+                Interest Rates
+              </Link>
+            </li>
+            <li>
+              <Link href="/history" passHref className="uk-text-large">
+                History
               </Link>
             </li>
           </ul>
