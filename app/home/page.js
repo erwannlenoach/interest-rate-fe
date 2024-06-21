@@ -2,26 +2,29 @@
 import React from "react";
 import Link from "next/link";
 import "uikit/dist/css/uikit.min.css";
+import Image from "next/image";
+import './styles.css'; // Import the CSS file
 
 export default function HomeScreen() {
   return (
-    <div
-      className="uk-height-viewport uk-grid-collapse uk-child-width-1-2@m"
-      uk-grid="true"
-    >
-      <div
-        className="uk-background-cover"
-        style={{ backgroundImage: "url('/image.jpg')" }}
-      ></div>
-      <div className="uk-flex uk-flex-center uk-flex-middle uk-background-secondary uk-light">
-        <div className="uk-text-center">
-          <h2>Go further with an AI-powered transfer pricing benchmarking for loans and other financial transactions.</h2>
-          <Link href="/interest_rates">
-            <button className="uk-button uk-button-primary uk-margin-top">
-              Get Started with Interest Rates Simulation
-            </button>
-          </Link>
-        </div>
+    <div className="uk-height-viewport uk-position-relative">
+      <div className="background-image">
+        <Image
+          src="/planet.jpg"
+          alt="Background"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+        />
+      </div>
+      <div className="uk-position-center uk-text-center">
+        <h1 className="title">A new approach to transfer pricing</h1>
+        <p className="subtitle">Nostra is an experimental app to determine transfer pricing analysis for financial data through machine learning.</p>
+        <Link href="/interest_rates">
+          <button className="uk-button uk-button-primary uk-margin-top">
+            INTEREST RATE SIMULATION
+          </button>
+        </Link>
       </div>
     </div>
   );
