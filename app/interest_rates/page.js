@@ -1,13 +1,15 @@
+// pages/interest_rates.js
 "use client";
+import React from "react";
 import LoanForm from "../components/form/page";
+import withAuth from "../hoc/withAuth";
 
-const interestRates = () => {
- 
+const InterestRates = () => {
   return (
     <div className="uk-container">
-        <LoanForm/>
+      <LoanForm />
     </div>
   );
 };
 
-export default interestRates;
+export default withAuth(InterestRates);
