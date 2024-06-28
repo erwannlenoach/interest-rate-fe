@@ -1,0 +1,66 @@
+.uk-button-icon {
+  border: none;
+  background: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-dropdown {
+  margin-top: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: none;
+  padding: 10px;
+}
+
+.custom-dropdown ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.custom-dropdown li {
+  margin: 5px 0;
+}
+
+.custom-dropdown a {
+  color: #333;
+  text-decoration: none;
+  padding: 5px 10px;
+  display: block;
+}
+
+.custom-dropdown a:hover {
+  background: #f0f0f0;
+}
+
+.custom-navbar {
+  padding: 10px 20px;
+}
+
+/* styles.css */
+.uk-button-icon {
+  cursor: pointer; /* Change le curseur pour indiquer qu'il est cliquable */
+}
+
+.uk-button-icon:hover .uk-icon {
+  color: lightgray; /* Ajoutez un effet de survol */
+}
+
+
+/* styles.css */
+.uk-button-icon .uk-icon {
+  color: white; /* Change la couleur de l'icône en blanc */
+  width: 24px; /* Ajustez la taille selon vos besoins */
+  height: 24px; /* Ajustez la taille selon vos besoins */
+}
+
+.uk-button-icon:hover .uk-icon {
+  color: lightgray; /* Ajoutez un effet de survol */
+}
+
+/* styles.css */
+.custom-dropdown {
+  top: 100%; /* Positionne le dropdown juste en dessous du bouton */
+  left: 0;
+}

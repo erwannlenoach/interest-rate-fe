@@ -1,44 +1,45 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
+"use client";
 
-const Profile = () => {
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import { jwtDecode } from "jwt-decode";
+
+const UserProfile = () => {
   const [profile, setProfile] = useState(null);
-  const router = useRouter();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
-    const token = Cookies.get('token');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
-
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('http://localhost:8800/profile', {
-          headers: { Authorization: token }
-        });
-        setProfile(response.data);
+        const token = sessionStorage.getItem("token");
+        const decodedToken = jwtDecode(token);
+        const username =  decodedToken.username 
+
+        const response = await axios.post(
+          "http://localhost:8800/api/users/profile",
+          { username }, // Send username in the request body
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setProfile(response.data.user);
       } catch (error) {
-        Cookies.remove('token');
-        router.push('/login');
+        console.error("Failed to fetch profile", error);
       }
     };
 
     fetchProfile();
-  }, []);
+  }, [user, logout]);
 
   if (!profile) {
-    return <p>Loading...</p>;
+    return <div>Loading...</div>;
   }
 
   return (
-    <div className="uk-container uk-container-small uk-margin-large-top uk-padding-medium">
-      <h1 className="uk-text-center">Profile</h1>
-      <pre>{JSON.stringify(profile, null, 2)}</pre>
+    <div>
+      <h1>Welcome, {profile.username}</h1>
+      {/* Display other profile information here */}
     </div>
   );
 };
 
-export default Profile;
+export default UserProfile;

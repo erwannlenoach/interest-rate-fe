@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState, useEffect, useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
 import "uikit/dist/css/uikit.min.css";
+import withAuth from "../hoc/withAuth";
 
 const History = () => {
   const [loans, setLoans] = useState([]);
@@ -12,14 +13,11 @@ const History = () => {
     fetchLoans();
   }, []);
 
-  useEffect(() => {
-    console.log("loans", loans); // This will log the loans array after updates
-  }, [loans]);
 
   const fetchLoans = async () => {
     try {
       const response = await axios.get("http://localhost:8800/api/loans");
-      setLoans(response.data.loans); // Assuming the API returns an object with a 'loans' array
+      setLoans(response.data.loans); 
     } catch (error) {
       console.log("Error fetching loans", error);
     }
@@ -34,11 +32,11 @@ const History = () => {
 
   const columns = useMemo(() => {
     if (loans.length === 0) return [];
-    const keys = Object.keys(loans[0]).filter(key => key !== "id" && key !== "createdAt" && key !== "updatedAt");
+    const keys = Object.keys(loans[0]).filter(key => key !== "id" && key !== "createdAt" && key !== "updatedAt" && key !== "userId");
     return keys.map(key => ({
-      Header: key.replace(/_/g, " "), // Replace underscores with spaces for headers
+      Header: key.replace(/_/g, " "), 
       accessor: key,
-      Cell: ({ value }) => formatValue(value) // Format cell values
+      Cell: ({ value }) => formatValue(value) 
     }));
   }, [loans]);
 
@@ -95,4 +93,4 @@ const History = () => {
   );
 };
 
-export default History;
+export default withAuth(History);

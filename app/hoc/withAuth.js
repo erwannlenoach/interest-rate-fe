@@ -1,24 +1,22 @@
-// hoc/withAuth.js
-"use client"; // Mark this file as a client component
+"use client"; 
 
 import React, { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const withAuth = (WrappedComponent) => {
   return (props) => {
-    const { user } = useAuth();
+    const { token } = useAuth();
     const router = useRouter();
-    const pathname = usePathname();
 
     useEffect(() => {
-      if (!user) {
-        router.push(`/auth?redirect=${pathname}`);
+      if (!token) {
+        router.push("/login");
       }
-    }, [user, router, pathname]);
+    }, [token, router]);
 
-    if (!user) {
-      return null; // or a loading spinner, etc.
+    if (!token) {
+      return null;
     }
 
     return <WrappedComponent {...props} />;
