@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from "next/link";
 import './styles.css';
 
 const SignupPage = () => {
@@ -59,6 +60,9 @@ const SignupPage = () => {
             Register
           </button>
         </form>
+        <p className="uk-text-center uk-margin-top">
+          Already have an account? <Link href="/login">Please log in</Link>
+        </p>
       </div>
     </div>
   );

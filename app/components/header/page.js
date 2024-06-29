@@ -2,22 +2,33 @@
 
 import Link from "next/link";
 import { useAuth } from "../../context/AuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 import "./styles.css";
-
-UIkit.use(Icons);
+import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [userName, setUsername] = useState(null);
+
+  useEffect(() => {
+    UIkit.use(Icons);
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  const { user, logout } = useAuth();
+  const { token, logout } = useAuth();
+
+  useEffect(() => {
+    if (token) {
+      const user = jwtDecode(token);
+      setUsername(user.username);
+    }
+  }, []);
 
   return (
     <header>
@@ -26,7 +37,11 @@ export default function Header() {
           <ul className="uk-navbar-nav">
             <li>
               <Link href="/">
-                <img src="./logo.svg" alt="Profile Icon" className="uk-navbar-item uk-padding-small" />
+                <img
+                  src="./logo.svg"
+                  alt="Profile Icon"
+                  className="uk-navbar-item uk-padding-small"
+                />
               </Link>
             </li>
             <li>
@@ -42,9 +57,9 @@ export default function Header() {
           </ul>
         </div>
         <div className="uk-navbar-right uk-margin-large-right">
-          {user ? (
+          {token ? (
             <>
-              <span className="uk-margin-right">Welcome, {user.username}</span>
+              <span className="uk-margin-right">Welcome, {userName}</span>
               <button onClick={logout} className="uk-button uk-button-danger">
                 Logout
               </button>
@@ -55,8 +70,10 @@ export default function Header() {
                 className="uk-button-icon"
                 type="button"
                 onClick={toggleMenu}
+                aria-haspopup="true"
+                aria-expanded={isOpen} // Add aria-expanded to manage state visibility
               >
-                <span uk-icon="icon: user" className="uk-icon"></span>
+                <span data-uk-icon="icon: user" className="uk-icon"></span>
               </button>
               <div
                 uk-dropdown="mode: click; pos: bottom-center"

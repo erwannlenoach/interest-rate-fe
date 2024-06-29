@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from 'next/navigation'; // Ensure correct import
+import Link from "next/link";
 import './styles.css';
 
 const loginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const searchParams = useSearchParams();
   const router = useRouter()
 
   const login = async (email, password) => {
@@ -70,6 +70,9 @@ const loginPage = () => {
             Validate
           </button>
         </form>
+        <p className="uk-text-center uk-margin-top">
+          You don't have an account yet? <Link href="/signup">Please sign up</Link>
+        </p>
       </div>
     </div>
   );

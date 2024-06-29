@@ -1,11 +1,11 @@
 "use client";
 import axios from 'axios'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 import { industrySectors, regions, creditRatings } from "@/app/utils/constant";
-UIkit.use(Icons);
+import withAuth from '@/app/hoc/withAuth';
 
 const LoanForm = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +20,11 @@ const LoanForm = () => {
     Region: "Northern Europe",
     Assigned_Credit_Rating: "B1"
   });
+
+  useEffect(() => {
+    UIkit.use(Icons);
+  }, []);
+
 
   const [prediction, setPrediction] = useState(null);
 
@@ -124,4 +129,4 @@ const LoanForm = () => {
   );
 };
 
-export default LoanForm;
+export default withAuth(LoanForm);

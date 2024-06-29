@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
+import withAuth from "../hoc/withAuth";
+
 
 const UserProfile = () => {
   const [profile, setProfile] = useState(null);
@@ -42,4 +44,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default withAuth(UserProfile);
