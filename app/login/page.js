@@ -1,18 +1,22 @@
-// pages/auth.js
 "use client";
+
 import React, { useState } from "react";
-import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from 'next/navigation'; // Ensure correct import
+import { useAuth } from "../context/AuthContext"
 import Link from "next/link";
 import './styles.css';
 
-const loginPage = () => {
+
+
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter()
+  const router = useRouter();
+  const { login } = useAuth();
 
-  const login = async (email, password) => {
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
       const response = await fetch(
         "http://localhost:8800/api/users/connexion",
@@ -26,21 +30,17 @@ const loginPage = () => {
       );
       const data = await response.json();
       if (response.ok) {
-        sessionStorage.setItem("token", JSON.stringify(data));
-        router.push('/profile'); 
+        if (data.token) {
+          login(data.token);
+        } else {
+          console.error("Token not found in response data");
+        }
       } else {
         console.error(data.message);
       }
     } catch (error) {
       console.error("Error logging in:", error);
     }
-  }
-
-
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    await login(email, password);
   };
 
   return (
@@ -78,4 +78,4 @@ const loginPage = () => {
   );
 };
 
-export default loginPage;
+export default LoginPage;

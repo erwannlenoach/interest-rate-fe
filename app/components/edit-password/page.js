@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const EditPassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");

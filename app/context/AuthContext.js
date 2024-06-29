@@ -1,36 +1,40 @@
 "use client";
 
+// context/AuthContext.js
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [ token, setToken] = useState(null);
+  const [token, setToken] = useState(null);
   const router = useRouter();
 
-
-  useEffect(() => 
-  {
-    const storedToken = sessionStorage.getItem("token")
-    if(storedToken) {
-      setToken(storedToken);
-      const decodedUser = jwtDecode(storedToken);
-      setUser(decodedUser);
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken); 
     }
-  }, [])
+  }, []);
 
+  const login = (token) => {
+    sessionStorage.setItem("token", JSON.stringify(token));
+    setToken(token);
+    router.push("/profile");
+  };
 
   const logout = () => {
     sessionStorage.removeItem("token");
-    setUser(null);
-    router.push("/");
+    setToken(null);
+    router.push("/login");
+  };
+
+  const isAuthenticated = () => {
+    return token !== null;
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, setToken, logout }}>
+    <AuthContext.Provider value={{ token, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,16 +1,23 @@
 "use client";
+
 import React, { useState } from "react";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useAuth } from "../context/AuthContext"
 import Link from "next/link";
 import './styles.css';
 
 const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { login } = useAuth();
+
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await fetch('http://localhost:8800/api/users/register', {
         method: 'POST',
@@ -20,13 +27,17 @@ const SignupPage = () => {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
+      setIsLoading(false);
       if (response.ok) {
-        sessionStorage.setItem('token', data.token);
+        login(data.token); 
+
         router.push('/profile');
       } else {
-        console.error(data.error);
+        setError(data.error || "Signup failed. Please try again.");
       }
     } catch (error) {
+      setIsLoading(false);
+      setError("Error signing up. Please try again later.");
       console.error('Error signing up:', error);
     }
   };
@@ -35,6 +46,7 @@ const SignupPage = () => {
     <div className="signup-container">
       <div className="signup-form-container">
         <h1 className="uk-heading-medium uk-text-center">Sign Up</h1>
+        {error && <div className="uk-alert-danger uk-margin">{error}</div>}
         <form onSubmit={handleSignup}>
           <div className="uk-margin">
             <input
@@ -56,8 +68,8 @@ const SignupPage = () => {
               required
             />
           </div>
-          <button type="submit" className="uk-button uk-button-primary uk-width-1-1">
-            Register
+          <button type="submit" className="uk-button uk-button-primary uk-width-1-1" disabled={isLoading}>
+            {isLoading ? 'Signing Up...' : 'Register'}
           </button>
         </form>
         <p className="uk-text-center uk-margin-top">
