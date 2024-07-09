@@ -1,0 +1,22 @@
+.user-info-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-info-form .uk-grid-small > * {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-info-form .uk-grid-small .uk-form-label {
+    justify-content: flex-end;
+    padding-right: 10px;
+  }
+  
+  .uk-heading-small {
+    margin-bottom: 20px;
+  }
+  

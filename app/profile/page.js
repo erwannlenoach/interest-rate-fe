@@ -6,11 +6,11 @@ import { useAuth } from "../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import withAuth from "../hoc/withAuth";
 import History from "../history/page";
+import UserInfo from "../components/user-info/page";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState(null);
   const { user, logout } = useAuth();
-
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -38,11 +38,10 @@ const UserProfile = () => {
   }
 
   return (
-    <div>
-      <h1>Welcome, {profile.username}</h1>
-      {/* Display other profile information here */}
-      <History loans={profile.loans} />
-    </div>
+    <div className="uk-container uk-container-small uk-margin-large-top">
+    <UserInfo user={profile} />
+    <History loans={profile.loans} />
+  </div>
   );
 };
 
