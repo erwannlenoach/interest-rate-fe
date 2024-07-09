@@ -1,3 +1,5 @@
+"use client";
+
 const industrySectors = [
   "Utilities",
   "Healthcare",
@@ -10,7 +12,7 @@ const industrySectors = [
   "Agriculture",
   "Transportation",
   "Real Estate",
-  "Energy"
+  "Energy",
 ];
 
 const regions = [
@@ -30,7 +32,7 @@ const regions = [
   "Middle East",
   "Central America",
   "East Africa",
-  "West Africa"
+  "West Africa",
 ];
 
 const creditRatings = [
@@ -54,7 +56,7 @@ const creditRatings = [
   "Caa2",
   "Caa3",
   "Ca",
-  "C"
+  "C",
 ];
 
 const mockLoans = [
@@ -73,4 +75,20 @@ const mockLoans = [
   },
 ];
 
-module.exports = { industrySectors, regions, creditRatings };
+const informationText = `
+  <p>Nostra leverages the power of artificial intelligence to provide comprehensive arm's length analysis for transfer pricing.</p>
+  <p>Currently, our services include:</p>
+  <ul>
+    <li><strong>Interest Rate Analysis:</strong> Ensure accurate and fair interest rate assessments.</li>
+    <li><strong>Profit Split Analysis:</strong> Facilitate precise and equitable profit distribution.</li>
+  </ul>
+  <p>Our AI-powered solution aims to ease the process of determining the arm's length price, providing a blueprint for the future of transfer pricing.</p>
+`;
+
+export {
+  industrySectors,
+  regions,
+  creditRatings,
+  informationText,
+};
+

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
-import { industrySectors, regions, creditRatings } from "@/app/utils/constant";
+import { industrySectors, regions, creditRatings } from "@/app/utils/constants";
 import withAuth from '@/app/hoc/withAuth';
 
 const LoanForm = () => {

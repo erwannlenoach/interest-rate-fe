@@ -1,0 +1,30 @@
+.info-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2d2d2d;
+  }
+  
+  .info-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    color: #4a4a4a;
+  }
+  
+  .info-text p {
+    margin-bottom: 1em;
+  }
+  
+  .info-text ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  .info-text ul li {
+    margin-bottom: 0.5em;
+  }
+  

@@ -45,8 +45,8 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/interest_rates" passHref>
-                Interest Rate Simulation
+              <Link href="/information" passHref>
+                THE CONCEPT
               </Link>
             </li>
           </ul>

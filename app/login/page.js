@@ -14,7 +14,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:8800/api/users/connexion",
+        "http://localhost:8800/api/connexion",
         {
           method: "POST",
           headers: {

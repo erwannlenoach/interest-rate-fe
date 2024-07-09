@@ -19,8 +19,8 @@ const UserProfile = () => {
         const username =  decodedToken.username 
 
         const response = await axios.post(
-          "http://localhost:8800/api/users/profile",
-          { username }, // Send username in the request body
+          "http://localhost:8800/api/profile",
+          { username },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProfile(response.data.user);
