@@ -1,19 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "../context/AuthContext"
+import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
 import './styles.css';
-
-
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
   const { login } = useAuth();
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,11 +25,7 @@ const LoginPage = () => {
       );
       const data = await response.json();
       if (response.ok) {
-        if (data.token) {
-          login(data.token);
-        } else {
-          console.error("Token not found in response data");
-        }
+        login(data.token);
       } else {
         console.error(data.message);
       }

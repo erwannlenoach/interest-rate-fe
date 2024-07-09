@@ -1,7 +1,7 @@
 // pages/interest_rates.js
 "use client";
 import React from "react";
-import LoanForm from "../components/form/page";
+import LoanForm from "../components/loan-form/page";
 import withAuth from "../hoc/withAuth";
 
 const InterestRates = () => {

@@ -1,44 +1,39 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from 'next/navigation';
-import { useAuth } from "../context/AuthContext"
+import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
-import './styles.css';
+import "./styles.css";
 
 const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
   const { login } = useAuth();
-
 
   const handleSignup = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8800/api/users/register', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8800/api/users/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
       setIsLoading(false);
       if (response.ok) {
-        login(data.token); 
-
-        router.push('/profile');
+        login(data.token);
       } else {
         setError(data.error || "Signup failed. Please try again.");
       }
     } catch (error) {
       setIsLoading(false);
       setError("Error signing up. Please try again later.");
-      console.error('Error signing up:', error);
+      console.error("Error signing up:", error);
     }
   };
 
@@ -68,8 +63,12 @@ const SignupPage = () => {
               required
             />
           </div>
-          <button type="submit" className="uk-button uk-button-primary uk-width-1-1" disabled={isLoading}>
-            {isLoading ? 'Signing Up...' : 'Register'}
+          <button
+            type="submit"
+            className="uk-button uk-button-primary uk-width-1-1"
+            disabled={isLoading}
+          >
+            {isLoading ? "Signing Up..." : "Register"}
           </button>
         </form>
         <p className="uk-text-center uk-margin-top">

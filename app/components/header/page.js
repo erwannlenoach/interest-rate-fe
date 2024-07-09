@@ -49,11 +49,6 @@ export default function Header() {
                 Interest Rate Simulation
               </Link>
             </li>
-            <li>
-              <Link href="/history" passHref>
-                Loan History
-              </Link>
-            </li>
           </ul>
         </div>
         <div className="uk-navbar-right uk-margin-large-right">

@@ -1,6 +1,5 @@
 "use client";
 
-// context/AuthContext.js
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -18,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (token) => {
-    sessionStorage.setItem("token", JSON.stringify(token));
+    sessionStorage.setItem("token", token);
     setToken(token);
     router.push("/profile");
   };
