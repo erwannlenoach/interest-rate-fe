@@ -28,7 +28,7 @@ export default function Header() {
       const user = jwtDecode(token);
       setUsername(user.username);
     }
-  }, []);
+  }, [token]);
 
   return (
     <header>

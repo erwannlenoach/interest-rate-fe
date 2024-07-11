@@ -1,25 +1,26 @@
-"use client"; 
+"use client";
 
-import React, { useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useRouter } from 'next/navigation';
+import React, { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const withAuth = (WrappedComponent) => {
   return (props) => {
-    const { token } = useAuth();
+    const { loading } = useAuth();
     const router = useRouter();
+    const storedToken = sessionStorage.getItem("token");
 
     useEffect(() => {
-      if (!token) {
+      if (!storedToken) {
         router.push("/login");
       }
-    }, [token, router]);
+    }, [storedToken, router]);
 
-    if (!token) {
-      return null;
+    if (loading) {
+      return <div>Loading...</div>; // Render a loading state while checking for the token
     }
 
-    return <WrappedComponent {...props} />;
+    return storedToken ? <WrappedComponent {...props} /> : null;
   };
 };
 
