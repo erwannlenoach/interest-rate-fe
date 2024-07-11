@@ -4,11 +4,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./styles.css";
 
-const EditPassword = ({ token }) => {
+const EditPassword = ({ user, token }) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChangePassword = async (e) => {
@@ -21,7 +22,7 @@ const EditPassword = ({ token }) => {
     try {
       const response = await axios.patch(
         "http://localhost:8800/api/password/edit",
-        { currentPassword, newPassword, confirmPassword },
+        { email: user.email, currentPassword, newPassword, confirmPassword },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -29,7 +30,14 @@ const EditPassword = ({ token }) => {
         }
       );
       setIsLoading(false);
-      if (!response.data.success) {
+      if (response.status === 200) {
+        setSuccess("Password changed successfully.");
+        setError("");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        setTimeout(() => setSuccess(""), 5000);
+      } else {
         setError("Password change failed. Please try again.");
       }
     } catch (error) {
@@ -43,8 +51,15 @@ const EditPassword = ({ token }) => {
     <div className="card">
       <h3 className="uk-card-title uk-text-center">Mot de passe</h3>
       {error && <div className="uk-alert-danger uk-margin">{error}</div>}
-      <form onSubmit={handleChangePassword} className="uk-form-stacked uk-padding">
-        <div className="uk-margin uk-grid-small uk-child-width-1-2@s" data-uk-grid>
+      {success && <div className="uk-alert-success uk-margin">{success}</div>}
+      <form
+        onSubmit={handleChangePassword}
+        className="uk-form-stacked uk-padding"
+      >
+        <div
+          className="uk-margin uk-grid-small uk-child-width-1-2@s"
+          data-uk-grid
+        >
           <div>
             <label className="uk-form-label">Current Password</label>
           </div>
@@ -59,7 +74,10 @@ const EditPassword = ({ token }) => {
             />
           </div>
         </div>
-        <div className="uk-margin uk-grid-small uk-child-width-1-2@s" data-uk-grid>
+        <div
+          className="uk-margin uk-grid-small uk-child-width-1-2@s"
+          data-uk-grid
+        >
           <div>
             <label className="uk-form-label">New Password</label>
           </div>
@@ -74,7 +92,10 @@ const EditPassword = ({ token }) => {
             />
           </div>
         </div>
-        <div className="uk-margin uk-grid-small uk-child-width-1-2@s" data-uk-grid>
+        <div
+          className="uk-margin uk-grid-small uk-child-width-1-2@s"
+          data-uk-grid
+        >
           <div>
             <label className="uk-form-label">Confirm New Password</label>
           </div>

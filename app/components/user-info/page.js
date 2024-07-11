@@ -11,10 +11,15 @@ const UserInfo = ({ user }) => {
 
   return (
     <div className="user-info-container uk-container">
-      <h2 className="uk-heading-small uk-text-center uk-padding">Personal Information</h2>
-      <div className="uk-grid-medium uk-child-width-expand@s uk-grid-divider" data-uk-grid>
+      <h2 className="uk-heading-small uk-text-center uk-padding">
+        Personal Information
+      </h2>
+      <div
+        className="uk-grid-medium uk-child-width-expand@s uk-grid-divider"
+        data-uk-grid
+      >
         <ConnexionInfo user={user} />
-        <EditPassword token={token}/>
+        <EditPassword user={user} token={token} />
       </div>
     </div>
   );

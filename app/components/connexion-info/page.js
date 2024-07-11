@@ -6,17 +6,17 @@ import { useAuth } from "../../context/AuthContext";
 import "./styles.css";
 
 const ConnexionInfo = ({ user }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState("");
   const { token } = useAuth();
 
   useEffect(() => {
     if (user) {
       setUsername(user.username);
       setEmail(user.email);
-
     }
   }, [user]);
 
@@ -26,7 +26,7 @@ const ConnexionInfo = ({ user }) => {
     try {
       const response = await axios.patch(
         "http://localhost:8800/api/username/edit",
-        { username },
+        { email, username },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -34,8 +34,13 @@ const ConnexionInfo = ({ user }) => {
         }
       );
       setIsLoading(false);
-      if (!response.data.success) {
-        setError("Update failed. Please try again.");
+      if (response.status === 200) {
+        setSuccess("Username changed successfully.");
+        setError("");
+        setUsername(response.username);
+        setTimeout(() => setSuccess(""), 5000);
+      } else {
+        setError("Username change failed. Please try again.");
       }
     } catch (error) {
       setIsLoading(false);
@@ -46,7 +51,13 @@ const ConnexionInfo = ({ user }) => {
 
   return (
     <div className="card">
-      <h3 className='uk-text-center'>Connexion</h3>
+      <h3 className="uk-text-center">Connexion</h3>
+      {error && (
+        <div className="uk-alert-danger uk-margin uk-padding">{error}</div>
+      )}
+      {success && (
+        <div className="uk-alert-success uk-margin uk-padding">{success}</div>
+      )}
       <form
         onSubmit={handleUpdateUsername}
         className="user-info-form uk-form-stacked uk-padding"
