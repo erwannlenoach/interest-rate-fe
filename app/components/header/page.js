@@ -7,7 +7,7 @@ import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 import "./styles.css";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +38,7 @@ export default function Header() {
             <li>
               <Link href="/">
                 <img
-                  src="./logo.svg"
+                  src="/logo.svg"
                   alt="Profile Icon"
                   className="uk-navbar-item uk-padding-small"
                 />
@@ -68,6 +68,11 @@ export default function Header() {
               <Link href="/profit-split">
                 <button className="uk-button uk-button-secondary uk-margin-right">
                   Profit Split
+                </button>
+              </Link>
+              <Link href="/profit-split-form">
+                <button className="uk-button uk-button-secondary uk-margin-right">
+                  Profit Split Form
                 </button>
               </Link>
               <button onClick={logout} className="uk-button uk-button-danger">
