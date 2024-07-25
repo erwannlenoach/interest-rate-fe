@@ -6,28 +6,29 @@ import "uikit/dist/css/uikit.min.css";
 import withAuth from '@/app/hoc/withAuth';
 import axios from 'axios';
 
-const History = ({user}) => {
-  const [loans, setLoans] = useState([]);
+const ProfitSplitHistory = ({user}) => {
+  const [profitSplits, setProfitSplits] = useState([]);
 
   useEffect(() => {
-    const fetchLoans = async () => {
+    console.log("user",user)
+    const fetchProfitSplits = async () => {
       try {
         const token = sessionStorage.getItem("token");
         const userId = user.id;
 
         const response = await axios.post(
-          `http://localhost:8800/api/loans`,
+          `http://localhost:8800/api/profit-split`,
           { userId },
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setLoans(response.data.loans);
+        setProfitSplits(response.data.profitSplits);
       } catch (error) {
-        console.error("Failed to fetch loans", error);
+        console.error("Failed to fetch profit splits", error);
       }
     };
 
     if (user) {
-      fetchLoans();
+      fetchProfitSplits();
     }
   }, [user]);
 
@@ -39,9 +40,9 @@ const History = ({user}) => {
   };
 
   const columns = useMemo(() => {
-    if (!loans || loans.length === 0) return [];
+    if (!profitSplits || profitSplits.length === 0) return [];
   
-    const keys = loans && Object.keys(loans[0]).filter(
+    const keys = profitSplits && Object.keys(profitSplits[0]).filter(
       (key) =>
         key !== "id" &&
         key !== "createdAt" &&
@@ -53,9 +54,9 @@ const History = ({user}) => {
       accessor: key,
       Cell: ({ value }) => formatValue(value),
     }));
-  }, [loans]);
+  }, [profitSplits]);
 
-  const data = useMemo(() => loans, [loans]);
+  const data = useMemo(() => profitSplits, [profitSplits]);
 
   const {
     getTableProps,
@@ -67,8 +68,8 @@ const History = ({user}) => {
 
   return (
     <div className="uk-container uk-container-small uk-margin-large-top uk-padding-medium">
-      <h2 className="uk-text-center">Loan History</h2>
-      {loans?.length > 0 ? (
+      <h2 className="uk-text-center">Profit Split History</h2>
+      {profitSplits?.length > 0 ? (
         <table
           {...getTableProps()}
           className="uk-table uk-table-striped uk-table-hover uk-table-divider uk-margin-medium-bottom"
@@ -108,10 +109,10 @@ const History = ({user}) => {
           </tbody>
         </table>
       ) : (
-        <p>No loans available.</p>
+        <p>No profit splits available.</p>
       )}
     </div>
   );
 };
 
-export default withAuth(History);
+export default withAuth(ProfitSplitHistory);
