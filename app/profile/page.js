@@ -40,7 +40,6 @@ const UserProfile = () => {
   return (
     <div className="uk-container uk-container-small uk-margin-large-top uk-padding">
     <UserInfo user={profile} />
-    <History loans={profile.loans} />
   </div>
   );
 };

@@ -15,13 +15,14 @@ const History = ({ loans }) => {
   };
 
   const columns = useMemo(() => {
-    if (loans.length === 0) return [];
-    const keys = Object.keys(loans[0]).filter(
+    if (!loans || loans.length === 0) return [];
+  
+    const keys = loans && Object.keys(loans[0]).filter(
       (key) =>
         key !== "id" &&
         key !== "createdAt" &&
         key !== "updatedAt" &&
-        key !== "userId"
+        key !== "UserId"
     );
     return keys.map((key) => ({
       Header: key.replace(/_/g, " "),
@@ -43,7 +44,7 @@ const History = ({ loans }) => {
   return (
     <div className="uk-container uk-container-small uk-margin-large-top uk-padding-medium">
       <h2 className="uk-text-center">Loan History</h2>
-      {loans.length > 0 ? (
+      {loans?.length > 0 ? (
         <table
           {...getTableProps()}
           className="uk-table uk-table-striped uk-table-hover uk-table-divider uk-margin-medium-bottom"

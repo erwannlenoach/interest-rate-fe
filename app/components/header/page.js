@@ -55,10 +55,20 @@ export default function Header() {
           {token ? (
             <>
               <span className="uk-margin-right">Welcome, {userName}</span>
-              <Link href="/login">
-              <button  className="uk-button uk-button-primary margin-right">
-                My profile
-              </button>
+              <Link href="/profile">
+                <button className="uk-button uk-button-primary uk-margin-right">
+                  My Profile
+                </button>
+              </Link>
+              <Link href="/history">
+                <button className="uk-button uk-button-secondary uk-margin-right">
+                  History
+                </button>
+              </Link>
+              <Link href="/profit-split">
+                <button className="uk-button uk-button-secondary uk-margin-right">
+                  Profit Split
+                </button>
               </Link>
               <button onClick={logout} className="uk-button uk-button-danger">
                 Logout
