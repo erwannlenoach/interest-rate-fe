@@ -85,10 +85,33 @@ const informationText = `
   <p>Our AI-powered solution aims to ease the process of determining the arm's length price, providing a blueprint for the future of transfer pricing.</p>
 `;
 
+const industriesProfitSplit = [
+  'manufacturing',
+  'services',
+  'technology',
+  'retail',
+  'finance',
+  'healthcare',
+  'energy',
+  'transportation',
+];
+
+const functionsProfitSplit = [
+  'manufacturing',
+  'R&D',
+  'marketing',
+  'sales',
+  'administration',
+  'logistics',
+  'holding',
+];
+
 export {
   industrySectors,
   regions,
   creditRatings,
   informationText,
+  industriesProfitSplit,
+  functionsProfitSplit
 };
 

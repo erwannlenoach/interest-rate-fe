@@ -60,21 +60,33 @@ export default function Header() {
                   My Profile
                 </button>
               </Link>
-              <Link href="/history">
-                <button className="uk-button uk-button-secondary uk-margin-right">
-                  History
+              <div className="uk-inline">
+                <button
+                  className="uk-button uk-button-primary uk-margin-right"
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded={isOpen} // Add aria-expanded to manage state visibility
+                >
+                  TP Simulator
                 </button>
-              </Link>
-              <Link href="/profit-split">
-                <button className="uk-button uk-button-secondary uk-margin-right">
-                  Profit Split
-                </button>
-              </Link>
-              <Link href="/profit-split-form">
-                <button className="uk-button uk-button-secondary uk-margin-right">
-                  Profit Split Form
-                </button>
-              </Link>
+                <div
+                  uk-dropdown="mode: click; pos: bottom-center"
+                  className="uk-dropdown"
+                >
+                  <ul className="uk-nav uk-dropdown-nav">
+                    <li>
+                      <Link href="/interest_rates">
+                        Interest Rates
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/profit-split">
+                        Profit Split
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
               <button onClick={logout} className="uk-button uk-button-danger">
                 Logout
               </button>

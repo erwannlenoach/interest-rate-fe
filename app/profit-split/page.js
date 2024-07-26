@@ -1,21 +1,37 @@
 "use client";
-import axios from 'axios'
+
+import axios from 'axios';
 import { useEffect, useState } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
-import { regions } from "@/app/utils/constants";
+import { functionsProfitSplit, industriesProfitSplit } from "@/app/utils/constants";
 import withAuth from '@/app/hoc/withAuth';
+import { jwtDecode } from "jwt-decode";
+
 
 const profitSplit = () => {
+
   const [formData, setFormData] = useState({
-    Debt_to_Income_Ratio: "",
+    hq_revenue: "",
+    hq_cost: "",
+    hq_profit: "",
+    hq_assets: "",
+    hq_liabilities: "",
+    subs_revenue: "",
+    subs_cost: "",
+    subs_profit: "",
+    subs_assets: "",
+    subs_liabilities: "",
+    hq_industry: "",
+    subs_industry: "",
+    hq_function: "",
+    subs_function: "",
   });
 
   useEffect(() => {
     UIkit.use(Icons);
   }, []);
-
 
   const [prediction, setPrediction] = useState(null);
 
@@ -30,9 +46,14 @@ const profitSplit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const token = sessionStorage.getItem("token");
+      const decodedToken = jwtDecode(token);
+      const username = decodedToken.username;
+
       const response = await axios.post(
-        "http://localhost:8800/profit-split",
-        formData
+        "http://localhost:8800/api/predict-profit-split",
+        {formData,
+        username}
       );
       setPrediction(response.data.prediction);
       UIkit.notification({
@@ -51,13 +72,24 @@ const profitSplit = () => {
   return (
     <div className="uk-container uk-container-small uk-margin-large-top uk-padding-medium">
       <h1 className="uk-text-center">
-        <span>Loan Information</span>
+        <span>Profit Split Simulator</span>
       </h1>
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         {[
-          { label: "Loan Amount", name: "Loan_Amount" },
-          { label: "Region", name: "Region", options: regions },
-          { label: "Subordination", name: "Subordination" },
+          { label: "HQ Revenue", name: "hq_revenue" },
+          { label: "HQ Cost", name: "hq_cost" },
+          { label: "HQ Profit", name: "hq_profit" },
+          { label: "HQ Assets", name: "hq_assets" },
+          { label: "HQ Liabilities", name: "hq_liabilities" },
+          { label: "Subsidiary Revenue", name: "subs_revenue" },
+          { label: "Subsidiary Cost", name: "subs_cost" },
+          { label: "Subsidiary Profit", name: "subs_profit" },
+          { label: "Subsidiary Assets", name: "subs_assets" },
+          { label: "Subsidiary Liabilities", name: "subs_liabilities" },
+          { label: "HQ Industry", name: "hq_industry", options: industriesProfitSplit },
+          { label: "Subsidiary Industry", name: "subs_industry", options: industriesProfitSplit },
+          { label: "HQ Function", name: "hq_function", options: functionsProfitSplit },
+          { label: "Subsidiary Function", name: "subs_function", options: functionsProfitSplit }
         ].map((field, index) => (
           <div className="uk-margin" key={index}>
             <label className="uk-form-label" htmlFor={field.name}>
@@ -75,7 +107,7 @@ const profitSplit = () => {
                 >
                   <option value="">Please select...</option>
                   {field.options.map((option, idx) => (
-                  <option key={`${field.name}-${idx}`} value={option}>
+                    <option key={`${field.name}-${idx}`} value={option}>
                       {option}
                     </option>
                   ))}
@@ -84,7 +116,7 @@ const profitSplit = () => {
                 <input
                   className="uk-input"
                   id={field.name}
-                  type="text"
+                  type="number"
                   name={field.name}
                   value={formData[field.name]}
                   onChange={handleChange}

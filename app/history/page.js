@@ -31,10 +31,13 @@ const History = ({user}) => {
     }
   }, [user]);
 
-  const formatValue = (value) => {
-    if (typeof value === "number") {
-      return value.toFixed(2);
+  const formatValue = (value, key) => {
+    const keysToFormat = ["loan_amount", "Collateral_value", "annual_income"]; 
+    if (keysToFormat.includes(key) && typeof value === "number") {
+      const formattedValue = Math.round(value);
+      return `${new Intl.NumberFormat('en-US').format(formattedValue)}K $`;
     }
+
     return value;
   };
 
@@ -69,6 +72,7 @@ const History = ({user}) => {
     <div className="uk-container uk-container-small uk-margin-large-top uk-padding-medium">
       <h2 className="uk-text-center">Loan History</h2>
       {loans?.length > 0 ? (
+      <div className="uk-overflow-auto">
         <table
           {...getTableProps()}
           className="uk-table uk-table-striped uk-table-hover uk-table-divider uk-margin-medium-bottom"
@@ -107,6 +111,7 @@ const History = ({user}) => {
             })}
           </tbody>
         </table>
+      </div>
       ) : (
         <p>No loans available.</p>
       )}
