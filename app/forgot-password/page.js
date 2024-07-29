@@ -1,20 +1,19 @@
 "use client";
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import axios from 'axios';
 import './styles.css';
 
-const ResetPassword = () => {
+const forgotPassword = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleResetPassword = async (e) => {
+  const handleForgotPassword = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:8800/api/forgot-password', { email });
+      const response = await axios.post('http://localhost:8800/api/password/forgot', { email });
       setMessage(response.data.message);
     } catch (error) {
       setMessage('Error sending email. Please try again later.');
@@ -28,7 +27,7 @@ const ResetPassword = () => {
       <div className="forgot-password-form-container">
         <h1 className="uk-heading-medium uk-text-center">Reset your password</h1>
         {message && <div className="uk-alert uk-alert-primary" uk-alert="true">{message}</div>}
-        <form onSubmit={handleResetPassword}>
+        <form onSubmit={handleForgotPassword}>
           <div className="uk-margin">
             <input
               type="email"
@@ -52,4 +51,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default forgotPassword;

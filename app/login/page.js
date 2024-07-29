@@ -65,7 +65,7 @@ const LoginPage = () => {
           You don't have an account yet? <Link href="/signup">Please sign up</Link>
         </p>
         <p className="uk-text-center uk-margin-top">
-          Forgot your password? <Link href="/reset-password">Reset your password</Link>
+          Forgot your password? <Link href="/forgot-password">Reset your password</Link>
         </p>
       </div>
     </div>
