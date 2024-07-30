@@ -13,7 +13,7 @@ const forgotPassword = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:8800/api/password/forgot', { email });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/password/forgot`, { email });
       setMessage(response.data.message);
     } catch (error) {
       setMessage('Error sending email. Please try again later.');

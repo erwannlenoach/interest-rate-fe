@@ -17,7 +17,7 @@ const ProfitSplitHistory = ({ user }) => {
         const userId = user.id;
 
         const response = await axios.post(
-          `http://localhost:8800/api/profit-split`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/profit-split`,
           { userId },
           { headers: { Authorization: `Bearer ${token}` } }
         );

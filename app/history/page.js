@@ -16,7 +16,7 @@ const History = ({ user }) => {
         const userId = user.id;
 
         const response = await axios.post(
-          `http://localhost:8800/api/loans`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/loans`,
           { userId },
           { headers: { Authorization: `Bearer ${token}` } }
         );
