@@ -25,7 +25,7 @@ const ConnexionInfo = ({ user }) => {
     setIsLoading(true);
     try {
       const response = await axios.patch(
-        "http://localhost:8800/api/username/edit",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/username/edit`,
         { email, username },
         {
           headers: {

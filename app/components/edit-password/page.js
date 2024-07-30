@@ -21,7 +21,7 @@ const EditPassword = ({ user, token }) => {
     setIsLoading(true);
     try {
       const response = await axios.patch(
-        "http://localhost:8800/api/password/edit",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/password/edit`,
         { email: user.email, currentPassword, newPassword, confirmPassword },
         {
           headers: {

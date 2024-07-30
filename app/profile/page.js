@@ -22,7 +22,7 @@ const UserProfile = () => {
         const username = decodedToken.username;
 
         const response = await axios.post(
-          "http://localhost:8800/api/profile",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/profile`,
           { username },
           { headers: { Authorization: `Bearer ${token}` } }
         );

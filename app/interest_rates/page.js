@@ -44,7 +44,7 @@ const InterestRatesForm = () => {
       const username = decodedToken.username;
 
       const response = await axios.post(
-        "http://localhost:8800/api/predict-loans",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/predict-loans`,
         {
           formData,
           username,
