@@ -12,15 +12,17 @@ const History = ({ user }) => {
   useEffect(() => {
     const fetchLoans = async () => {
       try {
-        const token = sessionStorage.getItem("token");
-        const userId = user.id;
+        if (typeof window !== "undefined") {
+          const token = sessionStorage.getItem("token");
+          const userId = user.id;
 
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/loans`,
-          { userId },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setLoans(response.data.loans);
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/loans`,
+            { userId },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          setLoans(response.data.loans);
+        }
       } catch (error) {
         console.error("Failed to fetch loans", error);
       }

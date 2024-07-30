@@ -10,18 +10,19 @@ const ProfitSplitHistory = ({ user }) => {
   const [profitSplits, setProfitSplits] = useState([]);
 
   useEffect(() => {
-    console.log("user", user);
     const fetchProfitSplits = async () => {
       try {
-        const token = sessionStorage.getItem("token");
-        const userId = user.id;
+        if (typeof window !== "undefined") {
+          const token = sessionStorage.getItem("token");
+          const userId = user.id;
 
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/profit-split`,
-          { userId },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setProfitSplits(response.data.profitSplits);
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/profit-split`,
+            { userId },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          setProfitSplits(response.data.profitSplits);
+        }
       } catch (error) {
         console.error("Failed to fetch profit splits", error);
       }

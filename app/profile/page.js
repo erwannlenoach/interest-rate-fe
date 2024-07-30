@@ -17,16 +17,18 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = sessionStorage.getItem("token");
-        const decodedToken = jwtDecode(token);
-        const username = decodedToken.username;
+        if (typeof window !== "undefined") {
+          const token = sessionStorage.getItem("token");
+          const decodedToken = jwtDecode(token);
+          const username = decodedToken.username;
 
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/profile`,
-          { username },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setProfile(response.data.user);
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/profile`,
+            { username },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          setProfile(response.data.user);
+        }
       } catch (error) {
         console.error("Failed to fetch profile", error);
       }
