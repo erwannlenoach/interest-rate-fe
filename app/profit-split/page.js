@@ -8,7 +8,7 @@ import Icons from "uikit/dist/js/uikit-icons";
 import {
   functionsProfitSplit,
   industriesProfitSplit,
-} from "@/app/utils/constants";
+} from "../utils/constants";
 import withAuth from "@/app/hoc/withAuth";
 import { jwtDecode } from "jwt-decode";
 
