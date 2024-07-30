@@ -22,11 +22,19 @@ const InterestRatesForm = () => {
     Assigned_Credit_Rating: "B1",
   });
 
+  const [prediction, setPrediction] = useState(null);
+  const [token, setToken] = useState(null);
+
   useEffect(() => {
     UIkit.use(Icons);
   }, []);
 
-  const [prediction, setPrediction] = useState(null);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = sessionStorage.getItem("token");
+      setToken(storedToken);
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,25 +47,27 @@ const InterestRatesForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (typeof window !== "undefined") { 
-        const token = sessionStorage.getItem("token");
-        if (token) {
-          const decodedToken = jwtDecode(token);
-          const username = decodedToken.username;
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const username = decodedToken.username;
 
-          const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/predict-loans`,
-            {
-              formData,
-              username,
-            }
-          );
-          setPrediction(response.data.prediction);
-          UIkit.notification({
-            message: "Prediction received!",
-            status: "success",
-          });
-        }
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/predict-loans`,
+          {
+            formData,
+            username,
+          }
+        );
+        setPrediction(response.data.prediction);
+        UIkit.notification({
+          message: "Prediction received!",
+          status: "success",
+        });
+      } else {
+        UIkit.notification({
+          message: "No token found!",
+          status: "warning",
+        });
       }
     } catch (error) {
       console.error("Failed to submit the form:", error);
@@ -139,5 +149,6 @@ const InterestRatesForm = () => {
     </div>
   );
 };
+
 
 export default withAuth(InterestRatesForm);
