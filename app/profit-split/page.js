@@ -4,7 +4,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
-import Icons from "uikit/dist/js/uikit-icons";
 import {
   functionsProfitSplit,
   industriesProfitSplit,
@@ -30,9 +29,6 @@ const profitSplit = () => {
     subs_function: "",
   });
 
-  useEffect(() => {
-    UIkit.use(Icons);
-  }, []);
 
   const [prediction, setPrediction] = useState(null);
 
