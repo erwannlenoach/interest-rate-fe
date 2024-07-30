@@ -43,7 +43,7 @@ const UserProfile = () => {
     <div className="uk-container uk-container-small uk-margin-large-top uk-padding">
       <UserInfo user={profile} />
       <History user={profile} />
-      <ProfitSplitHistory user={profile} /> 
+      <ProfitSplitHistory user={profile} />
     </div>
   );
 };

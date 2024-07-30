@@ -1,18 +1,14 @@
 "use client";
-import axios from 'axios'
+import axios from "axios";
 import { useEffect, useState } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 import { industrySectors, regions, creditRatings } from "@/app/utils/constants";
-import withAuth from '@/app/hoc/withAuth';
-import {jwtDecode} from "jwt-decode";
-
-
+import withAuth from "@/app/hoc/withAuth";
+import { jwtDecode } from "jwt-decode";
 
 const InterestRatesForm = () => {
-
-
   const [formData, setFormData] = useState({
     Debt_to_Income_Ratio: "",
     Loan_to_Value_Ratio: "",
@@ -29,7 +25,6 @@ const InterestRatesForm = () => {
   useEffect(() => {
     UIkit.use(Icons);
   }, []);
-
 
   const [prediction, setPrediction] = useState(null);
 
@@ -52,9 +47,9 @@ const InterestRatesForm = () => {
         "http://localhost:8800/api/predict-loans",
         {
           formData,
-          username
+          username,
         }
-      )
+      );
       setPrediction(response.data.prediction);
       UIkit.notification({
         message: "Prediction received!",
@@ -107,7 +102,7 @@ const InterestRatesForm = () => {
                 >
                   <option value="">Please select...</option>
                   {field.options.map((option, idx) => (
-                  <option key={`${field.name}-${idx}`} value={option}>
+                    <option key={`${field.name}-${idx}`} value={option}>
                       {option}
                     </option>
                   ))}

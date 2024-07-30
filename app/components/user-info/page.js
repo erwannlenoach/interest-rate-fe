@@ -9,8 +9,6 @@ import ConnexionInfo from "../connexion-info/page";
 const UserInfo = ({ user }) => {
   const { token } = useAuth();
 
-  console.log(user)
-
   return (
     <div className="user-info-container uk-container">
       <h2 className="uk-heading-small uk-text-center uk-padding">

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
-import './styles.css';
+import "./styles.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -13,16 +13,13 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        "http://localhost:8800/api/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch("http://localhost:8800/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
       const data = await response.json();
       if (response.ok) {
         login(data.token);
@@ -57,15 +54,20 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button type="submit" className="uk-button uk-button-primary uk-width-1-1">
+          <button
+            type="submit"
+            className="uk-button uk-button-primary uk-width-1-1"
+          >
             Validate
           </button>
         </form>
         <p className="uk-text-center uk-margin-top">
-          You don't have an account yet? <Link href="/signup">Please sign up</Link>
+          You don't have an account yet?{" "}
+          <Link href="/signup">Please sign up</Link>
         </p>
         <p className="uk-text-center uk-margin-top">
-          Forgot your password? <Link href="/forgot-password">Reset your password</Link>
+          Forgot your password?{" "}
+          <Link href="/forgot-password">Reset your password</Link>
         </p>
       </div>
     </div>

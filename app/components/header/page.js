@@ -7,7 +7,7 @@ import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 import "./styles.css";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,14 +75,10 @@ export default function Header() {
                 >
                   <ul className="uk-nav uk-dropdown-nav">
                     <li>
-                      <Link href="/interest_rates">
-                        Interest Rates
-                      </Link>
+                      <Link href="/interest_rates">Interest Rates</Link>
                     </li>
                     <li>
-                      <Link href="/profit-split">
-                        Profit Split
-                      </Link>
+                      <Link href="/profit-split">Profit Split</Link>
                     </li>
                   </ul>
                 </div>

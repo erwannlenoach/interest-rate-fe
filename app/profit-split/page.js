@@ -1,17 +1,18 @@
 "use client";
 
-import axios from 'axios';
+import axios from "axios";
 import { useEffect, useState } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
-import { functionsProfitSplit, industriesProfitSplit } from "@/app/utils/constants";
-import withAuth from '@/app/hoc/withAuth';
+import {
+  functionsProfitSplit,
+  industriesProfitSplit,
+} from "@/app/utils/constants";
+import withAuth from "@/app/hoc/withAuth";
 import { jwtDecode } from "jwt-decode";
 
-
 const profitSplit = () => {
-
   const [formData, setFormData] = useState({
     hq_revenue: "",
     hq_cost: "",
@@ -52,8 +53,7 @@ const profitSplit = () => {
 
       const response = await axios.post(
         "http://localhost:8800/api/predict-profit-split",
-        {formData,
-        username}
+        { formData, username }
       );
       setPrediction(response.data.prediction);
       UIkit.notification({
@@ -86,10 +86,26 @@ const profitSplit = () => {
           { label: "Subsidiary Profit", name: "subs_profit" },
           { label: "Subsidiary Assets", name: "subs_assets" },
           { label: "Subsidiary Liabilities", name: "subs_liabilities" },
-          { label: "HQ Industry", name: "hq_industry", options: industriesProfitSplit },
-          { label: "Subsidiary Industry", name: "subs_industry", options: industriesProfitSplit },
-          { label: "HQ Function", name: "hq_function", options: functionsProfitSplit },
-          { label: "Subsidiary Function", name: "subs_function", options: functionsProfitSplit }
+          {
+            label: "HQ Industry",
+            name: "hq_industry",
+            options: industriesProfitSplit,
+          },
+          {
+            label: "Subsidiary Industry",
+            name: "subs_industry",
+            options: industriesProfitSplit,
+          },
+          {
+            label: "HQ Function",
+            name: "hq_function",
+            options: functionsProfitSplit,
+          },
+          {
+            label: "Subsidiary Function",
+            name: "subs_function",
+            options: functionsProfitSplit,
+          },
         ].map((field, index) => (
           <div className="uk-margin" key={index}>
             <label className="uk-form-label" htmlFor={field.name}>
