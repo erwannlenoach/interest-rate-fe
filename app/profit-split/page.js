@@ -67,7 +67,7 @@ const profitSplit = () => {
   };
 
   return (
-    <div className="uk-container uk-container-small uk-margin-large-top uk-padding-medium">
+    <div className="uk-container uk-container-small uk-margin-large-top uk-padding-large">
       <h1 className="uk-text-center">
         <span>Profit Split Simulator</span>
       </h1>
@@ -139,8 +139,8 @@ const profitSplit = () => {
             </div>
           </div>
         ))}
-        <div className="uk-margin">
-          <button type="submit" className="uk-button uk-button-primary">
+        <div className=" uk-margin uk-flex uk-flex-center uk-flex-middle">
+          <button type="submit" className="uk-button uk-button-primary uk-border-rounded">
             Submit
           </button>
         </div>

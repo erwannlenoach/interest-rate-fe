@@ -11,6 +11,7 @@ import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [userName, setUsername] = useState(null);
 
   useEffect(() => {
     UIkit.use(Icons);
@@ -54,19 +55,17 @@ export default function Header() {
           {token ? (
             <>
               <Link href="/profile">
-                <button className="uk-button uk-button-primary uk-margin-right button-rounded">
                   My Profile
-                </button>
               </Link>
+              
               <div className="uk-inline">
-                <button
-                  className="uk-button uk-button-primary uk-margin-right button-rounded"
+                <a
                   type="button"
                   aria-haspopup="true"
                   aria-expanded={isOpen} // Add aria-expanded to manage state visibility
                 >
                   TP Simulator
-                </button>
+                </a>
                 <div
                   uk-dropdown="mode: click; pos: bottom-center"
                   className="uk-dropdown"
@@ -81,7 +80,7 @@ export default function Header() {
                   </ul>
                 </div>
               </div>
-              <button onClick={logout} className="uk-button uk-button-danger button-rounded">
+              <button onClick={logout} className="uk-button uk-button-danger uk-border-rounded">
                 Logout
               </button>
             </>

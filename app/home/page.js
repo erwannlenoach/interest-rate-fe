@@ -24,12 +24,12 @@ export default function HomeScreen() {
           for financial data through machine learning.
         </p>
         <Link href="/login">
-          <button className="uk-button uk-button-primary uk-margin-top">
+          <button className="uk-button uk-button-primary uk-margin-top uk-border-rounded">
             Log in
           </button>
         </Link>
         <Link href="/signup">
-          <button className="uk-button uk-button-secondary uk-margin-top uk-margin-left">
+          <button className="uk-button uk-button-secondary uk-margin-top uk-margin-left uk-border-rounded">
             Sign up
           </button>
         </Link>

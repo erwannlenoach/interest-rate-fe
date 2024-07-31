@@ -17,8 +17,3 @@ h1, .title {
 p, .subtitle {
   font-family: 'Roboto', sans-serif;
 }
-
-.button-rounded {
-  border-radius: 5%;
-}
-

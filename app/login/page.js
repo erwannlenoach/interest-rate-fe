@@ -69,7 +69,7 @@ const LoginPage = () => {
           <div className="uk-flex uk-flex-center uk-flex-middle">
             <button
               type="submit"
-              className="uk-button uk-button-primary button-rounded"
+              className="uk-button uk-button-primary uk-border-rounded"
             >
               Log in
             </button>

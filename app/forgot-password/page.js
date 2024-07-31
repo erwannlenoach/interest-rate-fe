@@ -38,7 +38,7 @@ const forgotPassword = () => {
               required
             />
           </div>
-          <button type="submit" className="uk-button uk-button-primary uk-width-1-1" disabled={isLoading}>
+          <button type="submit" className="uk-button uk-button-primary uk-border-rounded" disabled={isLoading}>
             {isLoading ? (
               <div uk-spinner="ratio: 0.6"></div>
             ) : (
