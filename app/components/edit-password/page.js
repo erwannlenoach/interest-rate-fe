@@ -113,7 +113,7 @@ const EditPassword = ({ user, token }) => {
         <div className="uk-flex uk-flex-center uk-margin-large-top">
           <button
             type="submit"
-            className="uk-button uk-button-primary"
+            className="uk-button uk-button-primary button-rounded"
             disabled={isLoading}
           >
             {isLoading ? "Changing Password..." : "Change Password"}

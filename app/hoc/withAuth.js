@@ -22,7 +22,7 @@ const withAuth = (WrappedComponent) => {
     }, [token, router]);
 
     if (loading) {
-      return <div>Loading...</div>; // Render a loading state while checking for the token
+      return <div>Loading...</div>; 
     }
 
     return token ? <WrappedComponent {...props} /> : null;

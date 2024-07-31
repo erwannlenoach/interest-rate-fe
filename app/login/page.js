@@ -13,13 +13,16 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
       const data = await response.json();
       if (response.ok) {
         login(data.token);
@@ -33,8 +36,17 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
+      <div className="logo-container uk-margin" >
+        <img
+          src="/logo.svg"
+          alt="Profile Icon"
+          className="uk-navbar-item uk-padding-small"
+        />
+      </div>
       <div className="login-form-container">
-        <h1 className="uk-heading-medium uk-text-center">Login</h1>
+      <h3 className="uk-text-large uk-text-center uk-text-emphasis">
+          Log in to your account
+        </h3>
         <form onSubmit={handleLogin}>
           <div className="uk-margin">
             <input
@@ -54,21 +66,25 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button
-            type="submit"
-            className="uk-button uk-button-primary uk-width-1-1"
-          >
-            Validate
-          </button>
+          <div className="uk-flex uk-flex-center uk-flex-middle">
+            <button
+              type="submit"
+              className="uk-button uk-button-primary button-rounded"
+            >
+              Log in
+            </button>
+          </div>
         </form>
-        <p className="uk-text-center uk-margin-top">
-          You don't have an account yet?{" "}
-          <Link href="/signup">Please sign up</Link>
-        </p>
-        <p className="uk-text-center uk-margin-top">
-          Forgot your password?{" "}
-          <Link href="/forgot-password">Reset your password</Link>
-        </p>
+        <div>
+          <p className="uk-text-center uk-margin-top">
+            You don't have an account yet?{" "}
+            <Link href="/signup">Please sign up</Link>
+          </p>
+          <p className="uk-text-center uk-margin-top">
+            Forgot your password?{" "}
+            <Link href="/forgot-password">Reset your password</Link>
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -11,7 +11,6 @@ import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [userName, setUsername] = useState(null);
 
   useEffect(() => {
     UIkit.use(Icons);
@@ -54,15 +53,14 @@ export default function Header() {
         <div className="uk-navbar-right uk-margin-large-right">
           {token ? (
             <>
-              <span className="uk-margin-right">Welcome, {userName}</span>
               <Link href="/profile">
-                <button className="uk-button uk-button-primary uk-margin-right">
+                <button className="uk-button uk-button-primary uk-margin-right button-rounded">
                   My Profile
                 </button>
               </Link>
               <div className="uk-inline">
                 <button
-                  className="uk-button uk-button-primary uk-margin-right"
+                  className="uk-button uk-button-primary uk-margin-right button-rounded"
                   type="button"
                   aria-haspopup="true"
                   aria-expanded={isOpen} // Add aria-expanded to manage state visibility
@@ -83,7 +81,7 @@ export default function Header() {
                   </ul>
                 </div>
               </div>
-              <button onClick={logout} className="uk-button uk-button-danger">
+              <button onClick={logout} className="uk-button uk-button-danger button-rounded">
                 Logout
               </button>
             </>
@@ -94,7 +92,7 @@ export default function Header() {
                 type="button"
                 onClick={toggleMenu}
                 aria-haspopup="true"
-                aria-expanded={isOpen} // Add aria-expanded to manage state visibility
+                aria-expanded={isOpen} 
               >
                 <span data-uk-icon="icon: user" className="uk-icon"></span>
               </button>

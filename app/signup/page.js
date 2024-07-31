@@ -42,8 +42,15 @@ const SignupPage = () => {
 
   return (
     <div className="signup-container">
+      <div className="logo-container uk-margin">
+        <img
+          src="/logo.svg"
+          alt="Profile Icon"
+          className="uk-navbar-item uk-padding-small"
+        />
+      </div>
       <div className="signup-form-container">
-        <h1 className="uk-heading-medium uk-text-center">Sign Up</h1>
+        <h3 className="uk-text-large uk-text-center uk-text-emphasis">Join Nostra</h3>
         {error && <div className="uk-alert-danger uk-margin">{error}</div>}
         <form onSubmit={handleSignup}>
           <div className="uk-margin">
@@ -66,13 +73,15 @@ const SignupPage = () => {
               required
             />
           </div>
-          <button
-            type="submit"
-            className="uk-button uk-button-primary uk-width-1-1"
-            disabled={isLoading}
-          >
-            {isLoading ? "Signing Up..." : "Register"}
-          </button>
+          <div className="uk-flex uk-flex-center uk-flex-middle">
+            <button
+              type="submit"
+              className="uk-button uk-button-primary button-rounded"
+              disabled={isLoading}
+            >
+              {isLoading ? "Signing Up..." : "Sign up"}
+            </button>
+          </div>
         </form>
         <p className="uk-text-center uk-margin-top">
           Already have an account? <Link href="/login">Please log in</Link>

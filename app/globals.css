@@ -18,3 +18,7 @@ p, .subtitle {
   font-family: 'Roboto', sans-serif;
 }
 
+.button-rounded {
+  border-radius: 5%;
+}
+

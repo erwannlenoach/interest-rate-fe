@@ -1,10 +1,11 @@
 
 .signup-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full height of the viewport */
-    background-color: #f0f2f5; /* Light background color */
+    height: 100vh; 
+    background-color: #f0f2f5; 
   }
   
   .signup-form-container {
