@@ -5,18 +5,19 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import withAuth from "../hoc/withAuth";
-
-import UserInfo from "../components/user-info/page";
+import EditPassword from "../components/edit-password/page"
+import ConnexionInfo from "../components/connexion-info/page";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState(null);
   const { user, logout } = useAuth();
+  const token = sessionStorage.getItem("token");
+
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         if (typeof window !== "undefined") {
-          const token = sessionStorage.getItem("token");
           const decodedToken = jwtDecode(token);
           const username = decodedToken.username;
 
@@ -41,7 +42,18 @@ const UserProfile = () => {
 
   return (
     <div className="uk-container uk-container-small uk-margin-large-top uk-padding">
-      <UserInfo user={profile} />
+      <div className="user-info-container uk-container">
+      <h2 className="uk-heading-small uk-margin-bottom">
+        Personal Information
+      </h2>
+      <div
+        className="uk-flex uk-flex-column"
+      >
+        <ConnexionInfo user={user} />
+        <EditPassword user={user} token={token} />
+      </div>
+    </div>
+
     </div>
   );
 };

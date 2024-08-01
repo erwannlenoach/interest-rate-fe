@@ -51,7 +51,7 @@ const ConnexionInfo = ({ user }) => {
 
   return (
     <div className="card">
-      <h3 className="uk-text-center">Connexion</h3>
+      <h3>Connexion</h3>
       {error && (
         <div className="uk-alert-danger uk-margin uk-padding">{error}</div>
       )}

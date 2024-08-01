@@ -49,7 +49,7 @@ const EditPassword = ({ user, token }) => {
 
   return (
     <div className="card">
-      <h3 className="uk-card-title uk-text-center">Mot de passe</h3>
+      <h3>Mot de passe</h3>
       {error && <div className="uk-alert-danger uk-margin">{error}</div>}
       {success && <div className="uk-alert-success uk-margin">{success}</div>}
       <form
