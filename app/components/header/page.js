@@ -57,14 +57,13 @@ export default function Header() {
               <Link href="/profile">
                   My Profile
               </Link>
-              
               <div className="uk-inline">
                 <a
                   type="button"
                   aria-haspopup="true"
                   aria-expanded={isOpen} // Add aria-expanded to manage state visibility
                 >
-                  TP Simulator
+                  Profit Split
                 </a>
                 <div
                   uk-dropdown="mode: click; pos: bottom-center"
@@ -72,10 +71,33 @@ export default function Header() {
                 >
                   <ul className="uk-nav uk-dropdown-nav">
                     <li>
-                      <Link href="/interest_rates">Interest Rates</Link>
+                      <Link href="/profit-split">Simulator</Link>
                     </li>
                     <li>
-                      <Link href="/profit-split">Profit Split</Link>
+                      <Link href="/profit-split-history">History</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="uk-inline">
+                <a
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded={isOpen} // Add aria-expanded to manage state visibility
+                >
+                  Interest Rates
+                </a>
+                <div
+                  uk-dropdown="mode: click; pos: bottom-center"
+                  className="uk-dropdown"
+                >
+                  <ul className="uk-nav uk-dropdown-nav">
+                    <li>
+                      <Link href="/interest-rates">Simulator</Link>
+                    </li>
+                    <li>
+                      <Link href="/interest-rates-history">History</Link>
                     </li>
                   </ul>
                 </div>

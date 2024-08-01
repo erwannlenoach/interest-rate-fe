@@ -52,10 +52,6 @@ const profitSplit = () => {
           { formData, username }
         );
         setPrediction(response.data.prediction);
-        UIkit.notification({
-          message: "Prediction received!",
-          status: "success",
-        });
       }
     } catch (error) {
       console.error("Failed to submit the form:", error);

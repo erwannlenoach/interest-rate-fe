@@ -5,8 +5,6 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import withAuth from "../hoc/withAuth";
-import History from "../history/page";
-import ProfitSplitHistory from "../profit-split-history/page";
 
 import UserInfo from "../components/user-info/page";
 
@@ -44,8 +42,6 @@ const UserProfile = () => {
   return (
     <div className="uk-container uk-container-small uk-margin-large-top uk-padding">
       <UserInfo user={profile} />
-      <History user={profile} />
-      <ProfitSplitHistory user={profile} />
     </div>
   );
 };

@@ -5,14 +5,15 @@ import { useTable, useSortBy } from "react-table";
 import "uikit/dist/css/uikit.min.css";
 import withAuth from "@/app/hoc/withAuth";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
-const History = ({ user }) => {
+const interestRatesHistory = () => {
+  const { user } = useAuth(); 
   const [loans, setLoans] = useState([]);
 
   useEffect(() => {
     const fetchLoans = async () => {
       try {
-        if (typeof window !== "undefined") {
           const token = sessionStorage.getItem("token");
           const userId = user.id;
 
@@ -22,15 +23,14 @@ const History = ({ user }) => {
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setLoans(response.data.loans);
-        }
+        
       } catch (error) {
         console.error("Failed to fetch loans", error);
       }
     };
 
-    if (user) {
       fetchLoans();
-    }
+    
   }, [user]);
 
   const formatValue = (value, key) => {
@@ -58,7 +58,7 @@ const History = ({ user }) => {
     return keys.map((key) => ({
       Header: key.replace(/_/g, " "),
       accessor: key,
-      Cell: ({ value }) => formatValue(value),
+      Cell: ({ value }) => formatValue(value, key),
     }));
   }, [loans]);
 
@@ -118,4 +118,4 @@ const History = ({ user }) => {
   );
 };
 
-export default withAuth(History);
+export default withAuth(interestRatesHistory);

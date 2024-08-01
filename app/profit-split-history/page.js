@@ -1,37 +1,35 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
 import "uikit/dist/css/uikit.min.css";
 import withAuth from "@/app/hoc/withAuth";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
-const ProfitSplitHistory = ({ user }) => {
+const ProfitSplitHistory = () => {
+  const { user } = useAuth();
   const [profitSplits, setProfitSplits] = useState([]);
 
-  useEffect(() => {
-    const fetchProfitSplits = async () => {
-      try {
-        if (typeof window !== "undefined") {
-          const token = sessionStorage.getItem("token");
-          const userId = user.id;
+  const fetchProfitSplits = async () => {
+    try {
+      if (typeof window !== "undefined") {
+        const token = sessionStorage.getItem("token");
+        const userId = user.id;
 
-          const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/profit-split`,
-            { userId },
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          setProfitSplits(response.data.profitSplits);
-        }
-      } catch (error) {
-        console.error("Failed to fetch profit splits", error);
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/profit-split`,
+          { userId },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setProfitSplits(response.data.profitSplits);
       }
-    };
-
-    if (user) {
-      fetchProfitSplits();
+    } catch (error) {
+      console.error("Failed to fetch profit splits", error);
     }
-  }, [user]);
+  };
+
+  fetchProfitSplits();
 
   const formatValue = (value, key) => {
     const keysToFormat = ["loan_amount", "Collateral_value", "annual_income"];
@@ -58,7 +56,7 @@ const ProfitSplitHistory = ({ user }) => {
     return keys.map((key) => ({
       Header: key.replace(/_/g, " "),
       accessor: key,
-      Cell: ({ value }) => formatValue(value),
+      Cell: ({ value }) => formatValue(value, key),
     }));
   }, [profitSplits]);
 
