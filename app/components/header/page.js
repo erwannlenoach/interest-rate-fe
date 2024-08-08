@@ -6,19 +6,24 @@ import { useState, useEffect } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
-import "./styles.css";
 import { jwtDecode } from "jwt-decode";
+import "./styles.css";
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isTPSimulatorMenuOpen, setIsTPSimulatorMenuOpen] = useState(false);
   const [userName, setUserName] = useState(null);
 
   useEffect(() => {
     UIkit.use(Icons);
   }, []);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
+  };
+
+  const toggleTPSimulatorMenu = () => {
+    setIsTPSimulatorMenuOpen(!isTPSimulatorMenuOpen);
   };
 
   const { token, logout } = useAuth();
@@ -58,13 +63,15 @@ export default function Header() {
                 <button
                   className="uk-button uk-button-default button-header"
                   type="button"
+                  onClick={toggleTPSimulatorMenu}
                   aria-haspopup="true"
-                  aria-expanded={isOpen}
+                  aria-expanded={isTPSimulatorMenuOpen}
                 >
                   <span data-uk-icon="icon: cog"></span> TP Simulator
                 </button>
                 <div
                   uk-dropdown="mode: click; pos: bottom-center"
+                  hidden={!isTPSimulatorMenuOpen}
                   className="uk-dropdown"
                 >
                   <ul className="uk-nav uk-dropdown-nav">
@@ -109,20 +116,19 @@ export default function Header() {
                 <button
                   className="uk-button uk-button-default button-header"
                   type="button"
-                  onClick={toggleMenu}
+                  onClick={toggleUserMenu}
                   aria-haspopup="true"
-                  aria-expanded={isOpen}
+                  aria-expanded={isUserMenuOpen}
                 >
                   <span data-uk-icon="icon: user" className="uk-icon"></span>
                 </button>
                 <div
                   uk-dropdown="mode: click; pos: bottom-right"
-                  hidden={!isOpen}
+                  hidden={!isUserMenuOpen}
                   className="custom-dropdown"
                 >
                   <div className="uk-card uk-card-body uk-card-default uk-margin-bottom uk-text-center">
                     <span data-uk-icon="icon: mail" className="uk-icon"></span>
-
                     <p className="uk-card-title uk-text-center">{userName}</p>
                   </div>
                   <ul className="uk-nav uk-dropdown-nav">
@@ -153,25 +159,33 @@ export default function Header() {
               <button
                 className="uk-button-icon"
                 type="button"
-                onClick={toggleMenu}
+                onClick={toggleUserMenu}
                 aria-haspopup="true"
-                aria-expanded={isOpen}
+                aria-expanded={isUserMenuOpen}
               >
                 <span data-uk-icon="icon: user" className="uk-icon"></span>
               </button>
               <div
                 uk-dropdown="mode: click; pos: bottom-center"
-                hidden={!isOpen}
+                hidden={!isUserMenuOpen}
                 className="custom-dropdown"
               >
                 <ul className="uk-nav uk-dropdown-nav header-dropdown">
                   <li>
                     <Link href="/signup" passHref>
+                      <span
+                        data-uk-icon="icon: file-edit"
+                        className="uk-icon"
+                      ></span>
                       Sign Up
                     </Link>
                   </li>
                   <li>
                     <Link href="/login" passHref>
+                      <span
+                        data-uk-icon="icon: sign-in"
+                        className="uk-icon"
+                      ></span>
                       Login
                     </Link>
                   </li>
