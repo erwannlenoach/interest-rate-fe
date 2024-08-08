@@ -11,7 +11,7 @@ import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [userName, setUsername] = useState(null);
+  const [userName, setUserName] = useState(null);
 
   useEffect(() => {
     UIkit.use(Icons);
@@ -26,7 +26,7 @@ export default function Header() {
   useEffect(() => {
     if (token) {
       const user = jwtDecode(token);
-      setUsername(user.username);
+      setUserName(user.username);
     }
   }, [token]);
 
@@ -54,57 +54,99 @@ export default function Header() {
         <div className="uk-navbar-right uk-margin-large-right">
           {token ? (
             <>
-              <Link href="/profile">
-                  My Profile
-              </Link>
               <div className="uk-inline">
-                <a
+                <button
+                  className="uk-button uk-button-default button-header"
                   type="button"
                   aria-haspopup="true"
-                  aria-expanded={isOpen} // Add aria-expanded to manage state visibility
+                  aria-expanded={isOpen}
                 >
-                  Profit Split
-                </a>
+                  <span data-uk-icon="icon: cog"></span> TP Simulator
+                </button>
                 <div
                   uk-dropdown="mode: click; pos: bottom-center"
                   className="uk-dropdown"
                 >
                   <ul className="uk-nav uk-dropdown-nav">
-                    <li>
-                      <Link href="/profit-split">Simulator</Link>
+                    <li className="uk-parent">
+                      <a href="#">
+                        <span
+                          data-uk-icon="icon: more"
+                          className="uk-icon"
+                        ></span>
+                        Profit Split
+                      </a>
+                      <ul className="uk-nav-sub">
+                        <li>
+                          <Link href="/profit-split">Simulator</Link>
+                        </li>
+                        <li>
+                          <Link href="/profit-split-history">History</Link>
+                        </li>
+                      </ul>
                     </li>
-                    <li>
-                      <Link href="/profit-split-history">History</Link>
+                    <li className="uk-parent">
+                      <a href="#">
+                        <span
+                          data-uk-icon="icon: arrow-up-right"
+                          className="uk-icon"
+                        ></span>
+                        Interest Rates
+                      </a>
+                      <ul className="uk-nav-sub">
+                        <li>
+                          <Link href="/interest-rates">Simulator</Link>
+                        </li>
+                        <li>
+                          <Link href="/interest-rates-history">History</Link>
+                        </li>
+                      </ul>
                     </li>
                   </ul>
                 </div>
               </div>
-              
               <div className="uk-inline">
-                <a
+                <button
+                  className="uk-button uk-button-default button-header"
                   type="button"
+                  onClick={toggleMenu}
                   aria-haspopup="true"
-                  aria-expanded={isOpen} // Add aria-expanded to manage state visibility
+                  aria-expanded={isOpen}
                 >
-                  Interest Rates
-                </a>
+                  <span data-uk-icon="icon: user" className="uk-icon"></span>
+                </button>
                 <div
-                  uk-dropdown="mode: click; pos: bottom-center"
-                  className="uk-dropdown"
+                  uk-dropdown="mode: click; pos: bottom-right"
+                  hidden={!isOpen}
+                  className="custom-dropdown"
                 >
+                  <div className="uk-card uk-card-body uk-card-default uk-margin-bottom uk-text-center">
+                    <span data-uk-icon="icon: mail" className="uk-icon"></span>
+
+                    <p className="uk-card-title uk-text-center">{userName}</p>
+                  </div>
                   <ul className="uk-nav uk-dropdown-nav">
                     <li>
-                      <Link href="/interest-rates">Simulator</Link>
+                      <Link href="/profile" passHref>
+                        <span
+                          data-uk-icon="icon: settings"
+                          className="uk-icon"
+                        ></span>
+                        Account Settings
+                      </Link>
                     </li>
                     <li>
-                      <Link href="/interest-rates-history">History</Link>
+                      <a onClick={logout}>
+                        <span
+                          data-uk-icon="icon: sign-out"
+                          className="uk-icon"
+                        ></span>
+                        Sign out
+                      </a>
                     </li>
                   </ul>
                 </div>
               </div>
-              <button onClick={logout} className="uk-button uk-button-danger uk-border-rounded">
-                Logout
-              </button>
             </>
           ) : (
             <div className="uk-inline">
@@ -113,7 +155,7 @@ export default function Header() {
                 type="button"
                 onClick={toggleMenu}
                 aria-haspopup="true"
-                aria-expanded={isOpen} 
+                aria-expanded={isOpen}
               >
                 <span data-uk-icon="icon: user" className="uk-icon"></span>
               </button>

@@ -47,7 +47,6 @@
   color: lightgray; /* Ajoutez un effet de survol */
 }
 
-
 /* styles.css */
 .uk-button-icon .uk-icon {
   color: white; /* Change la couleur de l'icône en blanc */
@@ -64,3 +63,17 @@
   top: 100%; /* Positionne le dropdown juste en dessous du bouton */
   left: 0;
 }
+
+.button-header {
+  background: none; /* Remove background */
+  border: none; /* Remove border */
+  color: white; /* Set text color to white */
+  font-size: 16px; /* Adjust font size if needed */
+  padding: 10px 20px; /* Adjust padding if needed */
+  cursor: pointer; /* Add pointer cursor for button */
+}
+
+.button-header:hover {
+  color: #ddd; /* Lighter color on hover */
+}
+
