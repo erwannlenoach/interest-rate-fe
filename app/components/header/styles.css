@@ -65,9 +65,8 @@
 }
 
 .button-header {
-  background: none; /* Remove background */
-  border: none; /* Remove border */
-  color: white; /* Set text color to white */
+  border: none !important; /* Remove border */
+  color: white !important; /* Set text color to white */
   font-size: 16px; /* Adjust font size if needed */
   padding: 10px 20px; /* Adjust padding if needed */
   cursor: pointer; /* Add pointer cursor for button */

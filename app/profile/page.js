@@ -41,7 +41,7 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="uk-container uk-container-small uk-margin-large-top uk-padding">
+    <div className="uk-container uk-container-small uk-margin-large-top uk-margin-large-bottom uk-padding">
       <div className="user-info-container uk-container">
       <h2 className="uk-heading-small uk-margin-bottom">
         Personal Information

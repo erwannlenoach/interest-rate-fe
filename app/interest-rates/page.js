@@ -51,10 +51,18 @@ const InterestRatesForm = () => {
         const decodedToken = jwtDecode(token);
         const username = decodedToken.username;
 
+        // Convert the relevant fields from thousands to nominal value
+        const formDataToSend = {
+          ...formData,
+          Loan_Amount: parseFloat(formData.Loan_Amount) * 1000,
+          Collateral_Value: parseFloat(formData.Collateral_Value) * 1000,
+          Annual_Income: parseFloat(formData.Annual_Income) * 1000,
+        };
+
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/api/predict-loans`,
           {
-            formData,
+            formData: formDataToSend,
             username,
           }
         );
@@ -78,6 +86,22 @@ const InterestRatesForm = () => {
     }
   };
 
+  const handleNewSimulation = () => {
+    setPrediction(null);
+    setFormData({
+      Debt_to_Income_Ratio: "",
+      Loan_to_Value_Ratio: "",
+      Annual_Income: "",
+      Loan_Amount: "",
+      Loan_Term_Years: "",
+      Subordination: "",
+      Collateral_Value: "",
+      Sector: "Finance",
+      Region: "Northern Europe",
+      Assigned_Credit_Rating: "B1",
+    });
+  };
+
   return (
     <div className="uk-container uk-container-small uk-margin-large-top uk-padding-large">
       <h1 className="uk-text-center">
@@ -85,12 +109,12 @@ const InterestRatesForm = () => {
       </h1>
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         {[
-          { label: "Loan Amount", name: "Loan_Amount" },
-          { label: "Collateral Value", name: "Collateral_Value" },
+          { label: "Loan Amount (in thousands)", name: "Loan_Amount" },
+          { label: "Collateral Value (in thousands)", name: "Collateral_Value" },
           { label: "Loan Term Years", name: "Loan_Term_Years" },
           { label: "Loan to Value Ratio", name: "Loan_to_Value_Ratio" },
           { label: "Debt to Income Ratio", name: "Debt_to_Income_Ratio" },
-          { label: "Annual Income", name: "Annual_Income" },
+          { label: "Annual Income (in thousands)", name: "Annual_Income" },
           { label: "Sector", name: "Sector", options: industrySectors },
           { label: "Region", name: "Region", options: regions },
           {
@@ -135,15 +159,31 @@ const InterestRatesForm = () => {
             </div>
           </div>
         ))}
-        <div className=" uk-margin uk-flex uk-flex-center uk-flex-middle">
-          <button type="submit" className="uk-button uk-button-primary uk-border-rounded">
-            Submit
-          </button>
-        </div>
+        {!prediction && (
+          <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
+            <button
+              type="submit"
+              className="uk-button uk-button-primary uk-border-rounded"
+            >
+              Submit
+            </button>
+          </div>
+        )}
       </form>
       {prediction && (
-        <div className="uk-margin uk-alert-success" uk-alert="true">
-          <p>Predicted Interest Rate: {prediction}</p>
+        <div className="uk-margin uk-alert-success uk-text-center" uk-alert="true">
+          <p className="uk-text-large">
+            <strong>Predicted Interest Rate:</strong> {`${(prediction)}%`}
+          </p>
+          <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
+            <button
+              type="button"
+              className="uk-button uk-button-primary uk-border-rounded"
+              onClick={handleNewSimulation}
+            >
+              Run New Simulation
+            </button>
+          </div>
         </div>
       )}
     </div>
