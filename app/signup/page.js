@@ -84,7 +84,7 @@ const SignupPage = () => {
           </div>
         </form>
         <p className="uk-text-center uk-margin-top">
-          Already have an account? <Link href="/login">Please log in</Link>
+          Already have an account ? <Link href="/login">Log in</Link>
         </p>
       </div>
     </div>
