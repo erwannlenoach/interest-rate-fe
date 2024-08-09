@@ -10,10 +10,10 @@ export default function Footer() {
       <div className="uk-container uk-flex uk-flex-between uk-flex-middle">
         {/* Left side: Documentation and Privacy Links */}
         <div className="uk-flex">
-          <Link href="/documentation" className="uk-margin-right uk-text-bold">
+          <Link href="/documentation" className="uk-margin-right">
             DOCUMENTATION
           </Link>
-          <Link href="/privacy" className="uk-text-bold">
+          <Link href="/privacy">
             PRIVACY
           </Link>
         </div>

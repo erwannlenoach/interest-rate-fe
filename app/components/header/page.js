@@ -75,7 +75,7 @@ export default function Header() {
                 <div
                   uk-dropdown="mode: click; pos: bottom-center"
                   hidden={!isInterestRatesMenuOpen}
-                  className="uk-dropdown"
+                  className="uk-dropdown uk-border-rounded"
                 >
                   <ul className="uk-nav uk-dropdown-nav">
                     <li>
@@ -115,7 +115,7 @@ export default function Header() {
                 <div
                   uk-dropdown="mode: click; pos: bottom-center"
                   hidden={!isProfitSplitMenuOpen}
-                  className="uk-dropdown"
+                  className="uk-dropdown uk-border-rounded"
                 >
                   <ul className="uk-nav uk-dropdown-nav">
                     <li>
@@ -149,7 +149,7 @@ export default function Header() {
                 <div
                   uk-dropdown="mode: click; pos: bottom-center"
                   hidden={!isUserMenuOpen}
-                  className="custom-dropdown"
+                  className="custom-dropdown uk-border-rounded"
                 >
                   <div className="uk-card uk-card-body uk-card-default uk-margin-bottom uk-text-center">
                     <span data-uk-icon="icon: mail" className="uk-icon"></span>
