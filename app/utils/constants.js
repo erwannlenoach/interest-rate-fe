@@ -75,16 +75,6 @@ const mockLoans = [
   },
 ];
 
-const informationText = `
-  <p>Nostra leverages the power of artificial intelligence to provide comprehensive arm's length analysis for transfer pricing.</p>
-  <p>Currently, our services include:</p>
-  <ul>
-    <li><strong>Interest Rate Analysis:</strong> Ensure accurate and fair interest rate assessments.</li>
-    <li><strong>Profit Split Analysis:</strong> Facilitate precise and equitable profit distribution.</li>
-  </ul>
-  <p>Our AI-powered solution aims to ease the process of determining the arm's length price, providing a blueprint for the future of transfer pricing.</p>
-`;
-
 const industriesProfitSplit = [
   'manufacturing',
   'services',
@@ -110,7 +100,6 @@ export {
   industrySectors,
   regions,
   creditRatings,
-  informationText,
   industriesProfitSplit,
   functionsProfitSplit
 };

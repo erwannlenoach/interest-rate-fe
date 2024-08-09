@@ -11,19 +11,25 @@ import "./styles.css";
 
 export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [isTPSimulatorMenuOpen, setIsTPSimulatorMenuOpen] = useState(false);
+  const [isInterestRatesMenuOpen, setIsInterestRatesMenuOpen] = useState(false);
+  const [isProfitSplitMenuOpen, setIsProfitSplitMenuOpen] = useState(false);
   const [userName, setUserName] = useState(null);
 
   useEffect(() => {
     UIkit.use(Icons);
+    UIkit.update();
   }, []);
 
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
   };
 
-  const toggleTPSimulatorMenu = () => {
-    setIsTPSimulatorMenuOpen(!isTPSimulatorMenuOpen);
+  const toggleInterestRatesMenu = () => {
+    setIsInterestRatesMenuOpen(!isInterestRatesMenuOpen);
+  };
+
+  const toggleProfitSplitMenu = () => {
+    setIsProfitSplitMenuOpen(!isProfitSplitMenuOpen);
   };
 
   const { token, logout } = useAuth();
@@ -49,69 +55,87 @@ export default function Header() {
                 />
               </Link>
             </li>
-            <li>
-              <Link href="/information" passHref>
-                THE CONCEPT
-              </Link>
-            </li>
           </ul>
         </div>
         <div className="uk-navbar-right uk-margin-large-right">
           {token ? (
             <>
+              {/* Interest Rates Dropdown */}
               <div className="uk-inline">
                 <button
                   className="uk-button uk-button-default button-header uk-button-icon"
                   type="button"
-                  onClick={toggleTPSimulatorMenu}
+                  onClick={toggleInterestRatesMenu}
                   aria-haspopup="true"
-                  aria-expanded={isTPSimulatorMenuOpen}
+                  aria-expanded={isInterestRatesMenuOpen}
                 >
-                  <span data-uk-icon="icon: cog"></span> TP Simulator
+                  <span data-uk-icon="icon: arrow-up-right"></span> Interest
+                  Rates
                 </button>
                 <div
                   uk-dropdown="mode: click; pos: bottom-center"
-                  hidden={!isTPSimulatorMenuOpen}
+                  hidden={!isInterestRatesMenuOpen}
                   className="uk-dropdown"
                 >
                   <ul className="uk-nav uk-dropdown-nav">
-                    <li className="uk-parent">
-                      <a href="#" className="uk-text-bold">
+                    <li>
+                      <Link href="/interest-rates">
                         <span
-                          data-uk-icon="icon: arrow-up-right"
+                          data-uk-icon="icon: laptop"
                           className="uk-icon"
-                        ></span>
-                        Interest Rates
-                      </a>
-                      <ul className="uk-nav-sub">
-                        <li>
-                          <Link href="/interest-rates">Simulator</Link>
-                        </li>
-                        <li>
-                          <Link href="/interest-rates-history">History</Link>
-                        </li>
-                      </ul>
+                        ></span>{" "}
+                        <span>Simulator</span>
+                      </Link>
                     </li>
-                    <li className="uk-parent">
-                      <a href="#" className="uk-text-bold">
+                    <li>
+                      <Link href="/interest-rates-history">
+                        {" "}
                         <span
-                          data-uk-icon="icon: more"
+                          data-uk-icon="icon: list"
                           className="uk-icon"
                         ></span>
-                        Profit Split
-                      </a>
-                      <ul className="uk-nav-sub">
-                        <li>
-                          <Link href="/profit-split">Simulator</Link>
-                        </li>
-                        <li>
-                          <Link href="/profit-split-history">History</Link>
-                        </li>
-                      </ul>
+                        <span> History</span>
+                      </Link>
                     </li>
                   </ul>
                 </div>
               </div>
+
+              {/* Profit Split Dropdown */}
+              <div className="uk-inline">
+                <button
+                  className="uk-button uk-button-default button-header uk-button-icon"
+                  type="button"
+                  onClick={toggleProfitSplitMenu}
+                  aria-haspopup="true"
+                  aria-expanded={isProfitSplitMenuOpen}
+                >
+                  <span data-uk-icon="icon: more"></span> Profit Split
+                </button>
+                <div
+                  uk-dropdown="mode: click; pos: bottom-center"
+                  hidden={!isProfitSplitMenuOpen}
+                  className="uk-dropdown"
+                >
+                  <ul className="uk-nav uk-dropdown-nav">
+                    <li>
+                      <Link href="/profit-split">
+                        {" "}
+                        <span data-uk-icon="icon: laptop"></span>
+                        <span> Simulator</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/profit-split-history">
+                        {" "}
+                        <span data-uk-icon="icon: list"></span>
+                        <span> History</span>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
               <div className="uk-inline">
                 <button
                   className="uk-button uk-button-default button-header uk-button-icon"
