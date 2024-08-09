@@ -99,8 +99,8 @@ const ProfitSplit = () => {
 
   return (
     <div className="uk-container uk-container-small uk-margin-large-top uk-padding-large">
-      <h1 className="uk-text-center">
-        <span>Profit Split Simulator</span>
+      <h1 className="uk-text-center uk-margin-large-bottom">
+        <span>PROFIT SPLIT SIMULATOR</span>
       </h1>
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         <fieldset className="uk-fieldset">

@@ -104,13 +104,16 @@ const InterestRatesForm = () => {
 
   return (
     <div className="uk-container uk-container-small uk-margin-large-top uk-padding-large">
-      <h1 className="uk-text-center">
-        <span>Loan Information</span>
+      <h1 className="uk-text-center uk-margin-large-bottom">
+        <span>INTEREST RATES SIMULATOR</span>
       </h1>
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         {[
           { label: "Loan Amount (in thousands)", name: "Loan_Amount" },
-          { label: "Collateral Value (in thousands)", name: "Collateral_Value" },
+          {
+            label: "Collateral Value (in thousands)",
+            name: "Collateral_Value",
+          },
           { label: "Loan Term Years", name: "Loan_Term_Years" },
           { label: "Loan to Value Ratio", name: "Loan_to_Value_Ratio" },
           { label: "Debt to Income Ratio", name: "Debt_to_Income_Ratio" },
@@ -171,9 +174,12 @@ const InterestRatesForm = () => {
         )}
       </form>
       {prediction && (
-        <div className="uk-margin uk-alert-success uk-text-center" uk-alert="true">
+        <div
+          className="uk-margin uk-alert-success uk-text-center"
+          uk-alert="true"
+        >
           <p className="uk-text-large">
-            <strong>Predicted Interest Rate:</strong> {`${(prediction)}%`}
+            <strong>Predicted Interest Rate:</strong> {`${prediction}%`}
           </p>
           <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
             <button

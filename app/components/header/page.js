@@ -61,7 +61,7 @@ export default function Header() {
             <>
               <div className="uk-inline">
                 <button
-                  className="uk-button uk-button-default button-header"
+                  className="uk-button uk-button-default button-header uk-button-icon"
                   type="button"
                   onClick={toggleTPSimulatorMenu}
                   aria-haspopup="true"
@@ -76,24 +76,7 @@ export default function Header() {
                 >
                   <ul className="uk-nav uk-dropdown-nav">
                     <li className="uk-parent">
-                      <a href="#">
-                        <span
-                          data-uk-icon="icon: more"
-                          className="uk-icon"
-                        ></span>
-                        Profit Split
-                      </a>
-                      <ul className="uk-nav-sub">
-                        <li>
-                          <Link href="/profit-split">Simulator</Link>
-                        </li>
-                        <li>
-                          <Link href="/profit-split-history">History</Link>
-                        </li>
-                      </ul>
-                    </li>
-                    <li className="uk-parent">
-                      <a href="#">
+                      <a href="#" className="uk-text-bold">
                         <span
                           data-uk-icon="icon: arrow-up-right"
                           className="uk-icon"
@@ -109,12 +92,29 @@ export default function Header() {
                         </li>
                       </ul>
                     </li>
+                    <li className="uk-parent">
+                      <a href="#" className="uk-text-bold">
+                        <span
+                          data-uk-icon="icon: more"
+                          className="uk-icon"
+                        ></span>
+                        Profit Split
+                      </a>
+                      <ul className="uk-nav-sub">
+                        <li>
+                          <Link href="/profit-split">Simulator</Link>
+                        </li>
+                        <li>
+                          <Link href="/profit-split-history">History</Link>
+                        </li>
+                      </ul>
+                    </li>
                   </ul>
                 </div>
               </div>
               <div className="uk-inline">
                 <button
-                  className="uk-button uk-button-default button-header"
+                  className="uk-button uk-button-default button-header uk-button-icon"
                   type="button"
                   onClick={toggleUserMenu}
                   aria-haspopup="true"
@@ -123,7 +123,7 @@ export default function Header() {
                   <span data-uk-icon="icon: user" className="uk-icon"></span>
                 </button>
                 <div
-                  uk-dropdown="mode: click; pos: bottom-right"
+                  uk-dropdown="mode: click; pos: bottom-center"
                   hidden={!isUserMenuOpen}
                   className="custom-dropdown"
                 >

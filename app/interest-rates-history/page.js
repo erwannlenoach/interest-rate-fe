@@ -8,29 +8,27 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
 const interestRatesHistory = () => {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [loans, setLoans] = useState([]);
 
   useEffect(() => {
     const fetchLoans = async () => {
       try {
-          const token = sessionStorage.getItem("token");
-          const userId = user.id;
+        const token = sessionStorage.getItem("token");
+        const userId = user.id;
 
-          const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/loans`,
-            { userId },
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          setLoans(response.data.loans);
-        
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/loans`,
+          { userId },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setLoans(response.data.loans);
       } catch (error) {
         console.error("Failed to fetch loans", error);
       }
     };
 
-      fetchLoans();
-    
+    fetchLoans();
   }, [user]);
 
   const formatValue = (value, key) => {
@@ -112,7 +110,7 @@ const interestRatesHistory = () => {
           </table>
         </div>
       ) : (
-        <p>No loans available.</p>
+        <p className="uk-padding">No loans available.</p>
       )}
     </div>
   );

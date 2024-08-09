@@ -110,7 +110,7 @@ const ProfitSplitHistory = () => {
           </table>
         </div>
       ) : (
-        <p>No profit splits available.</p>
+        <p className="uk-padding">No profit splits available.</p>
       )}
     </div>
   );
