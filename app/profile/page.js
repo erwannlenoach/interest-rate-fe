@@ -43,8 +43,8 @@ const UserProfile = () => {
   return (
     <div className="uk-container uk-container-small uk-margin-large-top uk-margin-large-bottom uk-padding">
       <div className="user-info-container uk-container">
-      <h2 className="uk-heading-small uk-margin-bottom">
-        Personal Information
+      <h2 className="uk-heading-small uk-margin-large-bottom uk-text-center">
+        Account Settings
       </h2>
       <div
         className="uk-flex uk-flex-column"

@@ -51,13 +51,13 @@ const ConnexionInfo = ({ user }) => {
   };
 
   return (
-    <div className="uk-card uk-card-default uk-card-body">
+    <div className="uk-card uk-card-default uk-card-body uk-margin-bottom">
       <h3 className="uk-card-title uk-margin-medium-bottom">Connexion</h3>
       {error && <div className="uk-alert-danger uk-margin">{error}</div>}
       {success && <div className="uk-alert-success uk-margin">{success}</div>}
       <form
         onSubmit={handleUpdateUsername}
-        className="uk-form-stacked uk-padding"
+        className="uk-form-stacked"
       >
         <div className="uk-margin">
           <label className="uk-form-label" htmlFor="email">

@@ -50,12 +50,12 @@ const EditPassword = ({ user, token }) => {
 
   return (
     <div className="uk-card uk-card-default uk-card-body">
-      <h3 className="uk-card-title">Mot de passe</h3>
+      <h3 className="uk-card-title uk-margin-medium-bottom">Mot de passe</h3>
       {error && <div className="uk-alert-danger uk-margin">{error}</div>}
       {success && <div className="uk-alert-success uk-margin">{success}</div>}
       <form
         onSubmit={handleChangePassword}
-        className="uk-form-stacked uk-padding"
+        className="uk-form-stacked"
       >
         <div className="uk-margin">
           <label className="uk-form-label">Current Password</label>
