@@ -6,6 +6,8 @@ import "uikit/dist/css/uikit.min.css";
 import withAuth from "@/app/hoc/withAuth";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import "./styles.css";
+import Link from "next/link";
 
 const interestRatesHistory = () => {
   const { user } = useAuth();
@@ -65,10 +67,11 @@ const interestRatesHistory = () => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data }, useSortBy);
 
-  // Function to convert data to CSV format and trigger download
   const downloadCSV = () => {
     const csvData = loans.map((row) =>
-      columns.map((col) => formatValue(row[col.accessor], col.accessor)).join(",")
+      columns
+        .map((col) => formatValue(row[col.accessor], col.accessor))
+        .join(",")
     );
     const csvHeader = columns.map((col) => col.Header).join(",");
     const csvContent = [csvHeader, ...csvData].join("\n");
@@ -84,21 +87,15 @@ const interestRatesHistory = () => {
     document.body.removeChild(link);
   };
 
-  // Function to handle new simulation (could be a redirect or an action)
-  const runNewSimulation = () => {
-    // Redirect to a simulation page or trigger a simulation process
-    window.location.href = "/simulation"; // Replace with your actual simulation URL
-  };
-
   return (
-    <div className="uk-container uk-container-small uk-margin-large-top uk-padding-medium">
-      <h2 className="uk-text-center">Loan History</h2>
+    <div className="uk-container uk-margin-large-top uk-padding-medium table">
+      <h2 className="uk-text-center uk-margin-large-bottom">Loan History</h2>
       {loans?.length > 0 ? (
         <>
           <div className="uk-overflow-auto">
             <table
               {...getTableProps()}
-              className="uk-table uk-table-striped uk-table-hover uk-table-divider uk-margin-medium-bottom"
+              className="uk-table uk-table-striped uk-table-hover uk-table-divider uk-margin-large-bottom"
             >
               <thead>
                 {headerGroups.map((headerGroup) => (
@@ -139,21 +136,28 @@ const interestRatesHistory = () => {
           </div>
           <div className="uk-flex uk-flex-center uk-flex-middle uk-margin-top">
             <button
-              className="uk-button uk-button-primary uk-margin-right"
+              className="uk-button button-download uk-margin-right uk-border-rounded"
               onClick={downloadCSV}
             >
+              <span uk-icon="icon: download; ratio: 1.5"></span>{" "}
               Download CSV
             </button>
-            <button
-              className="uk-button uk-button-secondary"
-              onClick={runNewSimulation}
-            >
-              Run New Simulation
+            <button className="uk-button  uk-border-rounded">
+            <Link href="/interest-rates">
+              <span uk-icon="icon: laptop; ratio: 1.5"></span>{" "}
+              <span>New Simulation</span>
+            </Link>
             </button>
           </div>
         </>
       ) : (
-        <p className="uk-padding">No loans available.</p>
+        <div className="uk-container">
+          <p className="uk-padding">No loans available.</p>
+          <Link href="/interest-rates">
+            <span uk-icon="icon: laptop; ratio: 1.5"></span>{" "}
+            <span>New Simulation</span>
+          </Link>
+        </div>
       )}
     </div>
   );

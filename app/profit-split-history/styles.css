@@ -1,0 +1,10 @@
+.table {
+    min-height: 60rem;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  
+    min-height: 60rem;
+    flex-direction: column;
+  }
+  

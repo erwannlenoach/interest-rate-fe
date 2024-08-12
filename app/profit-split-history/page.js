@@ -6,6 +6,9 @@ import "uikit/dist/css/uikit.min.css";
 import withAuth from "@/app/hoc/withAuth";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import Link from "next/link";
+import './styles.css'
+
 
 const ProfitSplitHistory = () => {
   const { user } = useAuth();
@@ -65,14 +68,36 @@ const ProfitSplitHistory = () => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data }, useSortBy);
 
+    const downloadCSV = () => {
+      const csvData = profitSplits.map((row) =>
+        columns
+          .map((col) => formatValue(row[col.accessor], col.accessor))
+          .join(",")
+      );
+      const csvHeader = columns.map((col) => col.Header).join(",");
+      const csvContent = [csvHeader, ...csvData].join("\n");
+  
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", "profit_split_history.csv");
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
   return (
-    <div className="uk-container uk-container-small uk-margin-large-top uk-padding-medium">
-      <h2 className="uk-text-center">Profit Split History</h2>
+    <div className="uk-container uk-margin-large-top uk-padding-medium table">
+      <h2 className="uk-text-center uk-margin-large-bottom">Profit Split History</h2>
       {profitSplits?.length > 0 ? (
+                <>
+
         <div className="uk-overflow-auto">
           <table
             {...getTableProps()}
-            className="uk-table uk-table-striped uk-table-hover uk-table-divider uk-margin-medium-bottom"
+            className="uk-table uk-table-striped uk-table-hover uk-table-divider uk-margin-large-bottom"
           >
             <thead>
               {headerGroups.map((headerGroup) => (
@@ -108,10 +133,32 @@ const ProfitSplitHistory = () => {
               })}
             </tbody>
           </table>
-        </div>
-      ) : (
-        <p className="uk-padding">No profit splits available.</p>
-      )}
+          </div>
+          <div className="uk-flex uk-flex-center uk-flex-middle uk-margin-top">
+            <button
+              className="uk-button button-download uk-margin-right uk-border-rounded"
+              onClick={downloadCSV}
+            >
+              <span uk-icon="icon: download; ratio: 1.5"></span>{" "}
+              Download CSV
+            </button>
+            <button className="uk-button  uk-border-rounded">
+            <Link href="/interest-rates">
+              <span uk-icon="icon: laptop; ratio: 1.5"></span>{" "}
+              <span>New Simulation</span>
+            </Link>
+            </button>
+          </div>
+        </>
+   ) : (
+    <div className="uk-container">
+      <p className="uk-padding">No data available.</p>
+      <Link href="/profit-rates">
+        <span uk-icon="icon: laptop; ratio: 1.5"></span>{" "}
+        <span>New Simulation</span>
+      </Link>
+    </div>
+  )}
     </div>
   );
 };
