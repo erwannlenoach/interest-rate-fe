@@ -214,7 +214,7 @@ const ProfitSplit = () => {
           ))}
         </fieldset>
         {!prediction && (
-          <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
+          <div className="uk-margin uk-flex uk-flex-center uk-flex-middle uk-margin-medium-top">
             <button
               type="submit"
               className="uk-button uk-button-primary uk-border-rounded"

@@ -53,7 +53,7 @@ const InterestRatesForm = () => {
 
         const formDataToSend = {
           ...formData,
-          Loan_Amount: parseFloat(formData.Loan_Amount) * 1000, 
+          Loan_Amount: parseFloat(formData.Loan_Amount) * 1000,
           Collateral_Value: parseFloat(formData.Collateral_Value) * 1000,
           Annual_Income: parseFloat(formData.Annual_Income) * 1000,
         };
@@ -162,7 +162,7 @@ const InterestRatesForm = () => {
           </div>
         ))}
         {!prediction && (
-          <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
+          <div className="uk-margin uk-flex uk-flex-center uk-flex-middle uk-margin-medium-top">
             <button
               type="submit"
               className="uk-button uk-button-primary uk-border-rounded"
