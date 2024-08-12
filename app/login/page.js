@@ -82,7 +82,7 @@ const LoginPage = () => {
             <button
               type="submit"
               className="uk-button uk-button-primary uk-border-rounded"
-              disabled={isLoading} // Disable button when loading
+              disabled={isLoading} 
             >
               {isLoading ? "Logging in..." : "Log in"} {/* Show loading text */}
             </button>
