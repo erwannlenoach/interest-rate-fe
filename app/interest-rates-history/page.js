@@ -2,14 +2,14 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
-import "uikit/dist/css/uikit.min.css";
 import withAuth from "@/app/hoc/withAuth";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import "./styles.css";
+import NoDataAvailable from "../components/no-data/page";
 import Link from "next/link";
+import "./styles.css";
 
-const interestRatesHistory = () => {
+const InterestRatesHistory = () => {
   const { user } = useAuth();
   const [loans, setLoans] = useState([]);
 
@@ -88,8 +88,10 @@ const interestRatesHistory = () => {
   };
 
   return (
-    <div className="uk-container uk-margin-large-top uk-padding-medium table">
-      <h2 className="uk-text-center uk-margin-large-bottom">Loan History</h2>
+    <div className="uk-container uk-padding-medium table">
+      <h1 className="uk-text-center uk-margin-large-bottom">
+        <span>INTEREST RATES HISTORY</span>
+      </h1>{" "}
       {loans?.length > 0 ? (
         <>
           <div className="uk-overflow-auto">
@@ -139,28 +141,25 @@ const interestRatesHistory = () => {
               className="uk-button button-download uk-margin-right uk-border-rounded"
               onClick={downloadCSV}
             >
-              <span uk-icon="icon: download; ratio: 1.5"></span>{" "}
-              Download CSV
+              <span uk-icon="icon: download; ratio: 1.5"></span> Download CSV
             </button>
             <button className="uk-button  uk-border-rounded">
-            <Link href="/interest-rates">
-              <span uk-icon="icon: laptop; ratio: 1.5"></span>{" "}
-              <span>New Simulation</span>
-            </Link>
+              <Link href="/interest-rates">
+                <span uk-icon="icon: laptop; ratio: 1.5"></span>{" "}
+                <span>New Simulation</span>
+              </Link>
             </button>
           </div>
         </>
       ) : (
-        <div className="uk-container">
-          <p className="uk-padding">No loans available.</p>
-          <Link href="/interest-rates">
-            <span uk-icon="icon: laptop; ratio: 1.5"></span>{" "}
-            <span>New Simulation</span>
-          </Link>
-        </div>
+        <NoDataAvailable
+          gifSrc="/travolta-desert.gif"
+          buttonText="New Simulation"
+          buttonUrl="/interest-rates"
+        />
       )}
     </div>
   );
 };
 
-export default withAuth(interestRatesHistory);
+export default withAuth(InterestRatesHistory);
