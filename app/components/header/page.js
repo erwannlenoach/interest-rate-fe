@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useAuth } from "../../context/AuthContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
@@ -15,10 +15,16 @@ export default function Header() {
   const [isProfitSplitMenuOpen, setIsProfitSplitMenuOpen] = useState(false);
   const [userName, setUserName] = useState(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     UIkit.use(Icons);
     UIkit.update();
   }, []);
+
+  useEffect(() => {
+    if (isUserMenuOpen || isInterestRatesMenuOpen || isProfitSplitMenuOpen) {
+        UIkit.update();
+    }
+}, [isUserMenuOpen, isInterestRatesMenuOpen, isProfitSplitMenuOpen]);
 
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
@@ -149,7 +155,7 @@ export default function Header() {
                 <div
                   uk-dropdown="mode: hover; pos: bottom-center"
                   hidden={!isUserMenuOpen}
-                  className="custom-dropdown uk-border-rounded"
+                  className="uk-dropdown uk-border-rounded"
                 >
                   <div className="uk-card uk-card-body uk-card-default uk-margin-bottom uk-text-center">
                     <span
@@ -195,7 +201,7 @@ export default function Header() {
               <div
                 uk-dropdown="mode: hover; pos: bottom-center"
                 hidden={!isUserMenuOpen}
-                className="custom-dropdown"
+                className="uk-dropdown uk-border-rounded"
               >
                 <ul className="uk-nav uk-dropdown-nav header-dropdown">
                   <li>

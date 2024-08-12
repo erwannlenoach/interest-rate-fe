@@ -32,9 +32,8 @@
 }
 
 .subtitle {
-  font-family: "Roboto", sans-serif;
-  font-size: 1.25rem; /* Adjust font size as needed */
   color: white; /* Ensure text is readable against background */
+  font-size: 1.5rem;
   margin-bottom: 2rem;
 }
 

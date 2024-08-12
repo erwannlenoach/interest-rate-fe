@@ -51,10 +51,9 @@ const InterestRatesForm = () => {
         const decodedToken = jwtDecode(token);
         const username = decodedToken.username;
 
-        // Convert the relevant fields from thousands to nominal value
         const formDataToSend = {
           ...formData,
-          Loan_Amount: parseFloat(formData.Loan_Amount) * 1000,
+          Loan_Amount: parseFloat(formData.Loan_Amount) * 1000, 
           Collateral_Value: parseFloat(formData.Collateral_Value) * 1000,
           Annual_Income: parseFloat(formData.Annual_Income) * 1000,
         };

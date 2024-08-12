@@ -8,10 +8,15 @@ import "./styles.css";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true); 
+    setError(""); 
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
@@ -23,20 +28,24 @@ const LoginPage = () => {
           body: JSON.stringify({ email, password }),
         }
       );
+
       const data = await response.json();
+      setIsLoading(false); // Stop loading
       if (response.ok) {
         login(data.token);
       } else {
-        console.error(data.message);
+        setError(data.message || "Invalid email or password."); // Set error message
       }
     } catch (error) {
+      setIsLoading(false); // Stop loading
+      setError("An error occurred. Please try again."); // Set error message
       console.error("Error logging in:", error);
     }
   };
 
   return (
     <div className="login-container">
-      <div className="logo-container uk-margin" >
+      <div className="logo-container uk-margin">
         <img
           src="/logo.svg"
           alt="Profile Icon"
@@ -44,9 +53,10 @@ const LoginPage = () => {
         />
       </div>
       <div className="login-form-container">
-      <h3 className="uk-text-large uk-text-center uk-text-emphasis">
+        <h3 className="uk-text-large uk-text-center uk-text-emphasis">
           Log in to your account
         </h3>
+        {error && <div className="uk-alert-danger uk-margin">{error}</div>}
         <form onSubmit={handleLogin}>
           <div className="uk-margin">
             <input
@@ -55,6 +65,7 @@ const LoginPage = () => {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           <div className="uk-margin">
@@ -64,24 +75,26 @@ const LoginPage = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           <div className="uk-flex uk-flex-center uk-flex-middle">
             <button
               type="submit"
               className="uk-button uk-button-primary uk-border-rounded"
+              disabled={isLoading} // Disable button when loading
             >
-              Log in
+              {isLoading ? "Logging in..." : "Log in"} {/* Show loading text */}
             </button>
           </div>
         </form>
         <div>
           <p className="uk-text-center uk-margin-top">
-            You don't have an account yet ?{" "}
+            You don't have an account yet?{" "}
             <Link href="/signup">Sign up</Link>
           </p>
           <p className="uk-text-center uk-margin-top">
-            Forgot your password ?{" "}
+            Forgot your password?{" "}
             <Link href="/forgot-password">Reset your password</Link>
           </p>
         </div>

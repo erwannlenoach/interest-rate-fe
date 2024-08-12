@@ -30,50 +30,37 @@
   display: block;
 }
 
-.custom-dropdown a:hover {
-  background: #f0f0f0;
-}
-
 .custom-navbar {
   padding: 10px 20px;
 }
 
-/* styles.css */
 .uk-button-icon {
   padding: 30px !important;
-  cursor: pointer; /* Change le curseur pour indiquer qu'il est cliquable */
+  cursor: pointer; 
 }
 
 .uk-button-icon:hover .uk-icon {
-  color: lightgray; /* Ajoutez un effet de survol */
+  color: lightgray; 
 }
 
 /* styles.css */
 .uk-button-icon .uk-icon {
-  color: white; /* Change la couleur de l'icône en blanc */
-  width: 24px; /* Ajustez la taille selon vos besoins */
-  height: 24px; /* Ajustez la taille selon vos besoins */
+  color: white;
+  width: 24px; 
+  height: 24px;
 }
 
 .uk-button-icon:hover .uk-icon {
-  color: lightgray; /* Ajoutez un effet de survol */
-}
-
-/* styles.css */
-.custom-dropdown {
-  top: 100%; /* Positionne le dropdown juste en dessous du bouton */
-  left: 0;
+  color: lightgray; 
 }
 
 .button-header {
-  border: none !important; /* Remove border */
-  color: white !important; /* Set text color to white */
-  font-size: 16px; /* Adjust font size if needed */
-  padding: 10px 20px; /* Adjust padding if needed */
-  cursor: pointer; /* Add pointer cursor for button */
+  border: none !important; 
+  color: white !important;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
 .button-header:hover {
-  color: #ddd; /* Lighter color on hover */
+  color: #ddd;
 }
-
