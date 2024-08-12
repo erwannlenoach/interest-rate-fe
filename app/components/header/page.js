@@ -69,7 +69,7 @@ export default function Header() {
                   aria-haspopup="true"
                   aria-expanded={isInterestRatesMenuOpen}
                 >
-                  <span data-uk-icon="icon: arrow-up-right"></span> Interest
+                  <span uk-icon="icon: arrow-up-right; ratio 2"></span> Interest
                   Rates
                 </button>
                 <div
@@ -80,10 +80,7 @@ export default function Header() {
                   <ul className="uk-nav uk-dropdown-nav">
                     <li>
                       <Link href="/interest-rates">
-                        <span
-                          data-uk-icon="icon: laptop"
-                          className="uk-icon"
-                        ></span>{" "}
+                        <span uk-icon="icon: laptop" className="uk-icon"></span>{" "}
                         <span>Simulator</span>
                       </Link>
                     </li>
@@ -91,7 +88,7 @@ export default function Header() {
                       <Link href="/interest-rates-history">
                         {" "}
                         <span
-                          data-uk-icon="icon: list"
+                          uk-icon="icon: list; ratio 1.5"
                           className="uk-icon"
                         ></span>
                         <span> History</span>
@@ -110,7 +107,7 @@ export default function Header() {
                   aria-haspopup="true"
                   aria-expanded={isProfitSplitMenuOpen}
                 >
-                  <span data-uk-icon="icon: more"></span> Profit Split
+                  <span uk-icon="icon: more; ratio 1.5"></span> Profit Split
                 </button>
                 <div
                   uk-dropdown="mode: click; pos: bottom-center"
@@ -121,14 +118,14 @@ export default function Header() {
                     <li>
                       <Link href="/profit-split">
                         {" "}
-                        <span data-uk-icon="icon: laptop"></span>
+                        <span uk-icon="icon: laptop; ratio 1.5"></span>
                         <span> Simulator</span>
                       </Link>
                     </li>
                     <li>
                       <Link href="/profit-split-history">
                         {" "}
-                        <span data-uk-icon="icon: list"></span>
+                        <span uk-icon="icon: list; ratio 1.5"></span>
                         <span> History</span>
                       </Link>
                     </li>
@@ -144,7 +141,10 @@ export default function Header() {
                   aria-haspopup="true"
                   aria-expanded={isUserMenuOpen}
                 >
-                  <span data-uk-icon="icon: user" className="uk-icon"></span>
+                  <span
+                    uk-icon="icon: user; ratio 1.5"
+                    className="uk-icon"
+                  ></span>
                 </button>
                 <div
                   uk-dropdown="mode: click; pos: bottom-center"
@@ -152,14 +152,17 @@ export default function Header() {
                   className="custom-dropdown uk-border-rounded"
                 >
                   <div className="uk-card uk-card-body uk-card-default uk-margin-bottom uk-text-center">
-                    <span data-uk-icon="icon: mail" className="uk-icon"></span>
+                    <span
+                      uk-icon="icon: mail; ratio 1.5"
+                      className="uk-icon"
+                    ></span>
                     <p className="uk-card-title uk-text-center">{userName}</p>
                   </div>
                   <ul className="uk-nav uk-dropdown-nav">
                     <li>
                       <Link href="/profile" passHref>
                         <span
-                          data-uk-icon="icon: settings"
+                          uk-icon="icon: settings"
                           className="uk-icon"
                         ></span>
                         Account Settings
@@ -168,7 +171,7 @@ export default function Header() {
                     <li>
                       <a onClick={logout}>
                         <span
-                          data-uk-icon="icon: sign-out"
+                          uk-icon="icon: sign-out; ratio 1.5"
                           className="uk-icon"
                         ></span>
                         Sign out
@@ -187,7 +190,7 @@ export default function Header() {
                 aria-haspopup="true"
                 aria-expanded={isUserMenuOpen}
               >
-                <span data-uk-icon="icon: user" className="uk-icon"></span>
+                <span uk-icon="icon: user" className="uk-icon"></span>
               </button>
               <div
                 uk-dropdown="mode: click; pos: bottom-center"
@@ -198,7 +201,7 @@ export default function Header() {
                   <li>
                     <Link href="/signup" passHref>
                       <span
-                        data-uk-icon="icon: file-edit"
+                        uk-icon="icon: file-edit"
                         className="uk-icon"
                       ></span>
                       Sign Up
@@ -206,10 +209,7 @@ export default function Header() {
                   </li>
                   <li>
                     <Link href="/login" passHref>
-                      <span
-                        data-uk-icon="icon: sign-in"
-                        className="uk-icon"
-                      ></span>
+                      <span uk-icon="icon: sign-in" className="uk-icon"></span>
                       Login
                     </Link>
                   </li>

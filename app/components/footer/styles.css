@@ -1,0 +1,23 @@
+.footer-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer-link:hover {
+  color: #fff;
+}
+
+.uk-icon-link {
+  color: #fff !important;
+  margin: 10px !important;
+}
+
+.uk-icon-mail {
+  margin-top: 4px !important;
+}
+
+.icon-container {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
