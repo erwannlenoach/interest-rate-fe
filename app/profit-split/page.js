@@ -1,5 +1,4 @@
 "use client";
-
 import axios from "axios";
 import { useState } from "react";
 import "uikit/dist/css/uikit.min.css";
@@ -106,25 +105,67 @@ const ProfitSplit = () => {
         <fieldset className="uk-fieldset">
           <legend className="uk-legend">Headquarters</legend>
           {[
-            { label: " Revenue (in thousands of $)", name: "hq_revenue" },
-            { label: " Cost (in thousands of $)", name: "hq_cost" },
-            { label: " Profit (in thousands of $)", name: "hq_profit" },
-            { label: " Assets (in thousands of $)", name: "hq_assets" },
-            { label: " Liabilities (in thousands of $)", name: "hq_liabilities" },
+            { 
+              label: "Revenue (in thousands of $)", 
+              name: "hq_revenue", 
+              min: 1000, 
+              max: 1000000, 
+              step: 1000,
+              tooltip: "Enter the headquarters' revenue in thousands of dollars as per the latest financial statements."
+            },
+            { 
+              label: "Cost (in thousands of $)", 
+              name: "hq_cost", 
+              min: 1000, 
+              max: 1000000, 
+              step: 1000,
+              tooltip: "Enter the headquarters' costs in thousands of dollars as per the latest financial statements."
+            },
+            { 
+              label: "Profit (in thousands of $)", 
+              name: "hq_profit", 
+              min: 1000, 
+              max: 1000000, 
+              step: 1000,
+              tooltip: "Enter the headquarters' profit in thousands of dollars as per the latest financial statements."
+            },
+            { 
+              label: "Assets (in thousands of $)", 
+              name: "hq_assets", 
+              min: 1000, 
+              max: 1000000, 
+              step: 1000,
+              tooltip: "Enter the total assets of the headquarters in thousands of dollars as per the latest financial statements."
+            },
+            { 
+              label: "Liabilities (in thousands of $)", 
+              name: "hq_liabilities", 
+              min: 1000, 
+              max: 1000000, 
+              step: 1000,
+              tooltip: "Enter the total liabilities of the headquarters in thousands of dollars as per the latest financial statements."
+            },
             {
-              label: " Industry",
+              label: "Industry",
               name: "hq_industry",
               options: industriesProfitSplit,
+              tooltip: "Select the industry in which the headquarters operates."
             },
             {
               label: "Function",
               name: "hq_function",
               options: functionsProfitSplit,
+              tooltip: "Select the primary function of the headquarters."
             },
           ].map((field, index) => (
             <div className="uk-margin" key={index}>
               <label className="uk-form-label" htmlFor={field.name}>
-                {field.label}
+                {field.label}{" "}
+                <span 
+                  uk-icon="icon: question; ratio: 0.75" 
+                  uk-tooltip={field.tooltip}
+                  className="uk-icon"
+                ></span>
               </label>
               <div className="uk-form-controls">
                 {field.options ? (
@@ -151,6 +192,9 @@ const ProfitSplit = () => {
                     name={field.name}
                     value={formData[field.name]}
                     onChange={handleChange}
+                    min={field.min}
+                    max={field.max}
+                    step={field.step}
                     required
                   />
                 )}
@@ -161,25 +205,67 @@ const ProfitSplit = () => {
         <fieldset className="uk-fieldset uk-margin-top">
           <legend className="uk-legend">Subsidiary</legend>
           {[
-            { label: "Revenue (in thousands of $)", name: "subs_revenue" },
-            { label: "Cost (in thousands of $)", name: "subs_cost" },
-            { label: "Profit (in thousands of $)", name: "subs_profit" },
-            { label: "Assets (in thousands of $)", name: "subs_assets" },
-            { label: "Liabilities (in thousands of $)", name: "subs_liabilities" },
+            { 
+              label: "Revenue (in thousands of $)", 
+              name: "subs_revenue", 
+              min: 1000, 
+              max: 1000000, 
+              step: 1000,
+              tooltip: "Enter the subsidiary's revenue in thousands of dollars as per the latest financial statements."
+            },
+            { 
+              label: "Cost (in thousands of $)", 
+              name: "subs_cost", 
+              min: 1000, 
+              max: 1000000, 
+              step: 1000,
+              tooltip: "Enter the subsidiary's costs in thousands of dollars as per the latest financial statements."
+            },
+            { 
+              label: "Profit (in thousands of $)", 
+              name: "subs_profit", 
+              min: 1000, 
+              max: 1000000, 
+              step: 1000,
+              tooltip: "Enter the subsidiary's profit in thousands of dollars as per the latest financial statements."
+            },
+            { 
+              label: "Assets (in thousands of $)", 
+              name: "subs_assets", 
+              min: 1000, 
+              max: 1000000, 
+              step: 1000,
+              tooltip: "Enter the total assets of the subsidiary in thousands of dollars as per the latest financial statements."
+            },
+            { 
+              label: "Liabilities (in thousands of $)", 
+              name: "subs_liabilities", 
+              min: 1000, 
+              max: 1000000, 
+              step: 1000,
+              tooltip: "Enter the total liabilities of the subsidiary in thousands of dollars as per the latest financial statements."
+            },
             {
               label: "Industry",
               name: "subs_industry",
               options: industriesProfitSplit,
+              tooltip: "Select the industry in which the subsidiary operates."
             },
             {
               label: "Function",
               name: "subs_function",
               options: functionsProfitSplit,
+              tooltip: "Select the primary function of the subsidiary."
             },
           ].map((field, index) => (
             <div className="uk-margin" key={index}>
               <label className="uk-form-label" htmlFor={field.name}>
-                {field.label}
+                {field.label}{" "}
+                <span 
+                  uk-icon="icon: question; ratio: 0.75" 
+                  uk-tooltip={field.tooltip}
+                  className="uk-icon"
+                ></span>
               </label>
               <div className="uk-form-controls">
                 {field.options ? (
@@ -206,6 +292,9 @@ const ProfitSplit = () => {
                     name={field.name}
                     value={formData[field.name]}
                     onChange={handleChange}
+                    min={field.min}
+                    max={field.max}
+                    step={field.step}
                     required
                   />
                 )}

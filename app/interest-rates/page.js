@@ -108,27 +108,86 @@ const InterestRatesForm = () => {
       </h1>
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         {[
-          { label: "Loan Amount (in thousands of $)", name: "Loan_Amount" },
-          {
-            label: "Collateral Value (in thousands of $)",
-            name: "Collateral_Value",
+          { 
+            label: "Loan Amount (in thousands of $)", 
+            name: "Loan_Amount", 
+            min: 1000, 
+            max: 1000000, 
+            step: 1000,
+            tooltip: "Enter the amount of the loan in thousands of dollars. The value should be between $1 million and $1 trillion."
           },
-          { label: "Loan Term Years", name: "Loan_Term_Years" },
-          { label: "Loan to Value Ratio", name: "Loan_to_Value_Ratio" },
-          { label: "Debt to Income Ratio", name: "Debt_to_Income_Ratio" },
-          { label: "Annual Income of the borrower (in thousands of $)", name: "Annual_Income" },
-          { label: "Sector", name: "Sector", options: industrySectors },
-          { label: "Region", name: "Region", options: regions },
-          {
-            label: "Assigned Credit Rating",
-            name: "Assigned_Credit_Rating",
+          { 
+            label: "Collateral Value (in thousands of $)", 
+            name: "Collateral_Value", 
+            min: 1000, 
+            max: 1000000, 
+            step: 1000,
+            tooltip: "Enter the collateral value associated with the loan in thousands of dollars. The value should match the significance of the loan amount."
+          },
+          { 
+            label: "Loan Term Years", 
+            name: "Loan_Term_Years", 
+            min: 0.25, 
+            max: 50, 
+            step: 0.25,
+            tooltip: "Enter the duration of the loan in years. It should be at least 3 months (0.25 years) and no more than 50 years."
+          },
+          { 
+            label: "Loan to Value Ratio", 
+            name: "Loan_to_Value_Ratio", 
+            min: 0, 
+            max: 100, 
+            step: 0.01,
+            tooltip: "Enter the loan to value ratio as a percentage. The value should be between 0% and 100%."
+          },
+          { 
+            label: "Debt to Income Ratio", 
+            name: "Debt_to_Income_Ratio", 
+            min: 0, 
+            max: 100, 
+            step: 0.01,
+            tooltip: "Enter the debt to income ratio as a percentage. The value should be between 0% and 100%."
+          },
+          { 
+            label: "Annual Income of the borrower (in thousands of $)", 
+            name: "Annual_Income", 
+            min: 10, 
+            max: 100000, 
+            step: 10,
+            tooltip: "Enter the borrower's annual income in thousands of dollars. The value should be between $10,000 and $100 billion."
+          },
+          { 
+            label: "Sector", 
+            name: "Sector", 
+            options: industrySectors,
+            tooltip: "Select the sector in which the borrower operates."
+          },
+          { 
+            label: "Region", 
+            name: "Region", 
+            options: regions,
+            tooltip: "Select the region where the borrower is based."
+          },
+          { 
+            label: "Assigned Credit Rating", 
+            name: "Assigned_Credit_Rating", 
             options: creditRatings,
+            tooltip: "Select the credit rating assigned to the borrower."
           },
-          { label: "Subordination", name: "Subordination" },
+          { 
+            label: "Subordination", 
+            name: "Subordination",
+            tooltip: "Enter any subordination details related to the loan."
+          },
         ].map((field, index) => (
           <div className="uk-margin" key={index}>
             <label className="uk-form-label" htmlFor={field.name}>
-              {field.label}
+              {field.label}{" "}
+              <span 
+                uk-icon="icon: question; ratio: 0.75" 
+                uk-tooltip={field.tooltip}
+                className="uk-icon"
+              ></span>
             </label>
             <div className="uk-form-controls">
               {field.options ? (
@@ -155,6 +214,9 @@ const InterestRatesForm = () => {
                   name={field.name}
                   value={formData[field.name]}
                   onChange={handleChange}
+                  min={field.min}
+                  max={field.max}
+                  step={field.step}
                   required
                 />
               )}
