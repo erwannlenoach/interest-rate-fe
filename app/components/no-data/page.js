@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import "uikit/dist/css/uikit.min.css";
+import './styles.css'
 
 const NoDataAvailable = ({ gifSrc, buttonText, buttonUrl }) => {
   return (
@@ -8,7 +9,7 @@ const NoDataAvailable = ({ gifSrc, buttonText, buttonUrl }) => {
       <img
         src={gifSrc}
         alt="No Data Available"
-        style={{ maxWidth: "700px", margin: "20px auto" }}
+        className="image-no-data"
       />
       <div className="uk-margin-large-top">
         <Link href={buttonUrl}>

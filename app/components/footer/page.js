@@ -8,7 +8,7 @@ import "./styles.css";
 export default function Footer() {
   return (
     <footer className="uk-section-secondary uk-light uk-padding">
-      <div className="uk-container uk-flex uk-flex-between uk-flex-middle">
+      <div className="uk-container uk-flex uk-flex-between uk-flex-middle container-footer">
         <div className="uk-flex">
           <Link href="/documentation" className="uk-margin-right footer-link">
             DOCUMENTATION

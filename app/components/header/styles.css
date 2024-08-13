@@ -1,3 +1,15 @@
+
+@media (max-width: 670px) {
+  .custom-navbar {
+    display: flex;
+    flex-direction: column 
+  }
+  .navbar-elements-container {
+    display: flex;
+    flex-direction: column 
+  }
+}
+
 .uk-button-icon {
   border: none;
   background: none;
@@ -32,6 +44,8 @@
 
 .custom-navbar {
   padding: 10px 20px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .uk-button-icon {

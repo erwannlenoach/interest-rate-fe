@@ -63,7 +63,7 @@ export default function Header() {
             </li>
           </ul>
         </div>
-        <div className="uk-navbar-right uk-margin-large-right">
+        <div className="navbar-elements-container">
           {token ? (
             <>
               {/* Interest Rates Dropdown */}

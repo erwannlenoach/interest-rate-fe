@@ -1,0 +1,10 @@
+@media (max-width: 450px) {
+  .image-not-data {
+    max-width: 20rem;
+  }
+}
+
+.image-not-data {
+  width: 700px;
+  margin: 20px auto;
+}
