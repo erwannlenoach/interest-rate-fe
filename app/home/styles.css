@@ -18,26 +18,17 @@
   justify-content: center;
   gap: 10px;
 }
-.uk-border-rounded {
-  border-radius: 8px; /* Adjust the rounded corners */
-}
 
-/* Title and Subtitle Styles */
 .title {
   font-family: "Montserrat", sans-serif;
-  font-size: 3rem; /* Adjust font size as needed */
+  font-size: 3rem;
   font-weight: bold;
-  color: white; /* Ensure text is readable against background */
+  color: white;
   margin-bottom: 1rem;
 }
 
 .subtitle {
-  color: white; /* Ensure text is readable against background */
+  color: white;
   font-size: 1.5rem;
   margin-bottom: 2rem;
-}
-
-/* Button Styles */
-.uk-button-primary {
-  background-color: #32d296; /* Adjust the button color */
 }

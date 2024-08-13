@@ -78,3 +78,7 @@
 .button-header:hover {
   color: #ddd;
 }
+
+.div-icon-user {
+  align-self: center;
+}

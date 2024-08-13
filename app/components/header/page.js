@@ -139,7 +139,7 @@ export default function Header() {
                 </div>
               </div>
 
-              <div className="uk-inline">
+              <div className="uk-inline div-icon-user">
                 <button
                   className="uk-button uk-button-default button-header uk-button-icon"
                   type="button"
@@ -188,7 +188,7 @@ export default function Header() {
               </div>
             </>
           ) : (
-            <div className="uk-inline">
+            <div className="uk-inline div-icon-user">
               <button
                 className="uk-button-icon"
                 type="button"

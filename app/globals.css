@@ -43,6 +43,11 @@ a:hover {
   text-decoration: underline;
 }
 
+.uk-form-label {
+  font-size: 1.25rem; 
+  font-weight: bold; 
+}
+
 .uk-border-rounded {
   border-radius: 8px;
 }
