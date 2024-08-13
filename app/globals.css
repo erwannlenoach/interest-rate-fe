@@ -51,3 +51,7 @@ a:hover {
 .uk-border-rounded {
   border-radius: 8px;
 }
+
+input {
+  font: size 1rem, i !important;
+}

@@ -108,15 +108,15 @@ const InterestRatesForm = () => {
       </h1>
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         {[
-          { label: "Loan Amount (in thousands)", name: "Loan_Amount" },
+          { label: "Loan Amount (in thousands of $)", name: "Loan_Amount" },
           {
-            label: "Collateral Value (in thousands)",
+            label: "Collateral Value (in thousands of $)",
             name: "Collateral_Value",
           },
           { label: "Loan Term Years", name: "Loan_Term_Years" },
           { label: "Loan to Value Ratio", name: "Loan_to_Value_Ratio" },
           { label: "Debt to Income Ratio", name: "Debt_to_Income_Ratio" },
-          { label: "Annual Income (in thousands)", name: "Annual_Income" },
+          { label: "Annual Income of the borrower (in thousands of $)", name: "Annual_Income" },
           { label: "Sector", name: "Sector", options: industrySectors },
           { label: "Region", name: "Region", options: regions },
           {
@@ -151,7 +151,7 @@ const InterestRatesForm = () => {
                 <input
                   className="uk-input"
                   id={field.name}
-                  type="text"
+                  type="number"
                   name={field.name}
                   value={formData[field.name]}
                   onChange={handleChange}

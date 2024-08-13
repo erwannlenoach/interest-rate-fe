@@ -44,7 +44,7 @@ const ProfitSplit = () => {
         const decodedToken = jwtDecode(token);
         const username = decodedToken.username;
 
-        // Convert the relevant fields from thousands to nominal value
+        // Convert the relevant fields from thousands of $ to nominal value
         const formDataToSend = {
           ...formData,
           hq_revenue: parseFloat(formData.hq_revenue) * 1000,
@@ -106,11 +106,11 @@ const ProfitSplit = () => {
         <fieldset className="uk-fieldset">
           <legend className="uk-legend">Headquarters</legend>
           {[
-            { label: " Revenue (in thousands)", name: "hq_revenue" },
-            { label: " Cost (in thousands)", name: "hq_cost" },
-            { label: " Profit (in thousands)", name: "hq_profit" },
-            { label: " Assets (in thousands)", name: "hq_assets" },
-            { label: " Liabilities (in thousands)", name: "hq_liabilities" },
+            { label: " Revenue (in thousands of $)", name: "hq_revenue" },
+            { label: " Cost (in thousands of $)", name: "hq_cost" },
+            { label: " Profit (in thousands of $)", name: "hq_profit" },
+            { label: " Assets (in thousands of $)", name: "hq_assets" },
+            { label: " Liabilities (in thousands of $)", name: "hq_liabilities" },
             {
               label: " Industry",
               name: "hq_industry",
@@ -161,11 +161,11 @@ const ProfitSplit = () => {
         <fieldset className="uk-fieldset uk-margin-top">
           <legend className="uk-legend">Subsidiary</legend>
           {[
-            { label: "Revenue (in thousands)", name: "subs_revenue" },
-            { label: "Cost (in thousands)", name: "subs_cost" },
-            { label: "Profit (in thousands)", name: "subs_profit" },
-            { label: "Assets (in thousands)", name: "subs_assets" },
-            { label: "Liabilities (in thousands)", name: "subs_liabilities" },
+            { label: "Revenue (in thousands of $)", name: "subs_revenue" },
+            { label: "Cost (in thousands of $)", name: "subs_cost" },
+            { label: "Profit (in thousands of $)", name: "subs_profit" },
+            { label: "Assets (in thousands of $)", name: "subs_assets" },
+            { label: "Liabilities (in thousands of $)", name: "subs_liabilities" },
             {
               label: "Industry",
               name: "subs_industry",
