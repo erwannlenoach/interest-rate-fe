@@ -22,9 +22,9 @@ export default function Header() {
 
   useEffect(() => {
     if (isUserMenuOpen || isInterestRatesMenuOpen || isProfitSplitMenuOpen) {
-        UIkit.update();
+      UIkit.update();
     }
-}, [isUserMenuOpen, isInterestRatesMenuOpen, isProfitSplitMenuOpen]);
+  }, [isUserMenuOpen, isInterestRatesMenuOpen, isProfitSplitMenuOpen]);
 
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
@@ -75,8 +75,8 @@ export default function Header() {
                   aria-haspopup="true"
                   aria-expanded={isInterestRatesMenuOpen}
                 >
-                  <span uk-icon="icon: arrow-up-right; ratio: 2"></span> Interest
-                  Rates
+                  <span uk-icon="icon: arrow-up-right; ratio: 2"></span>{" "}
+                  Interest Rates
                 </button>
                 <div
                   uk-dropdown="mode: hover; pos: bottom-center"
@@ -138,6 +138,22 @@ export default function Header() {
                   </ul>
                 </div>
               </div>
+              {/* Documentation Link */}
+              <div className="uk-inline div-icon-docs">
+                <Link href="/documentation">
+                  <button
+                    className="uk-button uk-button-default button-header uk-button-icon"
+                    type="button"
+                    aria-haspopup="true"
+                  >
+                    <span
+                      uk-icon="icon: info; ratio: 1.5"
+                      className="uk-icon"
+                    ></span>
+                    <span> Documentation</span>
+                  </button>
+                </Link>
+              </div>
 
               <div className="uk-inline div-icon-user">
                 <button
@@ -196,7 +212,10 @@ export default function Header() {
                 aria-haspopup="true"
                 aria-expanded={isUserMenuOpen}
               >
-                <span uk-icon="icon: user; ratio: 1.5" className="uk-icon"></span>
+                <span
+                  uk-icon="icon: user; ratio: 1.5"
+                  className="uk-icon"
+                ></span>
               </button>
               <div
                 uk-dropdown="mode: hover; pos: bottom-center"
@@ -215,7 +234,10 @@ export default function Header() {
                   </li>
                   <li>
                     <Link href="/login" passHref>
-                      <span uk-icon="icon: sign-in; ratio: 1.5" className="uk-icon"></span>
+                      <span
+                        uk-icon="icon: sign-in; ratio: 1.5"
+                        className="uk-icon"
+                      ></span>
                       Login
                     </Link>
                   </li>

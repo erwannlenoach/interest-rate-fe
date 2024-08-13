@@ -1,95 +1,304 @@
+"use client";
+
 import React from "react";
+import "uikit/dist/css/uikit.min.css";
 
 export default function Documentation() {
   return (
-    <div className="uk-container uk-margin-large-top uk-margin-large-bottom">
-      <h2>Documentation</h2>
-      <p>
-        This project utilizes synthetic data generation and machine learning models to simulate and predict outcomes related to Transfer Pricing (TP) and Interest Rates, based on guidelines provided by the OECD and sound economic principles.
-      </p>
+    <section
+      id="documentation"
+      className="uk-section uk-section-muted uk-padding-large"
+    >
+      <div className="uk-container">
+        <h2 className="uk-heading-line uk-text-center">
+          <span>Documentation</span>
+        </h2>
 
-      <h3>1. Profit Split Model and OECD Guidelines</h3>
-      <h4>Dataset Generation</h4>
-      <p>
-        The dataset for the profit split model is generated synthetically to reflect various industries and functions as defined by the OECD's Transfer Pricing Guidelines. These guidelines emphasize that the allocation of profit should be based on the functions performed, assets used, and risks assumed by the entities involved. The synthetic data generation process involves:
-      </p>
-      <ul>
-        <li>
-          **Industries and Functions**: We define multiple industries (e.g., manufacturing, services, technology) and functions (e.g., R&D, marketing, sales) that reflect the diverse economic activities of multinational enterprises. The selection of industries and functions is based on common industry classifications and typical functional profiles as outlined by the OECD.
-        </li>
-        <li>
-          **Revenue, Cost, Assets, Liabilities**: Industry-specific multipliers are applied to generate realistic values for revenue, cost, assets, and liabilities. These multipliers are derived from historical data and economic analysis. For instance, manufacturing industries may have higher asset intensity, which is reflected in the dataset through higher multipliers for assets and liabilities.
-        </li>
-        <li>
-          **Profit Allocation Key**: The profit allocation key is calculated based on the weighted assets of headquarters and subsidiaries. This aligns with the OECD's recommendation that profit should be split according to the economic substance, which is often reflected in the allocation of assets and resources.
-        </li>
-      </ul>
-      <h4>Keras Model Features</h4>
-      <p>
-        The Keras model is designed to predict the profit allocation key using the generated dataset. The key features used in the model include:
-      </p>
-      <ul>
-        <li>
-          **One-Hot Encoded Industries and Functions**: Categorical variables such as industry and function are one-hot encoded to create binary features. This allows the model to capture the unique impact of each industry-function combination on the profit allocation.
-        </li>
-        <li>
-          **Scaled Financial Metrics**: Financial metrics such as revenue, cost, assets, and liabilities are standardized to ensure that the model can effectively learn from the data without being influenced by the scale of the inputs.
-        </li>
-      </ul>
-      <p>
-        The model is trained to minimize the mean squared error between the predicted and actual profit allocation keys. This ensures that the model's predictions are as close as possible to the true economic distribution of profits as dictated by the OECD guidelines.
-      </p>
+        <div className="uk-card uk-card-default uk-card-body uk-margin">
+          <h3 className="uk-card-title">Summary</h3>
+          <ul className="uk-list uk-list-divider">
+            <li>
+              <strong>Transfer Pricing Concept:</strong> Overview of transfer
+              pricing and the arm's length principle, ensuring transactions
+              between related entities mirror those between independent
+              entities.
+            </li>
+            <li>
+              <strong>Interest Rates Model:</strong> Detailed explanation of the
+              model that simulates how an independent lender would determine
+              interest rates, including data generation, feature selection,
+              model training, and evaluation.
+            </li>
+            <li>
+              <strong>Profit Split Model:</strong> Explanation of the profit
+              split model, focusing on how profits are allocated based on
+              economic substance and the contributions of related entities. This
+              includes data generation, key factors, model training, and
+              evaluation.
+            </li>
+          </ul>
+        </div>
 
-      <h4>Economic Logic Behind Profit Split</h4>
-      <p>
-        The profit split method is particularly useful in cases where both parties to a transaction contribute unique and valuable intangibles, or where a high degree of integration between operations exists. The logic is based on the principle that profits should be allocated in accordance with the relative value contributed by each party. The synthetic data generation mimics this by assigning values to assets, functions, and industries, which collectively determine the profit allocation key.
-      </p>
-      <p>
-        The use of weighted assets as a basis for profit allocation follows the economic principle that the allocation of profits should reflect the contribution of economic value. In practice, this means that entities with higher-value assets or more significant operational roles in generating profits should receive a proportionally larger share of those profits.
-      </p>
+        <div className="uk-card uk-card-secondary uk-card-body uk-margin">
+          <h3 className="uk-card-title">Transfer Pricing Concept</h3>
+          <p>
+            Transfer pricing refers to the methods and practices used to price
+            transactions within and between enterprises under common ownership
+            or control. The arm's length principle, endorsed by the OECD,
+            requires that the conditions of such transactions reflect those that
+            would be made between independent enterprises. This principle
+            ensures that profits are not artificially shifted within a
+            multinational group to lower-tax jurisdictions, thereby preserving
+            fair tax revenue allocation across countries.
+          </p>
+        </div>
 
-      <h3>2. Interest Rates Model and OECD Guidelines</h3>
-      <h4>Dataset Generation</h4>
-      <p>
-        The dataset for the interest rates model is generated based on various economic factors and credit ratings, following the OECD's guidelines for intercompany financing transactions. The guidelines suggest that the arm's length interest rate should reflect the creditworthiness of the borrower, the terms of the loan, and prevailing market conditions.
-      </p>
-      <ul>
-        <li>
-          **Credit Ratings**: The credit ratings are assigned according to Moody’s scale, which is a recognized method for assessing credit risk. This directly influences the interest rates in the dataset, as higher-risk entities are expected to pay higher interest rates.
-        </li>
-        <li>
-          **Sector and Region**: The dataset incorporates industry sectors and geographic regions, as these factors can influence credit risk and, consequently, the interest rate. For example, entities in more stable sectors or regions may have lower interest rates due to perceived lower risk.
-        </li>
-      </ul>
+        <div className="uk-card uk-card-default uk-card-body uk-margin">
+          <h3 className="uk-card-title">Interest Rates Model</h3>
+          <p>
+            The interest rates model is designed to predict the appropriate
+            interest rate for loans between related parties, simulating the
+            decision-making process of an independent lender. The model is built
+            using a neural network trained on synthetic data that reflects
+            various economic and financial factors relevant to determining
+            interest rates.
+          </p>
 
-      <h4>Keras Model Features</h4>
-      <p>
-        The Keras model for interest rates uses the following features:
-      </p>
-      <ul>
-        <li>
-          **Credit Rating Index**: This is an ordinally encoded feature representing the credit rating of the entity. It allows the model to learn the relationship between credit risk and interest rates, aligning with the OECD’s guidance on intercompany financing.
-        </li>
-        <li>
-          **Sector and Region Indices**: These features capture the impact of industry and geographic factors on interest rates. They are mapped to numerical indices to allow the model to consider sectoral and regional variations in credit risk.
-        </li>
-      </ul>
-      <p>
-        The model is trained to predict the interest rate based on these features, with the goal of minimizing the mean squared error between predicted and actual rates. This aligns with the OECD’s principle that intercompany loans should be priced similarly to what independent entities would agree to under comparable circumstances.
-      </p>
+          <h4 className="uk-heading-bullet">Step-by-Step Breakdown</h4>
 
-      <h4>Economic Logic Behind Interest Rates</h4>
-      <p>
-        The determination of interest rates in intercompany loans is guided by economic principles such as risk assessment and the time value of money. Higher credit risk typically demands higher interest rates as compensation for the lender. The dataset reflects this by incorporating credit ratings and other risk-related factors.
-      </p>
-      <p>
-        The OECD guidelines emphasize that interest rates should reflect the economic conditions and creditworthiness of the borrower. This project adheres to these principles by modeling interest rates as a function of credit ratings, industry, and region, ensuring that the predicted rates are economically rational and compliant with international standards.
-      </p>
+          <h5>Data Collection and Preparation</h5>
+          <p>
+            The dataset for training the interest rates model is generated
+            synthetically to cover a wide range of possible scenarios:
+          </p>
+          <ul className="uk-list uk-list-bullet">
+            <li>
+              <strong>Debt to Income Ratio (DTI):</strong> Reflects the
+              borrower’s financial health, varying between 10% and 60%.
+            </li>
+            <li>
+              <strong>Loan to Value Ratio (LTV):</strong> Represents the
+              borrower’s equity in the collateral, varying between 50% and 120%.
+            </li>
+            <li>
+              <strong>Annual Income:</strong> Varies from $30,000 to $200,000,
+              representing different borrower profiles.
+            </li>
+            <li>
+              <strong>Loan Amount:</strong> Varies from $5,000 to $500,000,
+              covering small to medium-sized loans.
+            </li>
+            <li>
+              <strong>Collateral Value:</strong> Ranges from $10,000 to
+              $1,000,000, representing the assets securing the loan.
+            </li>
+            <li>
+              <strong>Region, Sector, Credit Rating:</strong> These are chosen
+              based on realistic distributions, reflecting political stability,
+              industry risk, and creditworthiness.
+            </li>
+          </ul>
 
-      <h3>3. Beta Project Disclaimer</h3>
-      <p>
-        This project is currently in beta and is intended for educational and research purposes only. It is not designed for commercial use and should not replace the advice of a professional transfer pricing advisor. The predictions generated by the model are for research purposes and should not be considered binding. The authors of this project do not assume legal responsibility for the outcomes of using these predictions, as they are not intended to serve as legal advice.
-      </p>
-    </div>
+          <h5>Feature Selection and Target Variable</h5>
+          <p>
+            Key features such as Credit_Rating_Index, Sector_Index, and
+            Region_Index are used to predict the Interest_Rate. These features
+            simulate the factors an independent lender would consider when
+            determining an interest rate.
+          </p>
+
+          <h5>Modeling</h5>
+          <p>A neural network model is trained on this synthetic data:</p>
+          <ul className="uk-list uk-list-bullet">
+            <li>
+              <strong>Neural Network Architecture:</strong> The model consists
+              of multiple layers, including Dense layers and Dropout layers to
+              prevent overfitting.
+            </li>
+            <li>
+              <strong>Training Process:</strong> The model is trained using the
+              mean squared error loss function and the Adam optimizer, with
+              training data split into training, validation, and test sets to
+              ensure the model generalizes well to new data.
+            </li>
+            <li>
+              <strong>Normalization:</strong> Features are normalized to ensure
+              that the model learns efficiently, with each feature contributing
+              proportionately to the prediction.
+            </li>
+          </ul>
+
+          <h5>Evaluation and Prediction</h5>
+          <p>
+            The model's accuracy is evaluated by comparing its predictions on
+            the test set with actual interest rates. The model's ability to
+            generalize to new, unseen data ensures that the predicted rates are
+            consistent with those that would be set by independent lenders in an
+            arm's length transaction.
+          </p>
+
+          <h5>Justification</h5>
+          <p>
+            The model is designed to replicate real-world lending practices,
+            ensuring that its predictions adhere to the arm's length principle.
+            By considering various risk factors and simulating independent
+            decision-making processes, the model provides a robust tool for
+            setting intra-group interest rates.
+          </p>
+        </div>
+
+        <div className="uk-card uk-card-secondary uk-card-body uk-margin">
+          <h3 className="uk-card-title">Profit Split Model</h3>
+          <p>
+            The profit split model is used to determine the distribution of
+            profits between related entities based on their contributions to
+            value creation. The model ensures that the allocation of profits
+            aligns with the economic substance of the transactions, reflecting
+            the arm's length principle.
+          </p>
+
+          <h4 className="uk-heading-bullet">Step-by-Step Breakdown</h4>
+
+          <h5>Synthetic Data Generation</h5>
+          <p>The synthetic dataset for the profit split model includes:</p>
+          <ul className="uk-list uk-list-bullet">
+            <li>
+              <strong>Industries and Functions:</strong> The data covers various
+              industries (e.g., manufacturing, services) and functions (e.g.,
+              R&D, marketing) for both headquarters and subsidiaries.
+            </li>
+            <li>
+              <strong>Industry-Specific Multipliers:</strong> Revenue, cost,
+              assets, and liabilities are adjusted using industry-specific
+              multipliers to simulate realistic financial scenarios.
+            </li>
+          </ul>
+
+          <h5>Profit Allocation Key Calculation</h5>
+          <p>
+            The model calculates a profit allocation key based on weighted
+            assets, reflecting the economic contributions of each entity. This
+            key determines the share of profits allocated to headquarters versus
+            subsidiaries.
+          </p>
+
+          <h5>Modeling</h5>
+          <p>
+            A neural network model is trained to predict the profit allocation
+            key:
+          </p>
+          <ul className="uk-list uk-list-bullet">
+            <li>
+              <strong>Neural Network Architecture:</strong> The model includes
+              layers designed to capture complex relationships between features
+              and the profit allocation key.
+            </li>
+            <li>
+              <strong>Training Process:</strong> The model is trained on
+              synthetic data with the objective of learning how to fairly
+              allocate profits based on economic contributions.
+            </li>
+            <li>
+              <strong>Feature Encoding:</strong> Categorical features such as
+              industry and function are one-hot encoded to allow the model to
+              learn from different categories effectively.
+            </li>
+          </ul>
+
+          <h5>Evaluation and Prediction</h5>
+          <p>
+            The model's predictions are compared against actual profit splits in
+            the test data, ensuring that the model accurately reflects the arm's
+            length principle in allocating profits.
+          </p>
+
+          <h5>Justification</h5>
+          <p>
+            By training on a wide range of synthetic scenarios, the model is
+            able to generalize how profits should be split between entities,
+            based on their economic substance and contributions. This approach
+            ensures that the profit splits are consistent with independent,
+            arm's length transactions.
+          </p>
+        </div>
+
+        <div className="uk-card uk-card-default uk-card-body uk-margin">
+          <h3 className="uk-card-title">Synthetic Data Generation Process</h3>
+          <p>
+            The synthetic data generation process involves creating diverse
+            scenarios that reflect realistic market conditions. This includes:
+          </p>
+          <ul className="uk-list uk-list-bullet">
+            <li>
+              <strong>Random Sampling:</strong> Values for factors like Debt to
+              Income Ratio, Loan to Value Ratio, and Annual Income are randomly
+              sampled within predefined ranges.
+            </li>
+            <li>
+              <strong>Categorical Variables:</strong> Region, Sector, and Credit
+              Rating are chosen based on distributions that reflect real-world
+              scenarios, ensuring that the data is varied and representative.
+            </li>
+          </ul>
+
+          <h4 className="uk-heading-bullet">Realism Considerations</h4>
+          <p>
+            While the data generation process is designed to create a wide range
+            of realistic scenarios, there are some limitations:
+          </p>
+          <ul className="uk-list uk-list-bullet">
+            <li>
+              <strong>Risk of Similar Data:</strong> Synthetic data can result
+              in similar data points, which may reduce the diversity of the
+              dataset and affect model performance.
+            </li>
+            <li>
+              <strong>Lack of Outliers:</strong> Predefined ranges may limit the
+              occurrence of extreme cases, leading to a model that performs less
+              effectively on outlier data.
+            </li>
+            <li>
+              <strong>Overtraining:</strong> The model might overfit to patterns
+              in the synthetic data, affecting its ability to generalize to
+              real-world data.
+            </li>
+          </ul>
+
+          <h4 className="uk-heading-bullet">Limitations of Synthetic Data</h4>
+          <p>The reliance on synthetic data introduces certain limitations:</p>
+          <ul className="uk-list uk-list-bullet">
+            <li>
+              <strong>Compliance Limitations:</strong> While synthetic data
+              provides a broad training set, it does not reflect actual
+              transactions. This limits the model’s ability to fully comply with
+              the arm's length principle as defined by the OECD.
+            </li>
+            <li>
+              <strong>Legal Robustness:</strong> In legal scenarios, the
+              synthetic nature of the data might be scrutinized. The models are
+              better suited as compliance tools rather than primary evidence in
+              legal disputes.
+            </li>
+          </ul>
+        </div>
+
+        <div className="uk-card uk-card-primary uk-card-body uk-margin">
+          <h3 className="uk-card-title ">
+            Use and Limitations
+          </h3>
+          <p>
+            The interest rate and profit split models are powerful tools for
+            ensuring compliance with transfer pricing regulations. They are
+            designed to simulate arm's length transactions, ensuring that
+            intra-group interest rates and profit allocations are consistent
+            with what independent entities would agree upon. However, due to
+            their reliance on synthetic data, these models should be used
+            primarily as compliance tools. For legal defense, especially in
+            contentious transfer pricing cases, real-world transaction data is
+            essential to complement the model's outputs.
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
