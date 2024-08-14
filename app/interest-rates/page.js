@@ -99,7 +99,7 @@ const InterestRatesForm = () => {
   };
 
   return (
-    <div className="uk-container uk-container-small">
+    <div className="uk-container uk-container-small uk-margin-large">
       <PageTitle title="INTEREST RATES SIMULATOR" />
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         {[

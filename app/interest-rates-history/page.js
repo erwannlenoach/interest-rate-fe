@@ -4,17 +4,17 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
 import withAuth from "@/app/hoc/withAuth";
 import axios from "axios";
-import UIkit from "uikit"; 
+import UIkit from "uikit";
 import { useAuth } from "../context/AuthContext";
 import NoDataAvailable from "../components/no-data/page";
-import PageTitle from "../components/page-title/page"; 
+import PageTitle from "../components/page-title/page";
 import Link from "next/link";
 import "./styles.css";
 
 const InterestRatesHistory = () => {
   const { user } = useAuth();
   const [loans, setLoans] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLoans = async () => {
@@ -43,32 +43,52 @@ const InterestRatesHistory = () => {
       async function () {
         try {
           const token = sessionStorage.getItem("token");
-          await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/loans/${loanId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          await axios.delete(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/loans/${loanId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
           setLoans(loans.filter((loan) => loan.id !== loanId));
-          UIkit.notification({ message: "Loan deleted successfully!", status: "success" });
+          UIkit.notification({
+            message: "Loan deleted successfully!",
+            status: "success",
+          });
         } catch (error) {
           console.error("Failed to delete loan", error);
-          UIkit.notification({ message: "Failed to delete loan!", status: "danger" });
+          UIkit.notification({
+            message: "Failed to delete loan!",
+            status: "danger",
+          });
         }
       },
       function () {
-        UIkit.notification({ message: "Loan deletion canceled!", status: "warning" });
+        UIkit.notification({
+          message: "Loan deletion canceled!",
+          status: "warning",
+        });
       }
     );
   };
 
   const formatValue = (value, key) => {
+    console.log(value, key);
     const keysToFormat = ["loan_amount", "Collateral_value", "annual_income"];
-    const keysToFormatPercentage = ["debt_to_income_ratio", "loan_to_value_ratio"];
+    const keysToFormatPercentage = [
+      "debt_to_income_ratio",
+      "loan_to_value_ratio",
+    ];
     if (keysToFormat.includes(key) && typeof value === "number") {
       const formattedValue = Math.round(value);
       return `${new Intl.NumberFormat("en-US").format(formattedValue)}K $`;
     }
 
     if (keysToFormatPercentage.includes(key) && typeof value === "number") {
-      return `${(value * 100).toFixed(2)}%`; // Convert to percentage and round to two decimal places
+      return `${(value * 100).toFixed(2)}%`;
+    }
+
+    if ((key = "interest_rate" && typeof value === "number")) {
+      return `${value.toFixed(2)}%`;
     }
 
     return value;
@@ -137,9 +157,9 @@ const InterestRatesHistory = () => {
   };
 
   return (
-    <div className="uk-container uk-padding-medium table">
+    <div className="uk-container uk-padding-medium table uk-margin-large">
       <PageTitle title="INTEREST RATES HISTORY" />
-      {loading ? ( 
+      {loading ? (
         <div className="uk-text-center uk-margin-large-top">
           <div uk-spinner="ratio: 3"></div>
           <p>Loading data...</p>
@@ -149,7 +169,7 @@ const InterestRatesHistory = () => {
           <div className="uk-overflow-auto">
             <table
               {...getTableProps()}
-              className="uk-table uk-table-striped uk-table-hover uk-table-divider uk-margin-large-bottom"
+              className="uk-table uk-table-divider uk-table-striped uk-table-hover uk-table-divider uk-margin-large-bottom"
             >
               <thead>
                 {headerGroups.map((headerGroup) => (
@@ -187,6 +207,7 @@ const InterestRatesHistory = () => {
                           uk-icon="icon: trash; ratio: 1.5"
                           style={{ cursor: "pointer", color: "red" }}
                           onClick={() => handleDeleteLoan(row.original.id)}
+                          className="uk-flex uk-flex-center icon-trash"
                         ></span>
                       </td>
                     </tr>
@@ -195,7 +216,7 @@ const InterestRatesHistory = () => {
               </tbody>
             </table>
           </div>
-          <div className="uk-flex uk-flex-center uk-flex-middle uk-margin-top">
+          <div className="uk-flex uk-flex-center uk-flex-middle uk-margin-top  uk-margin-bottom">
             <button
               className="uk-button button-download uk-margin-right uk-border-rounded"
               onClick={downloadCSV}

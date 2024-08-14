@@ -7,3 +7,7 @@
   min-height: 60rem;
   flex-direction: column;
 }
+
+.icon-trash {
+  text-align: center;
+}

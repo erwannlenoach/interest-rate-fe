@@ -89,7 +89,7 @@ const ProfitSplit = () => {
   const subsProfitSplit = prediction !== null ? Math.max(0, prediction * 100).toFixed(2) : "0.00";
 
   return (
-    <div className="uk-container uk-container-small">
+    <div className="uk-container uk-container-small uk-margin-large">
     <PageTitle title="PROFIT SPLIT SIMULATOR" />
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         <fieldset className="uk-fieldset">
@@ -295,7 +295,7 @@ const ProfitSplit = () => {
         </div>
       )}
       {prediction && (
-        <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
+        <div className="uk-margin-large uk-flex uk-flex-center uk-flex-middle">
           <button
             type="button"
             className="uk-button uk-button-primary uk-border-rounded uk-margin-small-right"

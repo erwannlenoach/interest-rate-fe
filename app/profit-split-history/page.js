@@ -133,19 +133,20 @@ const ProfitSplitHistory = () => {
   };
 
   return (
-    <div className="uk-container uk-margin-large-top uk-padding-medium table">
-    <PageTitle title="PROFIT SPLIT HISTORY" />
-    {loading ? ( // Show a loading state while fetching data
+    <div className="uk-container  uk-padding-medium table uk-margin-large">
+      <PageTitle title="PROFIT SPLIT HISTORY" />
+      {loading ? ( // Show a loading state while fetching data
         <div className="uk-text-center uk-margin-large-top">
           <div uk-spinner="ratio: 3"></div>
           <p>Loading data...</p>
         </div>
       ) : profitSplits?.length > 0 ? (
         <>
-          <div className="uk-overflow-auto">
+          <div className="uk-overflow-auto"> {/* Add overflow container */}
             <table
               {...getTableProps()}
               className="uk-table uk-table-striped uk-table-hover uk-table-divider uk-margin-large-bottom"
+              style={{ minWidth: "1000px" }} // Ensures a minimum width for the table
             >
               <thead>
                 {headerGroups.map((headerGroup) => (
@@ -155,7 +156,7 @@ const ProfitSplitHistory = () => {
                         {...column.getHeaderProps(
                           column.getSortByToggleProps()
                         )}
-                        style={{ cursor: "pointer" }}
+                        style={{ cursor: "pointer", minWidth: "150px" }} // Ensure fixed width for table headers
                       >
                         {column.render("Header")}
                         <span>
@@ -176,7 +177,12 @@ const ProfitSplitHistory = () => {
                   return (
                     <tr {...row.getRowProps()}>
                       {row.cells.map((cell) => (
-                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                        <td
+                          {...cell.getCellProps()}
+                          style={{ minWidth: "150px" }} // Ensure fixed width for table cells
+                        >
+                          {cell.render("Cell")}
+                        </td>
                       ))}
                       <td>
                         <span
@@ -191,7 +197,7 @@ const ProfitSplitHistory = () => {
               </tbody>
             </table>
           </div>
-          <div className="uk-flex uk-flex-center uk-flex-middle uk-margin-top">
+          <div className="uk-flex uk-flex-center uk-flex-middle uk-margin-top uk-margin-bottom">
             <button
               className="uk-button button-download uk-margin-right uk-border-rounded"
               onClick={downloadCSV}
@@ -215,7 +221,7 @@ const ProfitSplitHistory = () => {
         />
       )}
     </div>
-  );
+  );  
 };
 
 export default withAuth(ProfitSplitHistory);
