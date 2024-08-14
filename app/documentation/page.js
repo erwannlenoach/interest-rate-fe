@@ -2,6 +2,7 @@
 
 import React from "react";
 import "uikit/dist/css/uikit.min.css";
+import PageTitle from "../components/page-title/page";
 
 export default function Documentation() {
   return (
@@ -10,9 +11,8 @@ export default function Documentation() {
       className="uk-section uk-section-muted uk-padding-large"
     >
       <div className="uk-container">
-        <h2 className="uk-heading-line uk-text-center">
-          <span>Documentation</span>
-        </h2>
+      <PageTitle title="DOCUMENTATION" />
+
 
         <div className="uk-card uk-card-default uk-card-body uk-margin">
           <h3 className="uk-card-title">Summary</h3>

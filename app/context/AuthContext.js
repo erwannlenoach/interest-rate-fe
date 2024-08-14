@@ -3,20 +3,22 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // Note: Removed destructuring to use correct import
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
+      const decodedToken = jwtDecode(storedToken);
+      setAutoLogout(decodedToken.exp); // Set up auto-logout
       fetchUser(storedToken);
     } else {
       setLoading(false);
@@ -36,22 +38,38 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data.user);
     } catch (error) {
       console.error("Failed to fetch user", error);
+      logout(); // Log out if fetching the user fails, as the token might be invalid
     } finally {
       setLoading(false);
+    }
+  };
+
+  const setAutoLogout = (expirationTime) => {
+    const currentTime = Date.now();
+    const timeUntilExpiration = expirationTime * 1000 - currentTime;
+
+    if (timeUntilExpiration > 0) {
+      setTimeout(() => {
+        logout();
+      }, timeUntilExpiration);
+    } else {
+      logout();
     }
   };
 
   const login = (token) => {
     sessionStorage.setItem("token", token);
     setToken(token);
-    fetchUser(token); 
+    const decodedToken = jwtDecode(token);
+    setAutoLogout(decodedToken.exp); // Set up auto-logout
+    fetchUser(token);
     router.push("/profile");
   };
 
   const logout = () => {
     sessionStorage.removeItem("token");
     setToken(null);
-    setUser(null); 
+    setUser(null);
     router.push("/login");
   };
 

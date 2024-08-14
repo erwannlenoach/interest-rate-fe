@@ -10,7 +10,7 @@ import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
 import NoDataAvailable from "../components/no-data/page";
 import './styles.css'
-
+import PageTitle from "../components/page-title/page";
 
 const ProfitSplitHistory = () => {
   const { user } = useAuth();
@@ -63,10 +63,8 @@ const ProfitSplitHistory = () => {
   };
 
   const formatValue = (value, key) => {
-    const keysToFormat = ["loan_amount", "Collateral_value", "annual_income"];
-    if (keysToFormat.includes(key) && typeof value === "number") {
-      const formattedValue = Math.round(value / 1000);
-      return `${new Intl.NumberFormat("en-US").format(formattedValue)}K $`;
+    if (key === "hq_allocation" || key === "subsidiary_allocation") {
+      return `${(value * 100).toFixed(2)}%`; // Convert to percentage and round to two decimal places
     }
 
     return value;
@@ -87,7 +85,7 @@ const ProfitSplitHistory = () => {
 
     return [
       ...keys.map((key) => ({
-        Header: key.replace(/_/g, " "),
+        Header: key.replace(/_/g, " ").replace("hq allocation", "HQ Allocation (%)").replace("subsidiary allocation", "Subsidiary Allocation (%)"),
         accessor: key,
         Cell: ({ value }) => formatValue(value, key),
       })),
@@ -136,10 +134,8 @@ const ProfitSplitHistory = () => {
 
   return (
     <div className="uk-container uk-margin-large-top uk-padding-medium table">
-      <h1 className="uk-text-center uk-margin-large-bottom">
-        <span>PROFIT SPLIT HISTORY</span>
-      </h1>
-      {loading ? ( // Show a loading state while fetching data
+    <PageTitle title="PROFIT SPLIT HISTORY" />
+    {loading ? ( // Show a loading state while fetching data
         <div className="uk-text-center uk-margin-large-top">
           <div uk-spinner="ratio: 3"></div>
           <p>Loading data...</p>

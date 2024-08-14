@@ -7,6 +7,7 @@ import Icons from "uikit/dist/js/uikit-icons";
 import { industrySectors, regions, creditRatings } from "@/app/utils/constants";
 import withAuth from "@/app/hoc/withAuth";
 import { jwtDecode } from "jwt-decode";
+import PageTitle from "../components/page-title/page";
 
 const InterestRatesForm = () => {
   const [formData, setFormData] = useState({
@@ -51,8 +52,11 @@ const InterestRatesForm = () => {
         const username = decodedToken.username;
 
         // Calculate Debt-to-Income Ratio and Loan-to-Value Ratio
-        const debtToIncomeRatio = parseFloat(formData.Debt) / parseFloat(formData.Income);
-        const loanToValueRatio = parseFloat(formData.Loan_Amount) / parseFloat(formData.Collateral_Value);
+        const debtToIncomeRatio =
+          parseFloat(formData.Debt) / parseFloat(formData.Income);
+        const loanToValueRatio =
+          parseFloat(formData.Loan_Amount) /
+          parseFloat(formData.Collateral_Value);
 
         const formDataToSend = {
           Debt_to_Income_Ratio: debtToIncomeRatio.toFixed(4),
@@ -95,39 +99,38 @@ const InterestRatesForm = () => {
   };
 
   return (
-    <div className="uk-container uk-container-small uk-margin-large-top uk-padding-large">
-      <h1 className="uk-text-center uk-margin-large-bottom">
-        <span>INTEREST RATES SIMULATOR</span>
-      </h1>
+    <div className="uk-container uk-container-small">
+      <PageTitle title="INTEREST RATES SIMULATOR" />
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         {[
-   
           {
             label: "Income of the borrower (in thousands of $)",
             name: "Income",
             min: 1,
             max: 1000000,
-            tooltip: "Enter the total annual income in thousands of dollars."
+            tooltip: "Enter the total annual income in thousands of dollars.",
           },
           {
             label: "Liabilities of the borrower (in thousands of $)",
             name: "Debt",
             min: 1,
             max: 1000000,
-            tooltip: "Enter the total liabilities amount in thousands of dollars."
+            tooltip:
+              "Enter the total liabilities amount in thousands of dollars.",
           },
           {
             label: "Loan Amount (in thousands of $)",
             name: "Loan_Amount",
             min: 100,
             max: 1000000,
-            tooltip: "Enter the amount of the loan in thousands of dollars."
+            tooltip: "Enter the amount of the loan in thousands of dollars.",
           },
           {
             label: "Collateral Value (in thousands of $)",
             name: "Collateral_Value",
             max: 1000000,
-            tooltip: "Enter the collateral value associated with the loan in thousands of dollars."
+            tooltip:
+              "Enter the collateral value associated with the loan in thousands of dollars.",
           },
           {
             label: "Loan Term Years",
@@ -135,30 +138,30 @@ const InterestRatesForm = () => {
             min: 0.25,
             max: 50,
             step: 0.25,
-            tooltip: "Enter the duration of the loan in years."
+            tooltip: "Enter the duration of the loan in years.",
           },
           {
             label: "Subordination",
             name: "Subordination",
-            tooltip: "Enter the subordination rank related to the loan."
+            tooltip: "Enter the subordination rank related to the loan.",
           },
           {
             label: "Sector",
             name: "Sector",
             options: industrySectors,
-            tooltip: "Select the sector in which the borrower operates."
+            tooltip: "Select the sector in which the borrower operates.",
           },
           {
             label: "Region",
             name: "Region",
             options: regions,
-            tooltip: "Select the region where the borrower is based."
+            tooltip: "Select the region where the borrower is based.",
           },
           {
             label: "Assigned Credit Rating",
             name: "Assigned_Credit_Rating",
             options: creditRatings,
-            tooltip: "Select the credit rating assigned to the borrower."
+            tooltip: "Select the credit rating assigned to the borrower.",
           },
         ].map((field, index) => (
           <div className="uk-margin" key={index}>
@@ -216,9 +219,7 @@ const InterestRatesForm = () => {
         )}
       </form>
       {prediction && (
-        <div
-          className="uk-margin uk-card uk-card-default uk-card-body uk-text-center uk-border-rounded"
-        >
+        <div className="uk-margin uk-card uk-card-default uk-card-body uk-text-center uk-border-rounded">
           <p className="uk-text-large">
             <strong>Predicted Interest Rate:</strong> {`${prediction}%`}
           </p>
@@ -236,7 +237,7 @@ const InterestRatesForm = () => {
           <button
             type="button"
             className="uk-button uk-button-secondary uk-border-rounded"
-            onClick={() => window.location.href = "/interest-rates-history"}
+            onClick={() => (window.location.href = "/interest-rates-history")}
           >
             View Interest Rates History
           </button>

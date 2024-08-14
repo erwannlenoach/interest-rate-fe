@@ -6,6 +6,8 @@ import UIkit from "uikit";
 import { functionsProfitSplit, industriesProfitSplit } from "../utils/constants";
 import withAuth from "@/app/hoc/withAuth";
 import { jwtDecode } from "jwt-decode";
+import PageTitle from "../components/page-title/page";
+
 
 const ProfitSplit = () => {
   const [formData, setFormData] = useState({
@@ -87,10 +89,8 @@ const ProfitSplit = () => {
   const subsProfitSplit = prediction !== null ? Math.max(0, prediction * 100).toFixed(2) : "0.00";
 
   return (
-    <div className="uk-container uk-container-small uk-margin-large-top uk-padding-large">
-      <h1 className="uk-text-center uk-margin-large-bottom">
-        <span>PROFIT SPLIT SIMULATOR</span>
-      </h1>
+    <div className="uk-container uk-container-small">
+    <PageTitle title="PROFIT SPLIT SIMULATOR" />
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         <fieldset className="uk-fieldset">
           <legend className="uk-legend">Headquarters</legend>
