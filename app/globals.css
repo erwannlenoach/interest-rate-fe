@@ -52,6 +52,6 @@ a:hover {
   border-radius: 8px;
 }
 
-input {
-  font: size 1rem, i !important;
+input, select {
+  font-size: 1rem !important;
 }

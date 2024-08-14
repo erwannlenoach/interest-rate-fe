@@ -11,12 +11,10 @@ const ProfitSplit = () => {
   const [formData, setFormData] = useState({
     hq_revenue: "",
     hq_cost: "",
-    hq_profit: "",
     hq_assets: "",
     hq_liabilities: "",
     subs_revenue: "",
     subs_cost: "",
-    subs_profit: "",
     subs_assets: "",
     subs_liabilities: "",
     hq_industry: "",
@@ -43,19 +41,26 @@ const ProfitSplit = () => {
         const decodedToken = jwtDecode(token);
         const username = decodedToken.username;
 
-        // Convert the relevant fields from thousands of $ to nominal value
+        // Calculate profit based on revenue and cost
+        const hq_profit = parseFloat(formData.hq_revenue) - parseFloat(formData.hq_cost);
+        const subs_profit = parseFloat(formData.subs_revenue) - parseFloat(formData.subs_cost);
+
+        // Convert the relevant fields from thousands of $ to nominal value and include calculated profits
         const formDataToSend = {
-          ...formData,
           hq_revenue: parseFloat(formData.hq_revenue) * 1000,
           hq_cost: parseFloat(formData.hq_cost) * 1000,
-          hq_profit: parseFloat(formData.hq_profit) * 1000,
+          hq_profit: hq_profit * 1000,
           hq_assets: parseFloat(formData.hq_assets) * 1000,
           hq_liabilities: parseFloat(formData.hq_liabilities) * 1000,
           subs_revenue: parseFloat(formData.subs_revenue) * 1000,
           subs_cost: parseFloat(formData.subs_cost) * 1000,
-          subs_profit: parseFloat(formData.subs_profit) * 1000,
+          subs_profit: subs_profit * 1000,
           subs_assets: parseFloat(formData.subs_assets) * 1000,
           subs_liabilities: parseFloat(formData.subs_liabilities) * 1000,
+          hq_industry: formData.hq_industry,
+          subs_industry: formData.subs_industry,
+          hq_function: formData.hq_function,
+          subs_function: formData.subs_function,
         };
 
         const response = await axios.post(
@@ -74,23 +79,8 @@ const ProfitSplit = () => {
   };
 
   const handleNewSimulation = () => {
+    // Only reset the prediction, keep the form data intact
     setPrediction(null);
-    setFormData({
-      hq_revenue: "",
-      hq_cost: "",
-      hq_profit: "",
-      hq_assets: "",
-      hq_liabilities: "",
-      subs_revenue: "",
-      subs_cost: "",
-      subs_profit: "",
-      subs_assets: "",
-      subs_liabilities: "",
-      hq_industry: "",
-      subs_industry: "",
-      hq_function: "",
-      subs_function: "",
-    });
   };
 
   const hqProfitSplit = prediction !== null ? Math.max(0, (1 - prediction) * 100).toFixed(2) : "0.00";
@@ -108,7 +98,6 @@ const ProfitSplit = () => {
             { 
               label: "Revenue (in thousands of $)", 
               name: "hq_revenue", 
-              min: 1000, 
               max: 1000000, 
               step: 1000,
               tooltip: "Enter the headquarters' revenue in thousands of dollars as per the latest financial statements."
@@ -116,23 +105,13 @@ const ProfitSplit = () => {
             { 
               label: "Cost (in thousands of $)", 
               name: "hq_cost", 
-              min: 1000, 
               max: 1000000, 
               step: 1000,
               tooltip: "Enter the headquarters' costs in thousands of dollars as per the latest financial statements."
             },
             { 
-              label: "Profit (in thousands of $)", 
-              name: "hq_profit", 
-              min: 1000, 
-              max: 1000000, 
-              step: 1000,
-              tooltip: "Enter the headquarters' profit in thousands of dollars as per the latest financial statements."
-            },
-            { 
               label: "Assets (in thousands of $)", 
               name: "hq_assets", 
-              min: 1000, 
               max: 1000000, 
               step: 1000,
               tooltip: "Enter the total assets of the headquarters in thousands of dollars as per the latest financial statements."
@@ -140,7 +119,6 @@ const ProfitSplit = () => {
             { 
               label: "Liabilities (in thousands of $)", 
               name: "hq_liabilities", 
-              min: 1000, 
               max: 1000000, 
               step: 1000,
               tooltip: "Enter the total liabilities of the headquarters in thousands of dollars as per the latest financial statements."
@@ -208,7 +186,6 @@ const ProfitSplit = () => {
             { 
               label: "Revenue (in thousands of $)", 
               name: "subs_revenue", 
-              min: 1000, 
               max: 1000000, 
               step: 1000,
               tooltip: "Enter the subsidiary's revenue in thousands of dollars as per the latest financial statements."
@@ -216,23 +193,13 @@ const ProfitSplit = () => {
             { 
               label: "Cost (in thousands of $)", 
               name: "subs_cost", 
-              min: 1000, 
               max: 1000000, 
               step: 1000,
               tooltip: "Enter the subsidiary's costs in thousands of dollars as per the latest financial statements."
             },
             { 
-              label: "Profit (in thousands of $)", 
-              name: "subs_profit", 
-              min: 1000, 
-              max: 1000000, 
-              step: 1000,
-              tooltip: "Enter the subsidiary's profit in thousands of dollars as per the latest financial statements."
-            },
-            { 
               label: "Assets (in thousands of $)", 
               name: "subs_assets", 
-              min: 1000, 
               max: 1000000, 
               step: 1000,
               tooltip: "Enter the total assets of the subsidiary in thousands of dollars as per the latest financial statements."
@@ -240,7 +207,6 @@ const ProfitSplit = () => {
             { 
               label: "Liabilities (in thousands of $)", 
               name: "subs_liabilities", 
-              min: 1000, 
               max: 1000000, 
               step: 1000,
               tooltip: "Enter the total liabilities of the subsidiary in thousands of dollars as per the latest financial statements."
@@ -313,29 +279,37 @@ const ProfitSplit = () => {
           </div>
         )}
       </form>
-      {prediction !== null && (
+      {prediction && (
         <div
-          className="uk-margin uk-alert-success uk-text-center"
-          uk-alert="true"
+          className="uk-margin uk-card uk-card-default uk-card-body uk-text-center uk-border-rounded"
         >
           <p className="uk-text-large">
             <strong>Predicted Profit Split:</strong>
           </p>
           <p>
-            Profit split allocated to the headquarter: {hqProfitSplit}%
+            Profit allocated to the headquarter: {hqProfitSplit}%
           </p>
           <p>
             Profit allocated to the subsidiary: {subsProfitSplit}%
           </p>
-          <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
-            <button
-              type="button"
-              className="uk-button uk-button-primary uk-border-rounded"
-              onClick={handleNewSimulation}
-            >
-              Run New Simulation
-            </button>
-          </div>
+        </div>
+      )}
+      {prediction && (
+        <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
+          <button
+            type="button"
+            className="uk-button uk-button-primary uk-border-rounded uk-margin-small-right"
+            onClick={handleNewSimulation}
+          >
+            Run New Simulation
+          </button>
+          <button
+            type="button"
+            className="uk-button uk-button-secondary uk-border-rounded"
+            onClick={() => window.location.href = "/profit-split-history"}
+          >
+            View Profit Split History
+          </button>
         </div>
       )}
     </div>

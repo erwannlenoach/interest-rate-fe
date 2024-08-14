@@ -10,13 +10,12 @@ import { jwtDecode } from "jwt-decode";
 
 const InterestRatesForm = () => {
   const [formData, setFormData] = useState({
-    Debt_to_Income_Ratio: "",
-    Loan_to_Value_Ratio: "",
-    Annual_Income: "",
+    Debt: "",
+    Income: "",
     Loan_Amount: "",
+    Collateral_Value: "",
     Loan_Term_Years: "",
     Subordination: "",
-    Collateral_Value: "",
     Sector: "Finance",
     Region: "Northern Europe",
     Assigned_Credit_Rating: "B1",
@@ -51,11 +50,21 @@ const InterestRatesForm = () => {
         const decodedToken = jwtDecode(token);
         const username = decodedToken.username;
 
+        // Calculate Debt-to-Income Ratio and Loan-to-Value Ratio
+        const debtToIncomeRatio = parseFloat(formData.Debt) / parseFloat(formData.Income);
+        const loanToValueRatio = parseFloat(formData.Loan_Amount) / parseFloat(formData.Collateral_Value);
+
         const formDataToSend = {
-          ...formData,
+          Debt_to_Income_Ratio: debtToIncomeRatio.toFixed(4),
+          Loan_to_Value_Ratio: loanToValueRatio.toFixed(4),
           Loan_Amount: parseFloat(formData.Loan_Amount) * 1000,
           Collateral_Value: parseFloat(formData.Collateral_Value) * 1000,
-          Annual_Income: parseFloat(formData.Annual_Income) * 1000,
+          Annual_Income: parseFloat(formData.Income) * 1000,
+          Loan_Term_Years: formData.Loan_Term_Years,
+          Subordination: formData.Subordination,
+          Sector: formData.Sector,
+          Region: formData.Region,
+          Assigned_Credit_Rating: formData.Assigned_Credit_Rating,
         };
 
         const response = await axios.post(
@@ -65,11 +74,7 @@ const InterestRatesForm = () => {
             username,
           }
         );
-        setPrediction(response.data.prediction);
-        UIkit.notification({
-          message: "Prediction received!",
-          status: "success",
-        });
+        setPrediction(parseFloat(response.data.prediction).toFixed(2));
       } else {
         UIkit.notification({
           message: "No token found!",
@@ -87,18 +92,6 @@ const InterestRatesForm = () => {
 
   const handleNewSimulation = () => {
     setPrediction(null);
-    setFormData({
-      Debt_to_Income_Ratio: "",
-      Loan_to_Value_Ratio: "",
-      Annual_Income: "",
-      Loan_Amount: "",
-      Loan_Term_Years: "",
-      Subordination: "",
-      Collateral_Value: "",
-      Sector: "Finance",
-      Region: "Northern Europe",
-      Assigned_Credit_Rating: "B1",
-    });
   };
 
   return (
@@ -108,83 +101,71 @@ const InterestRatesForm = () => {
       </h1>
       <form onSubmit={handleSubmit} className="uk-form-stacked">
         {[
-          { 
-            label: "Loan Amount (in thousands of $)", 
-            name: "Loan_Amount", 
-            min: 1000, 
-            max: 1000000, 
-            step: 1000,
-            tooltip: "Enter the amount of the loan in thousands of dollars. The value should be between $1 million and $1 trillion."
+   
+          {
+            label: "Income of the borrower (in thousands of $)",
+            name: "Income",
+            min: 1,
+            max: 1000000,
+            tooltip: "Enter the total annual income in thousands of dollars."
           },
-          { 
-            label: "Collateral Value (in thousands of $)", 
-            name: "Collateral_Value", 
-            min: 1000, 
-            max: 1000000, 
-            step: 1000,
-            tooltip: "Enter the collateral value associated with the loan in thousands of dollars. The value should match the significance of the loan amount."
+          {
+            label: "Liabilities of the borrower (in thousands of $)",
+            name: "Debt",
+            min: 1,
+            max: 1000000,
+            tooltip: "Enter the total liabilities amount in thousands of dollars."
           },
-          { 
-            label: "Loan Term Years", 
-            name: "Loan_Term_Years", 
-            min: 0.25, 
-            max: 50, 
+          {
+            label: "Loan Amount (in thousands of $)",
+            name: "Loan_Amount",
+            min: 100,
+            max: 1000000,
+            tooltip: "Enter the amount of the loan in thousands of dollars."
+          },
+          {
+            label: "Collateral Value (in thousands of $)",
+            name: "Collateral_Value",
+            max: 1000000,
+            tooltip: "Enter the collateral value associated with the loan in thousands of dollars."
+          },
+          {
+            label: "Loan Term Years",
+            name: "Loan_Term_Years",
+            min: 0.25,
+            max: 50,
             step: 0.25,
-            tooltip: "Enter the duration of the loan in years. It should be at least 3 months (0.25 years) and no more than 50 years."
+            tooltip: "Enter the duration of the loan in years."
           },
-          { 
-            label: "Loan to Value Ratio", 
-            name: "Loan_to_Value_Ratio", 
-            min: 0, 
-            max: 100, 
-            step: 0.01,
-            tooltip: "Enter the loan to value ratio as a percentage. The value should be between 0% and 100%."
+          {
+            label: "Subordination",
+            name: "Subordination",
+            tooltip: "Enter the subordination rank related to the loan."
           },
-          { 
-            label: "Debt to Income Ratio", 
-            name: "Debt_to_Income_Ratio", 
-            min: 0, 
-            max: 100, 
-            step: 0.01,
-            tooltip: "Enter the debt to income ratio as a percentage. The value should be between 0% and 100%."
-          },
-          { 
-            label: "Annual Income of the borrower (in thousands of $)", 
-            name: "Annual_Income", 
-            min: 10, 
-            max: 100000, 
-            step: 10,
-            tooltip: "Enter the borrower's annual income in thousands of dollars. The value should be between $10,000 and $100 billion."
-          },
-          { 
-            label: "Sector", 
-            name: "Sector", 
+          {
+            label: "Sector",
+            name: "Sector",
             options: industrySectors,
             tooltip: "Select the sector in which the borrower operates."
           },
-          { 
-            label: "Region", 
-            name: "Region", 
+          {
+            label: "Region",
+            name: "Region",
             options: regions,
             tooltip: "Select the region where the borrower is based."
           },
-          { 
-            label: "Assigned Credit Rating", 
-            name: "Assigned_Credit_Rating", 
+          {
+            label: "Assigned Credit Rating",
+            name: "Assigned_Credit_Rating",
             options: creditRatings,
             tooltip: "Select the credit rating assigned to the borrower."
-          },
-          { 
-            label: "Subordination", 
-            name: "Subordination",
-            tooltip: "Enter any subordination details related to the loan."
           },
         ].map((field, index) => (
           <div className="uk-margin" key={index}>
             <label className="uk-form-label" htmlFor={field.name}>
               {field.label}{" "}
-              <span 
-                uk-icon="icon: question; ratio: 0.75" 
+              <span
+                uk-icon="icon: question; ratio: 0.75"
                 uk-tooltip={field.tooltip}
                 className="uk-icon"
               ></span>
@@ -236,21 +217,29 @@ const InterestRatesForm = () => {
       </form>
       {prediction && (
         <div
-          className="uk-margin uk-alert-success uk-text-center"
-          uk-alert="true"
+          className="uk-margin uk-card uk-card-default uk-card-body uk-text-center uk-border-rounded"
         >
           <p className="uk-text-large">
             <strong>Predicted Interest Rate:</strong> {`${prediction}%`}
           </p>
-          <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
-            <button
-              type="button"
-              className="uk-button uk-button-primary uk-border-rounded"
-              onClick={handleNewSimulation}
-            >
-              Run New Simulation
-            </button>
-          </div>
+        </div>
+      )}
+      {prediction && (
+        <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
+          <button
+            type="button"
+            className="uk-button uk-button-primary uk-border-rounded uk-margin-small-right"
+            onClick={handleNewSimulation}
+          >
+            Run New Simulation
+          </button>
+          <button
+            type="button"
+            className="uk-button uk-button-secondary uk-border-rounded"
+            onClick={() => window.location.href = "/interest-rates-history"}
+          >
+            View Interest Rates History
+          </button>
         </div>
       )}
     </div>
