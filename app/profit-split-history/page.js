@@ -11,6 +11,7 @@ import Link from "next/link";
 import NoDataAvailable from "../components/no-data/page";
 import "./styles.css";
 import PageTitle from "../components/page-title/page";
+import moment from "moment"; // Import moment for date formatting
 
 const ProfitSplitHistory = () => {
   const { user } = useAuth();
@@ -83,6 +84,11 @@ const ProfitSplitHistory = () => {
 
     return [
       {
+        Header: "Index",
+        accessor: (row, index) => index + 1,
+        disableSortBy: true, // Disable sorting for the index column
+      },
+      {
         Header: "HQ Profit Allocation (%)",
         accessor: "hq_profit_allocation",
         Cell: ({ row }) => {
@@ -99,6 +105,7 @@ const ProfitSplitHistory = () => {
           return `${subsProfitAllocation.toFixed(1)}%`;
         },
       },
+
       ...Object.keys(profitSplits[0])
         .filter(
           (key) =>
@@ -113,6 +120,16 @@ const ProfitSplitHistory = () => {
           accessor: key,
           Cell: ({ value }) => value,
         })),
+      {
+        Header: "Created At",
+        accessor: "createdAt",
+        Cell: ({ value }) => moment(value).format("DD-MM-YYYY HH:mm:ss"),
+      },
+      {
+        Header: "Updated At",
+        accessor: "updatedAt",
+        Cell: ({ value }) => moment(value).format("DD-MM-YYYY HH:mm:ss"),
+      },
       {
         Header: "Actions",
         accessor: "actions",
@@ -133,24 +150,28 @@ const ProfitSplitHistory = () => {
     useTable({ columns, data }, useSortBy);
 
   const downloadCSV = () => {
-    const csvData = profitSplits.map((row) =>
-      columns
-        .filter((col) => col.accessor !== "actions") // Exclude the actions column
-        .map((col) => {
-          if (col.accessor === "hq_profit_allocation") {
-            return ((1 - row.profit_allocation_key) * 100).toFixed(1) + "%";
-          }
-          if (col.accessor === "subsidiary_profit_allocation") {
-            return (row.profit_allocation_key * 100).toFixed(1) + "%";
-          }
-          return row[col.accessor];
-        })
-        .join(",")
+    const csvData = profitSplits.map((row, index) =>
+      [
+        index + 1, // Include the index in the CSV download
+        ((1 - row.profit_allocation_key) * 100).toFixed(1) + "%",
+        (row.profit_allocation_key * 100).toFixed(1) + "%",
+        moment(row.createdAt).format("DD-MM-YYYY HH:mm:ss"),
+        moment(row.updatedAt).format("DD-MM-YYYY HH:mm:ss"),
+        ...columns
+          .filter((col) => col.accessor !== "actions") // Exclude the actions column
+          .map((col) => row[col.accessor]),
+      ].join(",")
     );
-    const csvHeader = columns
-      .filter((col) => col.accessor !== "actions") // Exclude the actions column
-      .map((col) => col.Header)
-      .join(",");
+    const csvHeader = [
+      "Index",
+      "HQ Profit Allocation (%)",
+      "Subsidiary Profit Allocation (%)",
+      "Created At",
+      "Updated At",
+      ...columns
+        .filter((col) => col.accessor !== "actions") // Exclude the actions column
+        .map((col) => col.Header),
+    ].join(",");
     const csvContent = [csvHeader, ...csvData].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });

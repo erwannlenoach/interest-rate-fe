@@ -10,6 +10,8 @@ import NoDataAvailable from "../components/no-data/page";
 import PageTitle from "../components/page-title/page";
 import Link from "next/link";
 import "./styles.css";
+import { industrySectors, regions, creditRatings } from "../utils/constants"; 
+import moment from "moment"
 
 const InterestRatesHistory = () => {
   const { user } = useAuth();
@@ -72,7 +74,6 @@ const InterestRatesHistory = () => {
   };
 
   const formatValue = (value, key) => {
-  
     const keysToFormat = ["loan_amount", "collateral_value", "annual_income"];
     const keysToFormatPercentage = [
       "debt_to_income_ratio",
@@ -92,6 +93,23 @@ const InterestRatesHistory = () => {
       return `${value.toFixed(2)}%`;
     }
 
+    if (key === "sector_index" && typeof value === "number") {
+      return industrySectors[value] || "Unknown Sector";
+    }
+
+    if (key === "political_stability_index" && typeof value === "number") {
+      return regions[value] || "Unknown Region";
+    }
+
+    if (key === "company_credit_rating_value" && typeof value === "number") {
+      return creditRatings[value] || "Unknown Rating";
+    }
+
+    if (["createdAt", "updatedAt"].includes(key) && value) {
+      return moment(value).format('DD-MM-YYYY HH:mm:ss');
+    }
+  
+
     return value;
   };
 
@@ -103,30 +121,43 @@ const InterestRatesHistory = () => {
       Object.keys(loans[0]).filter(
         (key) =>
           key !== "id" &&
-          key !== "createdAt" &&
-          key !== "updatedAt" &&
-          key !== "UserId"
+          key !== "UserId" &&
+          key !== "interest_rate" 
       );
-
-    return [
-      ...keys.map((key) => ({
-        Header: key.replace(/_/g, " "),
-        accessor: key,
-        Cell: ({ value }) => formatValue(value, key),
-      })),
-      {
-        Header: "Actions",
-        accessor: "actions",
-        Cell: ({ row }) => (
-          <span
-            uk-icon="icon: trash; ratio: 1.5"
-            style={{ cursor: "pointer", color: "red" }}
-            onClick={() => handleDeleteLoan(row.original.id)}
-          />
-        ),
-      },
-    ];
-  }, [loans]);
+      return [
+        {
+          Header: "Index",
+          accessor: (row, index) => index + 1,
+          disableSortBy: true, 
+        },
+        {
+          Header: "Interest Rate",
+          accessor: "interest_rate",
+          Cell: ({ value }) => formatValue(value, "interest_rate"),
+        },
+        ...keys.map((key) => {
+          let headerLabel = key.replace(/_/g, " ");
+          if (key === "sector_index") headerLabel = "Sector"; 
+          if (key === "political_stability_index") headerLabel = "Location"; 
+          return {
+            Header: headerLabel,
+            accessor: key,
+            Cell: ({ value }) => formatValue(value, key),
+          };
+        }),
+        {
+          Header: "Actions",
+          accessor: "actions",
+          Cell: ({ row }) => (
+            <span
+              uk-icon="icon: trash; ratio: 1.5"
+              style={{ cursor: "pointer", color: "red" }}
+              onClick={() => handleDeleteLoan(row.original.id)}
+            />
+          ),
+        },
+      ];
+    }, [loans]);
 
   const data = useMemo(() => loans, [loans]);
 
@@ -134,15 +165,17 @@ const InterestRatesHistory = () => {
     useTable({ columns, data }, useSortBy);
 
   const downloadCSV = () => {
-    const csvData = loans.map((row) =>
-      columns
-        .filter((col) => col.accessor !== "actions")
-        .map((col) => formatValue(row[col.accessor], col.accessor))
-        .join(",")
+    const csvData = loans.map((row, index) =>
+      [
+        index + 1, // Include the index in the CSV download
+        ...columns
+          .filter((col) => col.accessor !== "actions")
+          .map((col) => formatValue(row[col.accessor], col.accessor)),
+      ].join(",")
     );
-    const csvHeader = columns
+    const csvHeader = ["Index", "Interest Rate", ...columns
       .filter((col) => col.accessor !== "actions")
-      .map((col) => col.Header)
+      .map((col) => col.Header)]
       .join(",");
     const csvContent = [csvHeader, ...csvData].join("\n");
 
