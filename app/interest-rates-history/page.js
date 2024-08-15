@@ -72,22 +72,23 @@ const InterestRatesHistory = () => {
   };
 
   const formatValue = (value, key) => {
-    console.log(value, key);
-    const keysToFormat = ["loan_amount", "Collateral_value", "annual_income"];
+  
+    const keysToFormat = ["loan_amount", "collateral_value", "annual_income"];
     const keysToFormatPercentage = [
       "debt_to_income_ratio",
       "loan_to_value_ratio",
     ];
+
     if (keysToFormat.includes(key) && typeof value === "number") {
       const formattedValue = Math.round(value);
       return `${new Intl.NumberFormat("en-US").format(formattedValue)}K $`;
     }
 
     if (keysToFormatPercentage.includes(key) && typeof value === "number") {
-      return `${(value * 100).toFixed(2)}%`;
+      return `${Math.round(value * 100)}%`;
     }
 
-    if ((key = "interest_rate" && typeof value === "number")) {
+    if (key === "interest_rate" && typeof value === "number") {
       return `${value.toFixed(2)}%`;
     }
 
@@ -135,12 +136,12 @@ const InterestRatesHistory = () => {
   const downloadCSV = () => {
     const csvData = loans.map((row) =>
       columns
-        .filter((col) => col.accessor !== "actions") // Exclude the actions column
+        .filter((col) => col.accessor !== "actions")
         .map((col) => formatValue(row[col.accessor], col.accessor))
         .join(",")
     );
     const csvHeader = columns
-      .filter((col) => col.accessor !== "actions") // Exclude the actions column
+      .filter((col) => col.accessor !== "actions")
       .map((col) => col.Header)
       .join(",");
     const csvContent = [csvHeader, ...csvData].join("\n");
@@ -157,7 +158,7 @@ const InterestRatesHistory = () => {
   };
 
   return (
-    <div className="uk-container uk-padding-medium table uk-margin-large">
+    <div className="uk-container uk-padding-medium table uk-margin-large container-interest-rates-history">
       <PageTitle title="INTEREST RATES HISTORY" />
       {loading ? (
         <div className="uk-text-center uk-margin-large-top">
@@ -179,7 +180,11 @@ const InterestRatesHistory = () => {
                         {...column.getHeaderProps(
                           column.getSortByToggleProps()
                         )}
-                        style={{ cursor: "pointer" }}
+                        style={{
+                          cursor: "pointer",
+                          minWidth: "150px", // Adjust this to make the headers wider
+                          whiteSpace: "normal", // Allow text to wrap into multiple lines
+                        }}
                       >
                         {column.render("Header")}
                         <span>
@@ -201,7 +206,7 @@ const InterestRatesHistory = () => {
                     <tr {...row.getRowProps()}>
                       {row.cells.map((cell) => (
                         <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                      ))}         
+                      ))}
                     </tr>
                   );
                 })}

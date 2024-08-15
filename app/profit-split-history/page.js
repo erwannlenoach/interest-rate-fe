@@ -9,7 +9,7 @@ import UIkit from "uikit"; // Import UIkit for the modal
 import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
 import NoDataAvailable from "../components/no-data/page";
-import './styles.css'
+import "./styles.css";
 import PageTitle from "../components/page-title/page";
 
 const ProfitSplitHistory = () => {
@@ -23,7 +23,7 @@ const ProfitSplitHistory = () => {
         if (typeof window !== "undefined") {
           const token = sessionStorage.getItem("token");
           const userId = user.id;
-  
+
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/api/profit-split`,
             { userId },
@@ -37,58 +37,82 @@ const ProfitSplitHistory = () => {
         setLoading(false); // Set loading to false even if there's an error
       }
     };
-  
+
     fetchProfitSplits();
   }, [user]);
 
   const handleDeleteProfitSplit = async (profitSplitId) => {
-    UIkit.modal.confirm("Are you sure you want to delete this profit split?").then(
-      async function () {
-        try {
-          const token = sessionStorage.getItem("token");
-          await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/profit-split/${profitSplitId}`, {
-            headers: { Authorization: `Bearer ${token}` },
+    UIkit.modal
+      .confirm("Are you sure you want to delete this profit split?")
+      .then(
+        async function () {
+          try {
+            const token = sessionStorage.getItem("token");
+            await axios.delete(
+              `${process.env.NEXT_PUBLIC_API_URL}/api/profit-split/${profitSplitId}`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            setProfitSplits(
+              profitSplits.filter((split) => split.id !== profitSplitId)
+            );
+            UIkit.notification({
+              message: "Profit Split deleted successfully!",
+              status: "success",
+            });
+          } catch (error) {
+            console.error("Failed to delete profit split", error);
+            UIkit.notification({
+              message: "Failed to delete profit split!",
+              status: "danger",
+            });
+          }
+        },
+        function () {
+          UIkit.notification({
+            message: "Profit Split deletion canceled!",
+            status: "warning",
           });
-          setProfitSplits(profitSplits.filter((split) => split.id !== profitSplitId));
-          UIkit.notification({ message: "Profit Split deleted successfully!", status: "success" });
-        } catch (error) {
-          console.error("Failed to delete profit split", error);
-          UIkit.notification({ message: "Failed to delete profit split!", status: "danger" });
         }
-      },
-      function () {
-        UIkit.notification({ message: "Profit Split deletion canceled!", status: "warning" });
-      }
-    );
-  };
-
-  const formatValue = (value, key) => {
-    if (key === "hq_allocation" || key === "subsidiary_allocation") {
-      return `${(value * 100).toFixed(2)}%`; // Convert to percentage and round to two decimal places
-    }
-
-    return value;
+      );
   };
 
   const columns = useMemo(() => {
     if (!profitSplits || profitSplits.length === 0) return [];
 
-    const keys =
-      profitSplits &&
-      Object.keys(profitSplits[0]).filter(
-        (key) =>
-          key !== "id" &&
-          key !== "createdAt" &&
-          key !== "updatedAt" &&
-          key !== "UserId"
-      );
-
     return [
-      ...keys.map((key) => ({
-        Header: key.replace(/_/g, " ").replace("hq allocation", "HQ Allocation (%)").replace("subsidiary allocation", "Subsidiary Allocation (%)"),
-        accessor: key,
-        Cell: ({ value }) => formatValue(value, key),
-      })),
+      {
+        Header: "HQ Profit Allocation (%)",
+        accessor: "hq_profit_allocation",
+        Cell: ({ row }) => {
+          const hqProfitAllocation =
+            (1 - row.original.profit_allocation_key) * 100;
+          return `${hqProfitAllocation.toFixed(1)}%`;
+        },
+      },
+      {
+        Header: "Subsidiary Profit Allocation (%)",
+        accessor: "subsidiary_profit_allocation",
+        Cell: ({ row }) => {
+          const subsProfitAllocation = row.original.profit_allocation_key * 100;
+          return `${subsProfitAllocation.toFixed(1)}%`;
+        },
+      },
+      ...Object.keys(profitSplits[0])
+        .filter(
+          (key) =>
+            key !== "id" &&
+            key !== "createdAt" &&
+            key !== "updatedAt" &&
+            key !== "UserId" &&
+            key !== "profit_allocation_key"
+        )
+        .map((key) => ({
+          Header: key.replace(/_/g, " "),
+          accessor: key,
+          Cell: ({ value }) => value,
+        })),
       {
         Header: "Actions",
         accessor: "actions",
@@ -112,7 +136,15 @@ const ProfitSplitHistory = () => {
     const csvData = profitSplits.map((row) =>
       columns
         .filter((col) => col.accessor !== "actions") // Exclude the actions column
-        .map((col) => formatValue(row[col.accessor], col.accessor))
+        .map((col) => {
+          if (col.accessor === "hq_profit_allocation") {
+            return ((1 - row.profit_allocation_key) * 100).toFixed(1) + "%";
+          }
+          if (col.accessor === "subsidiary_profit_allocation") {
+            return (row.profit_allocation_key * 100).toFixed(1) + "%";
+          }
+          return row[col.accessor];
+        })
         .join(",")
     );
     const csvHeader = columns
@@ -142,7 +174,9 @@ const ProfitSplitHistory = () => {
         </div>
       ) : profitSplits?.length > 0 ? (
         <>
-          <div className="uk-overflow-auto"> {/* Add overflow container */}
+          <div className="uk-overflow-auto">
+            {" "}
+            {/* Add overflow container */}
             <table
               {...getTableProps()}
               className="uk-table uk-table-striped uk-table-hover uk-table-divider uk-margin-large-bottom"
@@ -195,11 +229,10 @@ const ProfitSplitHistory = () => {
               className="uk-button button-download uk-margin-right uk-border-rounded"
               onClick={downloadCSV}
             >
-              <span uk-icon="icon: download; ratio: 1.5"></span>{" "}
-              Download CSV
+              <span uk-icon="icon: download; ratio: 1.5"></span> Download CSV
             </button>
             <button className="uk-button  uk-border-rounded">
-              <Link href="/interest-rates">
+              <Link href="/profit-split">
                 <span uk-icon="icon: laptop; ratio: 1.5"></span>{" "}
                 <span>New Simulation</span>
               </Link>
@@ -214,7 +247,7 @@ const ProfitSplitHistory = () => {
         />
       )}
     </div>
-  );  
+  );
 };
 
 export default withAuth(ProfitSplitHistory);

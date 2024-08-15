@@ -7,6 +7,7 @@ import { functionsProfitSplit, industriesProfitSplit } from "../utils/constants"
 import withAuth from "@/app/hoc/withAuth";
 import { jwtDecode } from "jwt-decode";
 import PageTitle from "../components/page-title/page";
+import ProfitChart from "../components/profit-chart/page";
 
 
 const ProfitSplit = () => {
@@ -284,14 +285,15 @@ const ProfitSplit = () => {
           className="uk-margin uk-card uk-card-default uk-card-body uk-text-center uk-border-rounded"
         >
           <p className="uk-text-large">
-            <strong>Predicted Profit Split:</strong>
+            <strong>Profit Split Simulation</strong>
           </p>
           <p>
-            Profit allocated to the headquarter: {hqProfitSplit}%
+            Headquarters Profit : {hqProfitSplit}%
           </p>
           <p>
-            Profit allocated to the subsidiary: {subsProfitSplit}%
+            Subsidiary Profit : {subsProfitSplit}%
           </p>
+          <ProfitChart hqProfit={hqProfitSplit} subsProfit={subsProfitSplit}></ProfitChart>
         </div>
       )}
       {prediction && (
