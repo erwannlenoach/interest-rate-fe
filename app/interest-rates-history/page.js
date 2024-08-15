@@ -201,15 +201,7 @@ const InterestRatesHistory = () => {
                     <tr {...row.getRowProps()}>
                       {row.cells.map((cell) => (
                         <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                      ))}
-                      <td>
-                        <span
-                          uk-icon="icon: trash; ratio: 1.5"
-                          style={{ cursor: "pointer", color: "red" }}
-                          onClick={() => handleDeleteLoan(row.original.id)}
-                          className="uk-flex uk-flex-center icon-trash"
-                        ></span>
-                      </td>
+                      ))}         
                     </tr>
                   );
                 })}

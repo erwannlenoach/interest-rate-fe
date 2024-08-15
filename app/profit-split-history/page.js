@@ -184,13 +184,6 @@ const ProfitSplitHistory = () => {
                           {cell.render("Cell")}
                         </td>
                       ))}
-                      <td>
-                        <span
-                          uk-icon="icon: trash; ratio: 1.5"
-                          style={{ cursor: "pointer", color: "red" }}
-                          onClick={() => handleDeleteProfitSplit(row.original.id)}
-                        ></span>
-                      </td>
                     </tr>
                   );
                 })}

@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
+import { useAuth } from "../context/AuthContext";
 import { industrySectors, regions, creditRatings } from "@/app/utils/constants";
 import withAuth from "@/app/hoc/withAuth";
-import { jwtDecode } from "jwt-decode";
 import PageTitle from "../components/page-title/page";
 
 const InterestRatesForm = () => {
@@ -24,6 +24,8 @@ const InterestRatesForm = () => {
 
   const [prediction, setPrediction] = useState(null);
   const [token, setToken] = useState(null);
+  const { user } = useAuth();
+
 
   useEffect(() => {
     UIkit.use(Icons);
@@ -48,8 +50,7 @@ const InterestRatesForm = () => {
     e.preventDefault();
     try {
       if (token) {
-        const decodedToken = jwtDecode(token);
-        const username = decodedToken.username;
+        const username = user?.username;
 
         // Calculate Debt-to-Income Ratio and Loan-to-Value Ratio
         const debtToIncomeRatio =
@@ -143,7 +144,9 @@ const InterestRatesForm = () => {
           {
             label: "Subordination",
             name: "Subordination",
-            tooltip: "Enter the subordination rank related to the loan.",
+            min: 1,
+            max:10,
+            tooltip: "Enter the subordination rank related to the loan between 1(least subordinated) to 10 (most subordinated)",
           },
           {
             label: "Sector",
