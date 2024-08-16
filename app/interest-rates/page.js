@@ -49,7 +49,7 @@ const InterestRatesForm = () => {
     e.preventDefault();
     try {
       if (token) {
-        const username = user?.username;
+        const email = user?.email;
 
         // Calculate Debt-to-Income Ratio and Loan-to-Value Ratio
         const debtToIncomeRatio =
@@ -75,7 +75,7 @@ const InterestRatesForm = () => {
           `${process.env.NEXT_PUBLIC_API_URL}/api/predict-loans`,
           {
             formData: formDataToSend,
-            username,
+            email,
           }
         );
         setPrediction(parseFloat(response.data.prediction).toFixed(2));

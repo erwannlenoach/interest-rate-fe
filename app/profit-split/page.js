@@ -8,9 +8,9 @@ import {
   industriesProfitSplit,
 } from "../utils/constants";
 import withAuth from "@/app/hoc/withAuth";
-import { jwtDecode } from "jwt-decode";
 import PageTitle from "../components/page-title/page";
 import ProfitChart from "../components/profit-chart/page";
+import { useAuth } from "../context/AuthContext";
 
 const ProfitSplit = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +28,11 @@ const ProfitSplit = () => {
     subs_function: "",
   });
 
+
   const [prediction, setPrediction] = useState(null);
+
+  const { user } = useAuth();
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,9 +46,9 @@ const ProfitSplit = () => {
     e.preventDefault();
     try {
       if (typeof window !== "undefined") {
-        const token = sessionStorage.getItem("token");
-        const decodedToken = jwtDecode(token);
-        const username = decodedToken.username;
+        const email = user?.email;
+
+        console.log(email)
 
         // Calculate profit based on revenue and cost
         const hq_profit =
@@ -72,7 +76,7 @@ const ProfitSplit = () => {
 
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/api/predict-profit-split`,
-          { formData: formDataToSend, username }
+          { formData: formDataToSend, email }
         );
         setPrediction(response.data.prediction);
       }
