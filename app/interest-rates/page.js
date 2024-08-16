@@ -187,9 +187,9 @@ const InterestRatesForm = () => {
                   required
                 >
                   <option value="">Please select...</option>
-                  {field.options.map((option, idx) => (
-                    <option key={`${field.name}-${idx}`} value={option}>
-                      {option}
+                  {Object.keys(field.options).map((key) => (
+                    <option key={`${field.name}-${key}`} value={key}>
+                      {field.options[key]}
                     </option>
                   ))}
                 </select>
