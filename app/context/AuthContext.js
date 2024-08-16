@@ -28,11 +28,10 @@ export const AuthProvider = ({ children }) => {
   const fetchUser = async (token) => {
     try {
       const decodedToken = jwtDecode(token);
-      const username = decodedToken.username;
-
+      const email = decodedToken.email;
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/profile`,
-        { username },
+        { email },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setUser(response.data.user);

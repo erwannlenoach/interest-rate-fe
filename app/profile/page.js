@@ -19,11 +19,11 @@ const UserProfile = () => {
       try {
         if (typeof window !== "undefined") {
           const decodedToken = jwtDecode(token);
-          const username = decodedToken.username;
+          const email = decodedToken.email;
 
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/api/profile`,
-            { username },
+            { email },
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setProfile(response.data.user);

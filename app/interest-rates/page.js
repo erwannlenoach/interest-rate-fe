@@ -26,7 +26,6 @@ const InterestRatesForm = () => {
   const [token, setToken] = useState(null);
   const { user } = useAuth();
 
-
   useEffect(() => {
     UIkit.use(Icons);
   }, []);
@@ -145,8 +144,9 @@ const InterestRatesForm = () => {
             label: "Subordination",
             name: "Subordination",
             min: 1,
-            max:10,
-            tooltip: "Enter the subordination rank related to the loan between 1(least subordinated) to 10 (most subordinated)",
+            max: 10,
+            tooltip:
+              "Enter the subordination rank related to the loan between 1(least subordinated) to 10 (most subordinated)",
           },
           {
             label: "Sector",
