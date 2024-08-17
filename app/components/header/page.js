@@ -6,8 +6,8 @@ import { useState, useEffect, useLayoutEffect } from "react";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
-import { jwtDecode } from "jwt-decode";
 import "./styles.css";
+
 
 export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -38,12 +38,11 @@ export default function Header() {
     setIsProfitSplitMenuOpen(!isProfitSplitMenuOpen);
   };
 
-  const { token, logout } = useAuth();
+  const { token, logout, user } = useAuth();
 
   useEffect(() => {
     if (token) {
-      const user = jwtDecode(token);
-      setUserName(user.username);
+      setUserName(user.email);
     }
   }, [token]);
 

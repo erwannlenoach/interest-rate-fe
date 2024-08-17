@@ -139,6 +139,8 @@ const InterestRatesHistory = () => {
           let headerLabel = key.replace(/_/g, " ");
           if (key === "sector_index") headerLabel = "Sector"; 
           if (key === "political_stability_index") headerLabel = "Location"; 
+          if (key === "createdAt") headerLabel = "Created at"; 
+          if (key === "updatedAt") headerLabel = "Updated at"; 
           return {
             Header: headerLabel,
             accessor: key,
