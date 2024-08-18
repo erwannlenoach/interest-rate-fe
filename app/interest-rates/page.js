@@ -17,9 +17,9 @@ const InterestRatesForm = () => {
     Collateral_Value: "",
     Loan_Term_Years: "",
     Subordination: "",
-    Sector: "Finance",
-    Region: "Northern Europe",
-    Assigned_Credit_Rating: "B1",
+    Sector: "",
+    Region: "",
+    Assigned_Credit_Rating: "",
   });
 
   const [prediction, setPrediction] = useState(null);
@@ -146,7 +146,7 @@ const InterestRatesForm = () => {
             min: 1,
             max: 10,
             tooltip:
-              "Enter the subordination rank related to the loan between 1(least subordinated) to 10 (most subordinated)",
+              "Enter the subordination rank related to the loan between 1 (least subordinated) to 10 (most subordinated).",
           },
           {
             label: "Sector",
@@ -187,9 +187,9 @@ const InterestRatesForm = () => {
                   required
                 >
                   <option value="">Please select...</option>
-                  {Object.keys(field.options).map((key) => (
-                    <option key={`${field.name}-${key}`} value={key}>
-                      {field.options[key]}
+                  {field.options.map((option, idx) => (
+                    <option key={`${field.name}-${idx}`} value={option}>
+                      {option}
                     </option>
                   ))}
                 </select>
