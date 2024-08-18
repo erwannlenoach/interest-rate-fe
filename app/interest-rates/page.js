@@ -48,7 +48,7 @@ const InterestRatesForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (token) {
+      if (user) {
         const email = user?.email;
 
         // Calculate Debt-to-Income Ratio and Loan-to-Value Ratio

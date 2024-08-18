@@ -48,7 +48,6 @@ const ProfitSplit = () => {
       if (typeof window !== "undefined") {
         const email = user?.email;
 
-        console.log(email)
 
         // Calculate profit based on revenue and cost
         const hq_profit =

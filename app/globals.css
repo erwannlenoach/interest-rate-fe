@@ -44,15 +44,17 @@ a:hover {
 }
 
 .uk-form-label {
-  font-size: 1.25rem; 
-  font-weight: bold; 
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 .uk-border-rounded {
   border-radius: 8px;
 }
 
-input, select, td {
+input,
+select,
+td {
   font-size: 1rem !important;
 }
 
@@ -61,6 +63,34 @@ td:last-child {
 }
 
 .uk-modal {
-  align-content:center
+  align-content: center;
 }
 
+.uk-modal-dialog {
+  border-radius: 5px;
+}
+
+.uk-modal-footer {
+  border-radius: 5px;
+}
+
+
+/* global.css */
+
+/* Apply to all buttons with the uk-button class */
+.uk-button {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.uk-button:hover {
+  transform: scale(1.05);
+}
+
+/* Specific styles for primary and secondary buttons */
+.uk-button-primary:hover {
+  background-color: #0056b3; /* Slightly darker shade of the primary color */
+}
+
+.uk-button-secondary:hover {
+  background-color: #2a9d8f; /* Slightly darker shade of the secondary color */
+}

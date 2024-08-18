@@ -7,11 +7,10 @@ import axios from "axios";
 import UIkit from "uikit";
 import { useAuth } from "../context/AuthContext";
 import NoDataAvailable from "../components/no-data/page";
+import CustomButton from "../components/history-bottom/page"; 
 import PageTitle from "../components/page-title/page";
-import Link from "next/link";
-import "./styles.css";
 import { industrySectors, regions, creditRatings } from "../utils/constants"; 
-import moment from "moment"
+import moment from "moment";
 
 const InterestRatesHistory = () => {
   const { user } = useAuth();
@@ -30,10 +29,10 @@ const InterestRatesHistory = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setLoans(response.data.loans);
-        setLoading(false); // Set loading to false after fetching data
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch loans", error);
-        setLoading(false); // Set loading to false even if there's an error
+        setLoading(false);
       }
     };
 
@@ -108,7 +107,6 @@ const InterestRatesHistory = () => {
     if (["createdAt", "updatedAt"].includes(key) && value) {
       return moment(value).format('DD-MM-YYYY HH:mm:ss');
     }
-  
 
     return value;
   };
@@ -217,8 +215,8 @@ const InterestRatesHistory = () => {
                         )}
                         style={{
                           cursor: "pointer",
-                          minWidth: "150px", // Adjust this to make the headers wider
-                          whiteSpace: "normal", // Allow text to wrap into multiple lines
+                          minWidth: "150px",
+                          whiteSpace: "normal",
                         }}
                       >
                         {column.render("Header")}
@@ -248,19 +246,19 @@ const InterestRatesHistory = () => {
               </tbody>
             </table>
           </div>
-          <div className="uk-flex uk-flex-center uk-flex-middle uk-margin-top  uk-margin-bottom">
-            <button
-              className="uk-button button-download uk-margin-right uk-border-rounded"
+          <div className="uk-grid uk-flex uk-flex-center uk-flex-middle uk-margin-top uk-margin-bottom">
+            <CustomButton
               onClick={downloadCSV}
-            >
-              <span uk-icon="icon: download; ratio: 1.5"></span> Download CSV
-            </button>
-            <button className="uk-button  uk-border-rounded">
-              <Link href="/interest-rates">
-                <span uk-icon="icon: laptop; ratio: 1.5"></span>{" "}
-                <span>New Simulation</span>
-              </Link>
-            </button>
+              icon="download"
+              label="Download CSV"
+              variant="green"
+            />
+            <CustomButton
+              href="/interest-rates"
+              icon="laptop"
+              label="New Simulation"
+              variant="primary"
+            />
           </div>
         </>
       ) : (

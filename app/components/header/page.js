@@ -41,10 +41,10 @@ export default function Header() {
   const { token, logout, user } = useAuth();
 
   useEffect(() => {
-    if (token) {
-      setUserName(user.email);
+    if (user) {
+      setUserName(user?.email);
     }
-  }, [token]);
+  }, [user]);
 
   return (
     <header>

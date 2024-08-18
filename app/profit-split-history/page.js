@@ -5,18 +5,17 @@ import { useTable, useSortBy } from "react-table";
 import "uikit/dist/css/uikit.min.css";
 import withAuth from "@/app/hoc/withAuth";
 import axios from "axios";
-import UIkit from "uikit"; // Import UIkit for the modal
+import UIkit from "uikit";
 import { useAuth } from "../context/AuthContext";
-import Link from "next/link";
 import NoDataAvailable from "../components/no-data/page";
-import "./styles.css";
+import CustomButton from "../components/history-bottom/page"; // Import the new CustomButton component
 import PageTitle from "../components/page-title/page";
-import moment from "moment"; // Import moment for date formatting
+import moment from "moment";
 
 const ProfitSplitHistory = () => {
   const { user } = useAuth();
   const [profitSplits, setProfitSplits] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProfitSplits = async () => {
@@ -31,11 +30,11 @@ const ProfitSplitHistory = () => {
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setProfitSplits(response.data.profitSplits);
-          setLoading(false); // Set loading to false after fetching data
+          setLoading(false);
         }
       } catch (error) {
         console.error("Failed to fetch profit splits", error);
-        setLoading(false); // Set loading to false even if there's an error
+        setLoading(false);
       }
     };
 
@@ -86,7 +85,7 @@ const ProfitSplitHistory = () => {
       {
         Header: "Index",
         accessor: (row, index) => index + 1,
-        disableSortBy: true, // Disable sorting for the index column
+        disableSortBy: true,
       },
       {
         Header: "HQ Profit Allocation (%)",
@@ -152,13 +151,13 @@ const ProfitSplitHistory = () => {
   const downloadCSV = () => {
     const csvData = profitSplits.map((row, index) =>
       [
-        index + 1, // Include the index in the CSV download
+        index + 1,
         ((1 - row.profit_allocation_key) * 100).toFixed(1) + "%",
         (row.profit_allocation_key * 100).toFixed(1) + "%",
         moment(row.createdAt).format("DD-MM-YYYY HH:mm:ss"),
         moment(row.updatedAt).format("DD-MM-YYYY HH:mm:ss"),
         ...columns
-          .filter((col) => col.accessor !== "actions") // Exclude the actions column
+          .filter((col) => col.accessor !== "actions")
           .map((col) => row[col.accessor]),
       ].join(",")
     );
@@ -169,7 +168,7 @@ const ProfitSplitHistory = () => {
       "Created At",
       "Updated At",
       ...columns
-        .filter((col) => col.accessor !== "actions") // Exclude the actions column
+        .filter((col) => col.accessor !== "actions")
         .map((col) => col.Header),
     ].join(",");
     const csvContent = [csvHeader, ...csvData].join("\n");
@@ -188,7 +187,7 @@ const ProfitSplitHistory = () => {
   return (
     <div className="uk-container  uk-padding-medium table uk-margin-large">
       <PageTitle title="PROFIT SPLIT HISTORY" />
-      {loading ? ( // Show a loading state while fetching data
+      {loading ? (
         <div className="uk-text-center uk-margin-large-top">
           <div uk-spinner="ratio: 3"></div>
           <p>Loading data...</p>
@@ -196,12 +195,10 @@ const ProfitSplitHistory = () => {
       ) : profitSplits?.length > 0 ? (
         <>
           <div className="uk-overflow-auto">
-            {" "}
-            {/* Add overflow container */}
             <table
               {...getTableProps()}
               className="uk-table uk-table-striped uk-table-hover uk-table-divider uk-margin-large-bottom"
-              style={{ minWidth: "1000px" }} // Ensures a minimum width for the table
+              style={{ minWidth: "1000px" }}
             >
               <thead>
                 {headerGroups.map((headerGroup) => (
@@ -211,7 +208,7 @@ const ProfitSplitHistory = () => {
                         {...column.getHeaderProps(
                           column.getSortByToggleProps()
                         )}
-                        style={{ cursor: "pointer", minWidth: "150px" }} // Ensure fixed width for table headers
+                        style={{ cursor: "pointer", minWidth: "150px" }}
                       >
                         {column.render("Header")}
                         <span>
@@ -232,12 +229,7 @@ const ProfitSplitHistory = () => {
                   return (
                     <tr {...row.getRowProps()}>
                       {row.cells.map((cell) => (
-                        <td
-                          {...cell.getCellProps()}
-                          style={{ minWidth: "150px" }} // Ensure fixed width for table cells
-                        >
-                          {cell.render("Cell")}
-                        </td>
+                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                       ))}
                     </tr>
                   );
@@ -245,19 +237,19 @@ const ProfitSplitHistory = () => {
               </tbody>
             </table>
           </div>
-          <div className="uk-flex uk-flex-center uk-flex-middle uk-margin-top uk-margin-bottom">
-            <button
-              className="uk-button button-download uk-margin-right uk-border-rounded"
+          <div className="uk-grid uk-flex uk-flex-center uk-flex-middle uk-margin-top uk-margin-bottom">
+            <CustomButton
               onClick={downloadCSV}
-            >
-              <span uk-icon="icon: download; ratio: 1.5"></span> Download CSV
-            </button>
-            <button className="uk-button  uk-border-rounded">
-              <Link href="/profit-split">
-                <span uk-icon="icon: laptop; ratio: 1.5"></span>{" "}
-                <span>New Simulation</span>
-              </Link>
-            </button>
+              icon="download"
+              label="Download CSV"
+              variant="green"
+            />
+            <CustomButton
+              href="/profit-split"
+              icon="laptop"
+              label="New Simulation"
+              variant="primary"
+            />
           </div>
         </>
       ) : (

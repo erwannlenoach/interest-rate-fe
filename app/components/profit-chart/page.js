@@ -16,7 +16,7 @@ const ProfitChart = ({ hqProfit, subsProfit }) => {
         backgroundColor: ["#36A2EB", "#FF6384"],
         hoverBackgroundColor: ["#36A2EB", "#FF6384"],
         borderWidth: 1,
-        aspectRatio: 1
+        aspectRatio: 1.5
       },
     ],
   };
