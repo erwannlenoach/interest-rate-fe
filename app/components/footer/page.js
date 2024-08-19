@@ -10,9 +10,6 @@ export default function Footer() {
     <footer className="uk-section-secondary uk-light uk-padding">
       <div className="uk-container uk-flex uk-flex-between uk-flex-middle container-footer">
         <div className="uk-flex">
-          <Link href="/documentation" className="uk-margin-right footer-link">
-            DOCUMENTATION
-          </Link>
           <Link href="/privacy" className="footer-link">
             PRIVACY
           </Link>

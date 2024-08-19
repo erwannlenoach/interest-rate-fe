@@ -1,0 +1,11 @@
+@media (max-width: 1200px) {
+  .container-cards {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem !important;
+  }
+}
+
+.container-cards {
+  margin-top: 10rem !important;
+}

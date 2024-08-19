@@ -1,25 +1,45 @@
 .custom-button {
-    color: white!important;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .custom-button:hover {
-    transform: scale(1.05);
-  }
-  
-  .custom-button.primary {
-    background-color: #1e87f0;
-  }
-  
-  .custom-button.primary:hover {
-    background-color: #0f7ae5; 
-  }
-  
-  .custom-button.green {
-    background-color: #4caf50; 
-  }
-  
-  .custom-button.green:hover {
-    background-color: #45a045; 
-  }
-  
+  color: white !important;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  height: 3rem;
+  width: 15rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem; /* Adjust padding as needed */
+  gap: 0.5rem; /* Space between the icon and the text */
+  padding: 0 !important;
+}
+
+.custom-button span[uk-icon] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-button span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-button:hover {
+  transform: scale(1.05);
+}
+
+.custom-button.primary {
+  background-color: #1e87f0;
+}
+
+.custom-button.primary:hover {
+  background-color: #0f7ae5;
+}
+
+.custom-button.green {
+  background-color: #4caf50;
+}
+
+.custom-button.green:hover {
+  background-color: #45a045;
+}

@@ -8,7 +8,7 @@ import axios from "axios";
 import UIkit from "uikit";
 import { useAuth } from "../context/AuthContext";
 import NoDataAvailable from "../components/no-data/page";
-import CustomButton from "../components/history-bottom/page"; // Import the new CustomButton component
+import CustomButton from "../components/history-bottom/page"; 
 import PageTitle from "../components/page-title/page";
 import moment from "moment";
 
@@ -237,7 +237,7 @@ const ProfitSplitHistory = () => {
               </tbody>
             </table>
           </div>
-          <div className="uk-grid uk-flex uk-flex-center uk-flex-middle uk-margin-top uk-margin-bottom">
+          <div className="uk-grid uk-flex uk-flex-center uk-flex-middle uk-margin-top uk-margin-bottom container-buttom-history">
             <CustomButton
               onClick={downloadCSV}
               icon="download"

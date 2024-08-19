@@ -3,7 +3,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; 
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     if (storedToken) {
       setToken(storedToken);
       const decodedToken = jwtDecode(storedToken);
-      setAutoLogout(decodedToken.exp); 
+      setAutoLogout(decodedToken.exp);
       fetchUser(storedToken);
     } else {
       setLoading(false);
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data.user);
     } catch (error) {
       console.error("Failed to fetch user", error);
-      logout(); 
+      logout();
     } finally {
       setLoading(false);
     }
@@ -60,9 +60,9 @@ export const AuthProvider = ({ children }) => {
     sessionStorage.setItem("token", token);
     setToken(token);
     const decodedToken = jwtDecode(token);
-    setAutoLogout(decodedToken.exp); // Set up auto-logout
+    setAutoLogout(decodedToken.exp);
     fetchUser(token);
-    router.push("/profile");
+    router.push("/dashboard");
   };
 
   const logout = () => {

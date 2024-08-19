@@ -246,7 +246,7 @@ const InterestRatesHistory = () => {
               </tbody>
             </table>
           </div>
-          <div className="uk-grid uk-flex uk-flex-center uk-flex-middle uk-margin-top uk-margin-bottom">
+          <div className="uk-grid uk-flex uk-flex-center uk-flex-middle uk-margin-top uk-margin-bottom container-buttom-history">
             <CustomButton
               onClick={downloadCSV}
               icon="download"
