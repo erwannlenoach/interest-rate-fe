@@ -11,45 +11,20 @@ export default function Documentation() {
       className="uk-section uk-section-muted uk-padding-large"
     >
       <div className="uk-container">
-      <PageTitle title="DOCUMENTATION" />
-
-
-        <div className="uk-card uk-card-default uk-card-body uk-margin">
-          <h3 className="uk-card-title">Summary</h3>
-          <ul className="uk-list uk-list-divider">
-            <li>
-              <strong>Transfer Pricing Concept:</strong> Overview of transfer
-              pricing and the arm's length principle, ensuring transactions
-              between related entities mirror those between independent
-              entities.
-            </li>
-            <li>
-              <strong>Interest Rates Model:</strong> Detailed explanation of the
-              model that simulates how an independent lender would determine
-              interest rates, including data generation, feature selection,
-              model training, and evaluation.
-            </li>
-            <li>
-              <strong>Profit Split Model:</strong> Explanation of the profit
-              split model, focusing on how profits are allocated based on
-              economic substance and the contributions of related entities. This
-              includes data generation, key factors, model training, and
-              evaluation.
-            </li>
-          </ul>
-        </div>
-
+        <PageTitle title="DOCUMENTATION" />
         <div className="uk-card uk-card-secondary uk-card-body uk-margin">
-          <h3 className="uk-card-title">Transfer Pricing Concept</h3>
+          <h3 className="uk-card-title">Concept of Nostra</h3>
           <p>
-            Transfer pricing refers to the methods and practices used to price
-            transactions within and between enterprises under common ownership
-            or control. The arm's length principle, endorsed by the OECD,
-            requires that the conditions of such transactions reflect those that
-            would be made between independent enterprises. This principle
-            ensures that profits are not artificially shifted within a
-            multinational group to lower-tax jurisdictions, thereby preserving
-            fair tax revenue allocation across countries.
+            Determining transfer pricing can be time-consuming and often
+            requires expensive databases and analytical tools. Nostra is
+            designed to facilitate the determination of arm's length prices for
+            financial transactions, while also managing these transactions
+            throughout the fiscal years. With Nostra, simply use the simulators,
+            input the required financial data, and instantly receive an arm's
+            length price—it's that simple. Nostra is currently available for TP
+            analysis of interest rates and profit splits. The sections below
+            provide detailed insights into the machine learning processes that
+            drive these transfer pricing predictions.
           </p>
         </div>
 
@@ -69,7 +44,7 @@ export default function Documentation() {
           <h5>Data Collection and Preparation</h5>
           <p>
             The dataset for training the interest rates model is generated
-            synthetically to cover a wide range of possible scenarios:
+            synthetically to cover a wide range of possible scenarios.
           </p>
           <ul className="uk-list uk-list-bullet">
             <li>
@@ -283,9 +258,7 @@ export default function Documentation() {
         </div>
 
         <div className="uk-card uk-card-primary uk-card-body uk-margin">
-          <h3 className="uk-card-title ">
-            Use and Limitations
-          </h3>
+          <h3 className="uk-card-title ">Use and Limitations</h3>
           <p>
             The interest rate and profit split models are powerful tools for
             ensuring compliance with transfer pricing regulations. They are

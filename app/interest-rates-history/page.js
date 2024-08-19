@@ -7,9 +7,9 @@ import axios from "axios";
 import UIkit from "uikit";
 import { useAuth } from "../context/AuthContext";
 import NoDataAvailable from "../components/no-data/page";
-import CustomButton from "../components/history-bottom/page"; 
+import CustomButton from "../components/history-bottom/page";
 import PageTitle from "../components/page-title/page";
-import { industrySectors, regions, creditRatings } from "../utils/constants"; 
+import { industrySectors, regions, creditRatings } from "../utils/constants";
 import moment from "moment";
 
 const InterestRatesHistory = () => {
@@ -80,7 +80,7 @@ const InterestRatesHistory = () => {
     ];
 
     if (keysToFormat.includes(key) && typeof value === "number") {
-      const formattedValue = Math.round(value);
+      const formattedValue = Math.round(value / 1000); // Convert to thousands for CSV
       return `${new Intl.NumberFormat("en-US").format(formattedValue)}K $`;
     }
 
@@ -105,7 +105,40 @@ const InterestRatesHistory = () => {
     }
 
     if (["createdAt", "updatedAt"].includes(key) && value) {
-      return moment(value).format('DD-MM-YYYY HH:mm:ss');
+      return moment(value).format("DD-MM-YYYY HH:mm:ss");
+    }
+
+    return value;
+  };
+
+  const formatValueCsv = (value, key) => {
+    const keysToFormatPercentage = [
+      "debt_to_income_ratio",
+      "loan_to_value_ratio",
+    ];
+
+    if (keysToFormatPercentage.includes(key) && typeof value === "number") {
+      return `${Math.round(value * 100)}%`;
+    }
+
+    if (key === "interest_rate" && typeof value === "number") {
+      return `${value.toFixed(2)}%`;
+    }
+
+    if (key === "sector_index" && typeof value === "number") {
+      return industrySectors[value] || "Unknown Sector";
+    }
+
+    if (key === "political_stability_index" && typeof value === "number") {
+      return regions[value] || "Unknown Region";
+    }
+
+    if (key === "company_credit_rating_value" && typeof value === "number") {
+      return creditRatings[value] || "Unknown Rating";
+    }
+
+    if (["createdAt", "updatedAt"].includes(key) && value) {
+      return moment(value).format("DD-MM-YYYY HH:mm:ss");
     }
 
     return value;
@@ -117,47 +150,44 @@ const InterestRatesHistory = () => {
     const keys =
       loans &&
       Object.keys(loans[0]).filter(
-        (key) =>
-          key !== "id" &&
-          key !== "UserId" &&
-          key !== "interest_rate" 
+        (key) => key !== "id" && key !== "UserId" && key !== "interest_rate"
       );
-      return [
-        {
-          Header: "Index",
-          accessor: (row, index) => index + 1,
-          disableSortBy: true, 
-        },
-        {
-          Header: "Interest Rate",
-          accessor: "interest_rate",
-          Cell: ({ value }) => formatValue(value, "interest_rate"),
-        },
-        ...keys.map((key) => {
-          let headerLabel = key.replace(/_/g, " ");
-          if (key === "sector_index") headerLabel = "Sector"; 
-          if (key === "political_stability_index") headerLabel = "Location"; 
-          if (key === "createdAt") headerLabel = "Created at"; 
-          if (key === "updatedAt") headerLabel = "Updated at"; 
-          return {
-            Header: headerLabel,
-            accessor: key,
-            Cell: ({ value }) => formatValue(value, key),
-          };
-        }),
-        {
-          Header: "Actions",
-          accessor: "actions",
-          Cell: ({ row }) => (
-            <span
-              uk-icon="icon: trash; ratio: 1.5"
-              style={{ cursor: "pointer", color: "red" }}
-              onClick={() => handleDeleteLoan(row.original.id)}
-            />
-          ),
-        },
-      ];
-    }, [loans]);
+    return [
+      {
+        Header: "Index",
+        accessor: (row, index) => index + 1,
+        disableSortBy: true,
+      },
+      {
+        Header: "Interest Rate",
+        accessor: "interest_rate",
+        Cell: ({ value }) => formatValue(value, "interest_rate"),
+      },
+      ...keys.map((key) => {
+        let headerLabel = key.replace(/_/g, " ");
+        if (key === "sector_index") headerLabel = "Sector";
+        if (key === "political_stability_index") headerLabel = "Location";
+        if (key === "createdAt") headerLabel = "Created at";
+        if (key === "updatedAt") headerLabel = "Updated at";
+        return {
+          Header: headerLabel,
+          accessor: key,
+          Cell: ({ value }) => formatValue(value, key),
+        };
+      }),
+      {
+        Header: "Actions",
+        accessor: "actions",
+        Cell: ({ row }) => (
+          <span
+            uk-icon="icon: trash; ratio: 1.5"
+            style={{ cursor: "pointer", color: "red" }}
+            onClick={() => handleDeleteLoan(row.original.id)}
+          />
+        ),
+      },
+    ];
+  }, [loans]);
 
   const data = useMemo(() => loans, [loans]);
 
@@ -165,18 +195,26 @@ const InterestRatesHistory = () => {
     useTable({ columns, data }, useSortBy);
 
   const downloadCSV = () => {
-    const csvData = loans.map((row, index) =>
-      [
-        index + 1, // Include the index in the CSV download
-        ...columns
-          .filter((col) => col.accessor !== "actions")
-          .map((col) => formatValue(row[col.accessor], col.accessor)),
-      ].join(",")
+    if (!loans || loans.length === 0) {
+      return;
+    }
+
+    const keys = Object.keys(loans[0]).filter(
+      (key) => key !== "id" && key !== "UserId"
     );
-    const csvHeader = ["Index", "Interest Rate", ...columns
-      .filter((col) => col.accessor !== "actions")
-      .map((col) => col.Header)]
-      .join(",");
+
+    const csvHeader = keys.join(",");
+
+    const csvData = loans.map((row) => {
+      return keys
+        .map((key) => {
+          let value = row[key];
+
+          return formatValueCsv(value, key);
+        })
+        .join(",");
+    });
+
     const csvContent = [csvHeader, ...csvData].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });

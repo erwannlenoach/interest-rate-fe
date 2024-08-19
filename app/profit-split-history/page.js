@@ -8,7 +8,7 @@ import axios from "axios";
 import UIkit from "uikit";
 import { useAuth } from "../context/AuthContext";
 import NoDataAvailable from "../components/no-data/page";
-import CustomButton from "../components/history-bottom/page"; 
+import CustomButton from "../components/history-bottom/page";
 import PageTitle from "../components/page-title/page";
 import moment from "moment";
 
@@ -154,23 +154,41 @@ const ProfitSplitHistory = () => {
         index + 1,
         ((1 - row.profit_allocation_key) * 100).toFixed(1) + "%",
         (row.profit_allocation_key * 100).toFixed(1) + "%",
+        ...columns
+          .filter(
+            (col) =>
+              col.accessor !== "actions" &&
+              col.accessor !== "hq_profit_allocation" &&
+              col.accessor !== "subsidiary_profit_allocation" &&
+              col.accessor !== "createdAt" &&
+              col.accessor !== "updatedAt"
+          )
+          .map((col) => row[col.accessor]),
+        ,
         moment(row.createdAt).format("DD-MM-YYYY HH:mm:ss"),
         moment(row.updatedAt).format("DD-MM-YYYY HH:mm:ss"),
-        ...columns
-          .filter((col) => col.accessor !== "actions")
-          .map((col) => row[col.accessor]),
       ].join(",")
     );
+
     const csvHeader = [
       "Index",
       "HQ Profit Allocation (%)",
       "Subsidiary Profit Allocation (%)",
+      ...columns
+        .filter(
+          (col) =>
+            col.accessor !== "actions" &&
+            col.accessor !== "hq_profit_allocation" &&
+            col.accessor !== "subsidiary_profit_allocation" &&
+            col.accessor !== "createdAt" &&
+            col.accessor !== "updatedAt"
+        )
+        .map((col) => col.Header),
+      ,
       "Created At",
       "Updated At",
-      ...columns
-        .filter((col) => col.accessor !== "actions")
-        .map((col) => col.Header),
     ].join(",");
+
     const csvContent = [csvHeader, ...csvData].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
