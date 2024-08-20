@@ -21,9 +21,19 @@ const ConnexionInfo = ({ user }) => {
     }
   }, [user]);
 
+  const usernameRegex = /^[a-zA-Z0-9_]{3,30}$/;
+
   const handleUpdateUsername = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    if (!usernameRegex.test(username)) {
+      setError(
+        "Username must be 3-15 characters long and can only contain letters, numbers, and underscores."
+      );
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/username/edit`,
@@ -55,10 +65,7 @@ const ConnexionInfo = ({ user }) => {
       <h3 className="uk-card-title uk-margin-medium-bottom">Connexion</h3>
       {error && <div className="uk-alert-danger uk-margin">{error}</div>}
       {success && <div className="uk-alert-success uk-margin">{success}</div>}
-      <form
-        onSubmit={handleUpdateUsername}
-        className="uk-form-stacked"
-      >
+      <form onSubmit={handleUpdateUsername} className="uk-form-stacked">
         <div className="uk-margin">
           <label className="uk-form-label" htmlFor="email">
             Email Address

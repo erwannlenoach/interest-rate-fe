@@ -13,12 +13,26 @@ const EditPassword = ({ user, token }) => {
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleChangePassword = async (e) => {
     e.preventDefault();
+
+    if (!validatePassword(newPassword)) {
+      setError(
+        "Password must be at least 8 characters long, include uppercase and lowercase letters, and a number."
+      );
+      return;
+    }
+
     if (newPassword !== confirmPassword) {
       setError("New passwords do not match.");
       return;
     }
+
     setIsLoading(true);
     try {
       const response = await axios.patch(
@@ -53,10 +67,7 @@ const EditPassword = ({ user, token }) => {
       <h3 className="uk-card-title uk-margin-medium-bottom">Mot de passe</h3>
       {error && <div className="uk-alert-danger uk-margin">{error}</div>}
       {success && <div className="uk-alert-success uk-margin">{success}</div>}
-      <form
-        onSubmit={handleChangePassword}
-        className="uk-form-stacked"
-      >
+      <form onSubmit={handleChangePassword} className="uk-form-stacked">
         <div className="uk-margin">
           <label className="uk-form-label">Current Password</label>
           <input

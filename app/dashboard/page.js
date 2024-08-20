@@ -30,8 +30,8 @@ const Dashboard = () => {
           icon="settings"
           isSecondary={true}
           links={[
-            { href: "/profile", label: "Connection Info", icon: "user" },
-            { href: "/edit-password", label: "Edit Password", icon: "lock" },
+            { href: "/profile", label: "User Info", icon: "user" },
+            { href: "/edit-password", label: "Password", icon: "lock" },
           ]}
         />
       </div>

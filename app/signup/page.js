@@ -12,9 +12,24 @@ const SignupPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
 
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleSignup = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    if (!validatePassword(password)) {
+      setError(
+        "Password must be at least 8 characters long, include uppercase and lowercase letters, and a number."
+      );
+      setIsLoading(false);
+
+      return;
+    }
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/register`,
@@ -50,7 +65,9 @@ const SignupPage = () => {
         />
       </div>
       <div className="signup-form-container">
-        <h3 className="uk-text-large uk-text-center uk-text-emphasis">Join Nostra</h3>
+        <h3 className="uk-text-large uk-text-center uk-text-emphasis">
+          Join Nostra
+        </h3>
         {error && <div className="uk-alert-danger uk-margin">{error}</div>}
         <form onSubmit={handleSignup}>
           <div className="uk-margin">
