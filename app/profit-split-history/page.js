@@ -11,6 +11,9 @@ import NoDataAvailable from "../components/no-data/page";
 import CustomButton from "../components/history-bottom/page";
 import PageTitle from "../components/page-title/page";
 import moment from "moment";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+import { profitSplitExplanations } from "@/app/utils/constants";
 
 const ProfitSplitHistory = () => {
   const { user } = useAuth();
@@ -40,6 +43,73 @@ const ProfitSplitHistory = () => {
 
     fetchProfitSplits();
   }, [user]);
+
+  const handleDownloadReport = (row) => {
+    const hqProfit = ((1 - row.profit_allocation_key) * 100).toFixed(2);
+    const subsProfit = (row.profit_allocation_key * 100).toFixed(2);
+
+    const report = {
+      "Headquarters Revenue": `$${(row.hq_revenue / 1000).toLocaleString()}K (${
+        profitSplitExplanations.hq_revenue
+      })`,
+      "Headquarters Cost": `$${(row.hq_cost / 1000).toLocaleString()}K (${
+        profitSplitExplanations.hq_cost
+      })`,
+      "Headquarters Assets": `$${(row.hq_assets / 1000).toLocaleString()}K (${
+        profitSplitExplanations.hq_assets
+      })`,
+      "Headquarters Liabilities": `$${(
+        row.hq_liabilities / 1000
+      ).toLocaleString()}K (${profitSplitExplanations.hq_liabilities})`,
+      "Subsidiary Revenue": `$${(row.subs_revenue / 1000).toLocaleString()}K (${
+        profitSplitExplanations.subs_revenue
+      })`,
+      "Subsidiary Cost": `$${(row.subs_cost / 1000).toLocaleString()}K (${
+        profitSplitExplanations.subs_cost
+      })`,
+      "Subsidiary Assets": `$${(row.subs_assets / 1000).toLocaleString()}K (${
+        profitSplitExplanations.subs_assets
+      })`,
+      "Subsidiary Liabilities": `$${(
+        row.subs_liabilities / 1000
+      ).toLocaleString()}K (${profitSplitExplanations.subs_liabilities})`,
+      "Headquarters Industry": `${row.hq_industry} (${profitSplitExplanations.industry})`,
+      "Subsidiary Industry": `${row.subs_industry} (${profitSplitExplanations.industry})`,
+      "Headquarters Function": `${row.hq_function} (${profitSplitExplanations.function})`,
+      "Subsidiary Function": `${row.subs_function} (${profitSplitExplanations.function})`,
+      "Predicted Profit Split (HQ)": `${hqProfit}%`,
+      "Predicted Profit Split (Subsidiary)": `${subsProfit}%`,
+    };
+
+    const doc = new jsPDF();
+    doc.setFontSize(14);
+    doc.text("Profit Split Report", 20, 20);
+
+    doc.setFontSize(12);
+    doc.text(
+      "This report provides a detailed analysis of the factors influencing the predicted profit split.",
+      20,
+      30
+    );
+
+    doc.autoTable({
+      startY: 40,
+      head: [["Factor", "Value"]],
+      body: Object.entries(report).map(([key, value]) => [key, value]),
+      styles: { halign: "left" },
+      margin: { top: 10, left: 20, right: 20 },
+    });
+
+    doc.text(
+      "The profit split prediction was generated using a machine learning model trained on sample data. " +
+        "This model aims to provide an arm's length profit allocation comparable to market standards, " +
+        "but as the app is currently in beta, the results may not represent a 100% reliable arm's length allocation.",
+      20,
+      doc.autoTable.previous.finalY + 20
+    );
+
+    doc.save(`ProfitSplitReport_${row.id}.pdf`);
+  };
 
   const handleDeleteProfitSplit = async (profitSplitId) => {
     UIkit.modal
@@ -133,11 +203,18 @@ const ProfitSplitHistory = () => {
         Header: "Actions",
         accessor: "actions",
         Cell: ({ row }) => (
-          <span
-            uk-icon="icon: trash; ratio: 1.5"
-            style={{ cursor: "pointer", color: "red" }}
-            onClick={() => handleDeleteProfitSplit(row.original.id)}
-          />
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <span
+              uk-icon="icon: download; ratio: 1.5"
+              style={{ cursor: "pointer", color: "blue", marginRight: "10px" }}
+              onClick={() => handleDownloadReport(row.original)}
+            />
+            <span
+              uk-icon="icon: trash; ratio: 1.5"
+              style={{ cursor: "pointer", color: "red" }}
+              onClick={() => handleDeleteProfitSplit(row.original.id)}
+            />
+          </div>
         ),
       },
     ];
