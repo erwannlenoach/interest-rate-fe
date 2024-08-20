@@ -272,9 +272,9 @@ const ProfitSplitHistory = () => {
         </>
       ) : (
         <NoDataAvailable
-          gifSrc="/travolta-desert.gif"
+          message="profit split"
           buttonText="New Simulation"
-          buttonUrl="/interest-rates"
+          buttonUrl="/profit-split"
         />
       )}
     </div>

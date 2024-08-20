@@ -301,10 +301,10 @@ const InterestRatesHistory = () => {
         </>
       ) : (
         <NoDataAvailable
-          gifSrc="/travolta-desert.gif"
-          buttonText="New Simulation"
-          buttonUrl="/interest-rates"
-        />
+        message="interest rates"
+        buttonText="New Simulation"
+        buttonUrl="/interest-rates"
+      />
       )}
     </div>
   );
