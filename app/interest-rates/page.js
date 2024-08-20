@@ -8,7 +8,7 @@ import { useAuth } from "../context/AuthContext";
 import { industrySectors, regions, creditRatings } from "@/app/utils/constants";
 import withAuth from "@/app/hoc/withAuth";
 import PageTitle from "../components/page-title/page";
-
+import InterestRateReport from "../components/interest-rate-component/page";
 const InterestRatesForm = () => {
   const [formData, setFormData] = useState({
     Debt: "",
@@ -19,11 +19,13 @@ const InterestRatesForm = () => {
     Subordination: "",
     Sector: "",
     Region: "",
-    Assigned_Credit_Rating: "",
+    Assigned_Credit_Rating: "None", // Default to "None"
   });
 
   const [prediction, setPrediction] = useState(null);
   const [token, setToken] = useState(null);
+  const [calculatedData, setCalculatedData] = useState({});
+
   const { user } = useAuth();
 
   useEffect(() => {
@@ -51,7 +53,6 @@ const InterestRatesForm = () => {
       if (user) {
         const email = user?.email;
 
-        // Calculate Debt-to-Income Ratio and Loan-to-Value Ratio
         const debtToIncomeRatio =
           parseFloat(formData.Debt) / parseFloat(formData.Income);
         const loanToValueRatio =
@@ -68,7 +69,10 @@ const InterestRatesForm = () => {
           Subordination: formData.Subordination,
           Sector: formData.Sector,
           Region: formData.Region,
-          Assigned_Credit_Rating: formData.Assigned_Credit_Rating,
+          Assigned_Credit_Rating:
+            formData.Assigned_Credit_Rating === "None"
+              ? null
+              : formData.Assigned_Credit_Rating,
         };
 
         const response = await axios.post(
@@ -79,6 +83,7 @@ const InterestRatesForm = () => {
           }
         );
         setPrediction(parseFloat(response.data.prediction).toFixed(2));
+        setCalculatedData({ debtToIncomeRatio, loanToValueRatio }); // Store the calculated ratios
       } else {
         UIkit.notification({
           message: "No token found!",
@@ -151,19 +156,19 @@ const InterestRatesForm = () => {
           {
             label: "Sector",
             name: "Sector",
-            options: industrySectors,
+            options: Object.keys(industrySectors),
             tooltip: "Select the sector in which the borrower operates.",
           },
           {
             label: "Region",
             name: "Region",
-            options: regions,
+            options: Object.keys(regions),
             tooltip: "Select the region where the borrower is based.",
           },
           {
             label: "Assigned Credit Rating",
             name: "Assigned_Credit_Rating",
-            options: creditRatings,
+            options: ["None", ...creditRatings], // Add "None" option
             tooltip: "Select the credit rating assigned to the borrower.",
           },
         ].map((field, index) => (
@@ -222,12 +227,13 @@ const InterestRatesForm = () => {
         )}
       </form>
       {prediction && (
-        <div className="uk-margin uk-card uk-card-default uk-card-body uk-text-center uk-border-rounded">
-          <p className="uk-text-large">
-            <strong>Predicted Interest Rate:</strong> {`${prediction}%`}
-          </p>
-        </div>
+        <InterestRateReport
+          prediction={prediction}
+          formData={formData}
+          calculatedData={calculatedData}
+        />
       )}
+
       {prediction && (
         <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
           <button
