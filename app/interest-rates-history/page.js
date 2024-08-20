@@ -9,8 +9,15 @@ import { useAuth } from "../context/AuthContext";
 import NoDataAvailable from "../components/no-data/page";
 import CustomButton from "../components/history-bottom/page";
 import PageTitle from "../components/page-title/page";
-import { industrySectors, regions, creditRatings } from "../utils/constants";
+import {
+  industrySectors,
+  regions,
+  creditRatings,
+  financialExplanations,
+} from "../utils/constants";
 import moment from "moment";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable"; // This automatically adds the autoTable function to jsPDF
 
 const InterestRatesHistory = () => {
   const { user } = useAuth();
@@ -38,6 +45,61 @@ const InterestRatesHistory = () => {
 
     fetchLoans();
   }, [user]);
+
+  const handleDownloadReport = (loanData) => {
+    const sectorName = industrySectors[loanData.sector_index] || "Unknown";
+    const regionName = regions[loanData.political_stability_index] || "Unknown";
+
+    const report = {
+      "Debt-to-Income Ratio": `${loanData.debt_to_income_ratio} (${financialExplanations.debtToIncomeRatio})`,
+      "Loan-to-Value Ratio": `${loanData.loan_to_value_ratio} (${financialExplanations.loanToValueRatio})`,
+      "Loan Amount": `$${(loanData.loan_amount / 1000).toLocaleString()}K (${
+        financialExplanations.loanAmount
+      })`,
+      "Collateral Value": `$${(
+        loanData.collateral_value / 1000
+      ).toLocaleString()}K (${financialExplanations.collateralValue})`,
+      "Loan Term (Years)": loanData.loan_term_years,
+      Subordination: loanData.subordination,
+      Sector: `${sectorName} (Index: ${loanData.sector_index}/6)`,
+      Region: `${regionName} (Index: ${loanData.political_stability_index}/6)`,
+      "Assigned Credit Rating": `${
+        creditRatings[loanData.company_credit_rating_value]
+      } (Index: ${loanData.company_credit_rating_value + 1}/21)`,
+      "Predicted Interest Rate": `${loanData.interest_rate}%`,
+    };
+
+    const doc = new jsPDF();
+    doc.setFontSize(14);
+    doc.text("Loan Interest Rate Report", 20, 20);
+
+    doc.setFontSize(12);
+    doc.text(
+      "This report provides a detailed analysis of the factors influencing the predicted interest rate.",
+      20,
+      30
+    );
+
+    // Add table with report details
+    doc.autoTable({
+      startY: 40,
+      head: [["Factor", "Value"]],
+      body: Object.entries(report).map(([key, value]) => [key, value]),
+      styles: { halign: "left" },
+      margin: { top: 10, left: 20, right: 20 },
+    });
+
+    // Disclaimer about the ML model and its beta version
+    doc.text(
+      "The interest rate prediction was generated using a machine learning model trained on sample data. " +
+        "This model aims to provide an arm's length price comparable to market standards, " +
+        "but as the app is currently in beta, the results may not represent a 100% reliable arm's length price.",
+      20,
+      doc.autoTable.previous.finalY + 20
+    );
+
+    doc.save("InterestRateReport.pdf");
+  };
 
   const handleDeleteLoan = async (loanId) => {
     UIkit.modal.confirm("Are you sure you want to delete this loan?").then(
@@ -179,11 +241,18 @@ const InterestRatesHistory = () => {
         Header: "Actions",
         accessor: "actions",
         Cell: ({ row }) => (
-          <span
-            uk-icon="icon: trash; ratio: 1.5"
-            style={{ cursor: "pointer", color: "red" }}
-            onClick={() => handleDeleteLoan(row.original.id)}
-          />
+          <span style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span
+              uk-icon="icon: download; ratio: 1.5"
+              style={{ cursor: "pointer", color: "green" }}
+              onClick={() => handleDownloadReport(row.original)}
+            />
+            <span
+              uk-icon="icon: trash; ratio: 1.5"
+              style={{ cursor: "pointer", color: "red" }}
+              onClick={() => handleDeleteLoan(row.original.id)}
+            />
+          </span>
         ),
       },
     ];
@@ -301,10 +370,10 @@ const InterestRatesHistory = () => {
         </>
       ) : (
         <NoDataAvailable
-        message="interest rates"
-        buttonText="New Simulation"
-        buttonUrl="/interest-rates"
-      />
+          message="interest rates"
+          buttonText="New Simulation"
+          buttonUrl="/interest-rates"
+        />
       )}
     </div>
   );

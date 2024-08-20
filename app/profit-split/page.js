@@ -9,8 +9,8 @@ import {
 } from "../utils/constants";
 import withAuth from "@/app/hoc/withAuth";
 import PageTitle from "../components/page-title/page";
-import ProfitChart from "../components/profit-chart/page";
 import { useAuth } from "../context/AuthContext";
+import ProfitSplitReport from "../components/profit-split-report/page";
 
 const ProfitSplit = () => {
   const [formData, setFormData] = useState({
@@ -28,11 +28,9 @@ const ProfitSplit = () => {
     subs_function: "",
   });
 
-
   const [prediction, setPrediction] = useState(null);
 
   const { user } = useAuth();
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,7 +45,6 @@ const ProfitSplit = () => {
     try {
       if (typeof window !== "undefined") {
         const email = user?.email;
-
 
         // Calculate profit based on revenue and cost
         const hq_profit =
@@ -301,18 +298,13 @@ const ProfitSplit = () => {
         )}
       </form>
       {prediction && (
-        <div className="uk-margin uk-card uk-card-default uk-card-body uk-text-center uk-border-rounded">
-          <p className="uk-text-large">
-            <strong>Profit Split Simulation</strong>
-          </p>
-          <p>Headquarters Profit : {hqProfitSplit}%</p>
-          <p>Subsidiary Profit : {subsProfitSplit}%</p>
-          <ProfitChart
-            hqProfit={hqProfitSplit}
-            subsProfit={subsProfitSplit}
-          ></ProfitChart>
-        </div>
+        <ProfitSplitReport
+          formData={formData}
+          hqProfit={hqProfitSplit}
+          subsProfit={subsProfitSplit}
+        />
       )}
+
       {prediction && (
         <div className="uk-margin-large uk-flex uk-flex-center uk-flex-middle">
           <button
