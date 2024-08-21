@@ -14,10 +14,10 @@ import {
   regions,
   creditRatings,
   financialExplanations,
+  disclaimerInterestRate,
 } from "../utils/constants";
 import moment from "moment";
-import { jsPDF } from "jspdf";
-import "jspdf-autotable"; // This automatically adds the autoTable function to jsPDF
+import { generatePDFReport } from "@/app/utils/helper";
 
 const InterestRatesHistory = () => {
   const { user } = useAuth();
@@ -46,59 +46,56 @@ const InterestRatesHistory = () => {
     fetchLoans();
   }, [user]);
 
-  const handleDownloadReport = (loanData) => {
-    const sectorName = industrySectors[loanData.sector_index] || "Unknown";
-    const regionName = regions[loanData.political_stability_index] || "Unknown";
+  const getNameByIndex = (object, index) => {
+    return (
+      Object.keys(object).find((key) => object[key] === index) || "Unknown"
+    );
+  };
 
-    const report = {
-      "Debt-to-Income Ratio": `${loanData.debt_to_income_ratio} (${financialExplanations.debtToIncomeRatio})`,
-      "Loan-to-Value Ratio": `${loanData.loan_to_value_ratio} (${financialExplanations.loanToValueRatio})`,
-      "Loan Amount": `$${(loanData.loan_amount / 1000).toLocaleString()}K (${
-        financialExplanations.loanAmount
-      })`,
-      "Collateral Value": `$${(
-        loanData.collateral_value / 1000
-      ).toLocaleString()}K (${financialExplanations.collateralValue})`,
-      "Loan Term (Years)": loanData.loan_term_years,
-      Subordination: loanData.subordination,
-      Sector: `${sectorName} (Index: ${loanData.sector_index}/6)`,
-      Region: `${regionName} (Index: ${loanData.political_stability_index}/6)`,
-      "Assigned Credit Rating": `${
-        creditRatings[loanData.company_credit_rating_value]
-      } (Index: ${loanData.company_credit_rating_value + 1}/21)`,
-      "Predicted Interest Rate": `${loanData.interest_rate}%`,
+  const handleDownloadReport = (loanData) => {
+    const sectorName = getNameByIndex(industrySectors, loanData.sector_index);
+    const regionName = getNameByIndex(
+      regions,
+      loanData.political_stability_index
+    );
+
+    const formatNumberUs = (num) => {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
-    const doc = new jsPDF();
-    doc.setFontSize(14);
-    doc.text("Loan Interest Rate Report", 20, 20);
+    const reportData = {
+      "Debt-to-Income Ratio": `${loanData.debt_to_income_ratio.toFixed(2)} (${
+        financialExplanations.debtToIncomeRatio
+      })`,
+      "Loan-to-Value Ratio": `${loanData.loan_to_value_ratio.toFixed(2)} (${
+        financialExplanations.loanToValueRatio
+      })`,
+      "Loan Amount": `$${formatNumberUs(loanData.loan_amount * 1000)} (${
+        financialExplanations.loanAmount
+      })`,
+      "Collateral Value": `$${formatNumberUs(
+        loanData.collateral_value * 1000
+      )} (${financialExplanations.collateralValue})`,
+      "Loan Term (Years)": `${loanData.loan_term_years} (${financialExplanations.loanTerm})`,
+      Subordination: `${loanData.subordination} (${financialExplanations.subordination})`,
+      Sector: `${sectorName} (Index: ${loanData.sector_index}/6) (${financialExplanations.sector})`,
+      Region: `${regionName} (Index: ${loanData.political_stability_index}/6) (${financialExplanations.region})`,
+      "Assigned Credit Rating": `${
+        loanData.company_credit_rating_value !== undefined
+          ? `${creditRatings[loanData.company_credit_rating_value]} (Index: ${
+              loanData.company_credit_rating_value + 1
+            }/21)`
+          : "None"
+      }`,
+      "Predicted Interest Rate": `${loanData.interest_rate.toFixed(2)}%`,
+    };
 
-    doc.setFontSize(12);
-    doc.text(
-      "This report provides a detailed analysis of the factors influencing the predicted interest rate.",
-      20,
-      30
-    );
-
-    // Add table with report details
-    doc.autoTable({
-      startY: 40,
-      head: [["Factor", "Value"]],
-      body: Object.entries(report).map(([key, value]) => [key, value]),
-      styles: { halign: "left" },
-      margin: { top: 10, left: 20, right: 20 },
+    generatePDFReport({
+      title: "Loan Interest Rate Report",
+      reportData,
+      disclaimer: disclaimerInterestRate,
+      filename: `InterestRateReport_${loanData.id}`,
     });
-
-    // Disclaimer about the ML model and its beta version
-    doc.text(
-      "The interest rate prediction was generated using a machine learning model trained on sample data. " +
-        "This model aims to provide an arm's length price comparable to market standards, " +
-        "but as the app is currently in beta, the results may not represent a 100% reliable arm's length price.",
-      20,
-      doc.autoTable.previous.finalY + 20
-    );
-
-    doc.save("InterestRateReport.pdf");
   };
 
   const handleDeleteLoan = async (loanId) => {

@@ -1,37 +1,43 @@
 "use client";
 
 import React from "react";
-import { jsPDF } from "jspdf";
-import "jspdf-autotable";
-import { profitSplitExplanations } from "@/app/utils/constants";
+import { generatePDFReport } from "@/app/utils/helper";
+import {
+  profitSplitExplanations,
+  disclaimerProfitSplit,
+} from "@/app/utils/constants";
 import ProfitChart from "../profit-chart/page";
 
 const ProfitSplitReport = ({ formData, hqProfit, subsProfit }) => {
-  const report = {
-    "Headquarters Revenue": `$${(
-      formData.hq_revenue / 1000
-    ).toLocaleString()}K (${profitSplitExplanations.hq_revenue})`,
-    "Headquarters Cost": `$${(formData.hq_cost / 1000).toLocaleString()}K (${
+  const formatNumberUs = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const reportData = {
+    "Headquarters Revenue": `$${formatNumberUs(formData.hq_revenue * 1000)} (${
+      profitSplitExplanations.hq_revenue
+    } )`,
+    "Headquarters Cost": `$${formatNumberUs(formData.hq_cost * 1000)} (${
       profitSplitExplanations.hq_cost
     })`,
-    "Headquarters Assets": `$${(
-      formData.hq_assets / 1000
-    ).toLocaleString()}K (${profitSplitExplanations.hq_assets})`,
-    "Headquarters Liabilities": `$${(
-      formData.hq_liabilities / 1000
-    ).toLocaleString()}K (${profitSplitExplanations.hq_liabilities})`,
-    "Subsidiary Revenue": `$${(
-      formData.subs_revenue / 1000
-    ).toLocaleString()}K (${profitSplitExplanations.subs_revenue})`,
-    "Subsidiary Cost": `$${(formData.subs_cost / 1000).toLocaleString()}K (${
+    "Headquarters Assets": `$${formatNumberUs(formData.hq_assets * 1000)} (${
+      profitSplitExplanations.hq_assets
+    })`,
+    "Headquarters Liabilities": `$${formatNumberUs(
+      formData.hq_liabilities * 1000
+    )} (${profitSplitExplanations.hq_liabilities})`,
+    "Subsidiary Revenue": `$${formatNumberUs(formData.subs_revenue * 1000)} (${
+      profitSplitExplanations.subs_revenue
+    })`,
+    "Subsidiary Cost": `$${formatNumberUs(formData.subs_cost * 1000)} (${
       profitSplitExplanations.subs_cost
     })`,
-    "Subsidiary Assets": `$${(
-      formData.subs_assets / 1000
-    ).toLocaleString()}K (${profitSplitExplanations.subs_assets})`,
-    "Subsidiary Liabilities": `$${(
-      formData.subs_liabilities / 1000
-    ).toLocaleString()}K (${profitSplitExplanations.subs_liabilities})`,
+    "Subsidiary Assets": `$${formatNumberUs(formData.subs_assets * 1000)} (${
+      profitSplitExplanations.subs_assets
+    })`,
+    "Subsidiary Liabilities": `$${formatNumberUs(
+      formData.subs_liabilities * 1000
+    )} (${profitSplitExplanations.subs_liabilities})`,
     "Headquarters Industry": `${formData.hq_industry} (${profitSplitExplanations.industry})`,
     "Subsidiary Industry": `${formData.subs_industry} (${profitSplitExplanations.industry})`,
     "Headquarters Function": `${formData.hq_function} (${profitSplitExplanations.function})`,
@@ -41,56 +47,12 @@ const ProfitSplitReport = ({ formData, hqProfit, subsProfit }) => {
   };
 
   const downloadPDF = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(14);
-    doc.text("Profit Split Report", 20, 20);
-
-    doc.setFontSize(12);
-    doc.text(
-      "This report provides a detailed analysis of the factors influencing the predicted profit split.",
-      20,
-      30
-    );
-
-    // Add table with report details
-    doc.autoTable({
-      startY: 40,
-      head: [["Factor", "Value"]],
-      body: Object.entries(report).map(([key, value]) => [key, value]),
-      styles: { halign: "left" },
-      margin: { top: 10, left: 20, right: 20 },
+    generatePDFReport({
+      title: "Profit Split Report",
+      reportData,
+      disclaimer: disclaimerProfitSplit,
+      filename: "ProfitSplitReport",
     });
-
-    // Disclaimer about the ML model and its beta version
-    doc.text(
-      "The profit split prediction was generated using a machine learning model trained on sample data. " +
-        20,
-      doc.autoTable.previous.finalY + 20
-    );
-    doc.text(
-      "As such, the results may not represent a 100% reliable arm's length allocation.",
-      20,
-      doc.autoTable.previous.finalY + 30
-    );
-    doc.text(
-      "This model aims to provide an arm's length profit allocation comparable to market standards, " +
-        20,
-      doc.autoTable.previous.finalY + 40
-    );
-
-    // Add the Profit Chart
-    const canvas = document.querySelector("#profitChart canvas");
-    const imgData = canvas.toDataURL("image/png");
-    doc.addImage(
-      imgData,
-      "PNG",
-      15,
-      doc.autoTable.previous.finalY + 40,
-      180,
-      90
-    );
-
-    doc.save("ProfitSplitReport.pdf");
   };
 
   return (
@@ -98,7 +60,21 @@ const ProfitSplitReport = ({ formData, hqProfit, subsProfit }) => {
       <h3 className="uk-heading-line uk-text-center">
         <span>Profit Split Report</span>
       </h3>
+      <div
+        id="profitChart"
+        className="uk-margin-large-top uk-margin-large-bottom"
+      >
+        <ProfitChart hqProfit={hqProfit} subsProfit={subsProfit} />
+      </div>
       <div className="uk-card uk-card-default uk-card-body uk-border-rounded">
+        <p>The simulated profit split is as follows:</p>
+        <p className="uk-text-bold">
+          {" "}
+          Profit in % allocated to the headquarters: {hqProfit}%
+        </p>
+        <p className="uk-text-bold">
+          Profit in % allocated to the subsidiary: {subsProfit}%
+        </p>
         <p className="uk-text-justify">
           The profit split prediction is determined by analyzing a dataset of
           similar companies with comparable characteristics. This analysis is
@@ -115,18 +91,15 @@ const ProfitSplitReport = ({ formData, hqProfit, subsProfit }) => {
           The predicted profit split by the model is based on the following
           factors:
         </p>
-        {Object.entries(report).map(([key, value], index) => (
+        {Object.entries(reportData).map(([key, value], index) => (
           <p key={index}>
             <strong>{key}:</strong> {value}
           </p>
         ))}
       </div>
-      <div id="profitChart" className="uk-margin-large-top">
-        <ProfitChart hqProfit={hqProfit} subsProfit={subsProfit} />
-      </div>
       <div className="uk-margin-large-top uk-flex uk-flex-center">
         <button className="uk-button uk-button-secondary" onClick={downloadPDF}>
-          Download Report as PDF
+          Download Report PDF
         </button>
       </div>
     </div>

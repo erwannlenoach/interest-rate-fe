@@ -58,7 +58,6 @@ const creditRatings = [
   "Ca",
   "C",
 ];
-
 const financialExplanations = {
   loanAmount:
     "The loan amount is the total sum borrowed by the borrower. A higher loan amount typically increases the lender's risk, which can result in a higher interest rate.",
@@ -74,7 +73,10 @@ const financialExplanations = {
     "The sector indicates the industry in which the borrower operates. Different sectors have varying levels of risk associated with them, influencing the interest rate.",
   subordination:
     "Subordination refers to the order of repayment in case of default. Loans with higher subordination are riskier, potentially leading to higher interest rates.",
+  loanTerm:
+    "The loan term is the length of time over which the loan is scheduled to be repaid. A shorter loan term can lead to higher interest costs"
 };
+
 
 
 const profitSplitExplanations = {
@@ -121,6 +123,10 @@ const functionsProfitSplit = [
   "holding",
 ];
 
+const disclaimerInterestRate= "The interest rate prediction was generated using a machine learning model trained on sample data. This model aims to provide an arm's length price comparable to market standards, but the results may not represent a 100% reliable arm's length price.";
+const disclaimerProfitSplit = "The profit split prediction was generated using a machine learning model trained on sample data. This model aims to provide an arm's length profit allocation comparable to market standards, but the results may not represent a 100% reliable arm's length allocation.";
+
+
 export {
   industrySectors,
   regions,
@@ -129,4 +135,6 @@ export {
   profitSplitExplanations,
   industriesProfitSplit,
   functionsProfitSplit,
+  disclaimerInterestRate,
+  disclaimerProfitSplit
 };

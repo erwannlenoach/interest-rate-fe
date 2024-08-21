@@ -8,7 +8,7 @@ import { useAuth } from "../context/AuthContext";
 import { industrySectors, regions, creditRatings } from "@/app/utils/constants";
 import withAuth from "@/app/hoc/withAuth";
 import PageTitle from "../components/page-title/page";
-import InterestRateReport from "../components/interest-rate-component/page";
+import InterestRateReport from "../components/interest-rate-report/page";
 const InterestRatesForm = () => {
   const [formData, setFormData] = useState({
     Debt: "",

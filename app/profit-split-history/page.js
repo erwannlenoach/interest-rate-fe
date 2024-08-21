@@ -11,9 +11,11 @@ import NoDataAvailable from "../components/no-data/page";
 import CustomButton from "../components/history-bottom/page";
 import PageTitle from "../components/page-title/page";
 import moment from "moment";
-import { jsPDF } from "jspdf";
-import "jspdf-autotable";
-import { profitSplitExplanations } from "@/app/utils/constants";
+import { generatePDFReport } from "../utils/helper";
+import {
+  disclaimerProfitSplit,
+  profitSplitExplanations,
+} from "@/app/utils/constants";
 
 const ProfitSplitHistory = () => {
   const { user } = useAuth();
@@ -47,32 +49,35 @@ const ProfitSplitHistory = () => {
   const handleDownloadReport = (row) => {
     const hqProfit = ((1 - row.profit_allocation_key) * 100).toFixed(2);
     const subsProfit = (row.profit_allocation_key * 100).toFixed(2);
+    const formatNumberUs = (num) => {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
 
-    const report = {
-      "Headquarters Revenue": `$${(row.hq_revenue / 1000).toLocaleString()}K (${
+    const reportData = {
+      "Headquarters Revenue": `$${formatNumberUs(row.hq_revenue * 1000)} (${
         profitSplitExplanations.hq_revenue
       })`,
-      "Headquarters Cost": `$${(row.hq_cost / 1000).toLocaleString()}K (${
+      "Headquarters Cost": `$${formatNumberUs(row.hq_cost * 1000)} (${
         profitSplitExplanations.hq_cost
       })`,
-      "Headquarters Assets": `$${(row.hq_assets / 1000).toLocaleString()}K (${
+      "Headquarters Assets": `$${formatNumberUs(row.hq_assets * 1000)} (${
         profitSplitExplanations.hq_assets
       })`,
-      "Headquarters Liabilities": `$${(
-        row.hq_liabilities / 1000
-      ).toLocaleString()}K (${profitSplitExplanations.hq_liabilities})`,
-      "Subsidiary Revenue": `$${(row.subs_revenue / 1000).toLocaleString()}K (${
+      "Headquarters Liabilities": `$${formatNumberUs(
+        row.hq_liabilities * 1000
+      )} (${profitSplitExplanations.hq_liabilities})`,
+      "Subsidiary Revenue": `$${formatNumberUs(row.subs_revenue * 1000)} (${
         profitSplitExplanations.subs_revenue
       })`,
-      "Subsidiary Cost": `$${(row.subs_cost / 1000).toLocaleString()}K (${
+      "Subsidiary Cost": `$${formatNumberUs(row.subs_cost * 1000)} (${
         profitSplitExplanations.subs_cost
       })`,
-      "Subsidiary Assets": `$${(row.subs_assets / 1000).toLocaleString()}K (${
+      "Subsidiary Assets": `$${formatNumberUs(row.subs_assets * 1000)} (${
         profitSplitExplanations.subs_assets
       })`,
-      "Subsidiary Liabilities": `$${(
-        row.subs_liabilities / 1000
-      ).toLocaleString()}K (${profitSplitExplanations.subs_liabilities})`,
+      "Subsidiary Liabilities": `$${formatNumberUs(
+        row.subs_liabilities * 1000
+      )} (${profitSplitExplanations.subs_liabilities})`,
       "Headquarters Industry": `${row.hq_industry} (${profitSplitExplanations.industry})`,
       "Subsidiary Industry": `${row.subs_industry} (${profitSplitExplanations.industry})`,
       "Headquarters Function": `${row.hq_function} (${profitSplitExplanations.function})`,
@@ -81,34 +86,12 @@ const ProfitSplitHistory = () => {
       "Predicted Profit Split (Subsidiary)": `${subsProfit}%`,
     };
 
-    const doc = new jsPDF();
-    doc.setFontSize(14);
-    doc.text("Profit Split Report", 20, 20);
-
-    doc.setFontSize(12);
-    doc.text(
-      "This report provides a detailed analysis of the factors influencing the predicted profit split.",
-      20,
-      30
-    );
-
-    doc.autoTable({
-      startY: 40,
-      head: [["Factor", "Value"]],
-      body: Object.entries(report).map(([key, value]) => [key, value]),
-      styles: { halign: "left" },
-      margin: { top: 10, left: 20, right: 20 },
+    generatePDFReport({
+      title: "Profit Split Report",
+      reportData,
+      disclaimer: disclaimerProfitSplit,
+      filename: `ProfitSplitReport_${row.id}`,
     });
-
-    doc.text(
-      "The profit split prediction was generated using a machine learning model trained on sample data. " +
-        "This model aims to provide an arm's length profit allocation comparable to market standards, " +
-        "but as the app is currently in beta, the results may not represent a 100% reliable arm's length allocation.",
-      20,
-      doc.autoTable.previous.finalY + 20
-    );
-
-    doc.save(`ProfitSplitReport_${row.id}.pdf`);
   };
 
   const handleDeleteProfitSplit = async (profitSplitId) => {

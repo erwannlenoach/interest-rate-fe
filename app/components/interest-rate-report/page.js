@@ -1,32 +1,36 @@
 "use client";
 import React from "react";
-import { jsPDF } from "jspdf";
-import "jspdf-autotable";
+import { generatePDFReport } from "@/app/utils/helper";
 import {
   industrySectors,
   regions,
   creditRatings,
   financialExplanations,
+  disclaimerInterestRate,
 } from "@/app/utils/constants";
 
 const InterestRateReport = ({ prediction, formData, calculatedData }) => {
   const sectorName = formData.Sector;
   const regionName = formData.Region;
 
-  const report = {
-    "Debt-to-Income Ratio": `${calculatedData.debtToIncomeRatio.toFixed(4)} (${
+  const formatNumberUs = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const reportData = {
+    "Debt-to-Income Ratio": `${calculatedData.debtToIncomeRatio.toFixed(2)} (${
       financialExplanations.debtToIncomeRatio
     })`,
-    "Loan-to-Value Ratio": `${calculatedData.loanToValueRatio.toFixed(4)} (${
+    "Loan-to-Value Ratio": `${calculatedData.loanToValueRatio.toFixed(2)} (${
       financialExplanations.loanToValueRatio
     })`,
-    "Loan Amount": `$${(formData.Loan_Amount / 1000).toLocaleString()}K (${
+    "Loan Amount": `$${formatNumberUs(formData.Loan_Amount * 1000)} (${
       financialExplanations.loanAmount
     })`,
-    "Collateral Value": `$${(
-      formData.Collateral_Value / 1000
-    ).toLocaleString()}K (${financialExplanations.collateralValue})`,
-    "Loan Term (Years)": formData.Loan_Term_Years,
+    "Collateral Value": `$${formatNumberUs(
+      formData.Collateral_Value * 1000
+    )} (${financialExplanations.collateralValue})`,
+    "Loan Term (Years)": `${formData.Loan_Term_Years} (${financialExplanations.loanTerm})`,
     Subordination: `${formData.Subordination} (${financialExplanations.subordination})`,
     Sector: `${sectorName} (Index: ${industrySectors[sectorName]}/6) (${financialExplanations.sector})`,
     Region: `${regionName} (Index: ${regions[regionName]}/6) (${financialExplanations.region})`,
@@ -37,45 +41,12 @@ const InterestRateReport = ({ prediction, formData, calculatedData }) => {
   };
 
   const downloadPDF = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(14);
-    doc.text("Loan Interest Rate Report", 20, 20);
-
-    doc.setFontSize(12);
-    doc.text(
-      "This report provides a detailed analysis of the factors influencing the predicted interest rate.",
-      20,
-      30
-    );
-
-    doc.autoTable({
-      startY: 40,
-      head: [["Factor", "Value"]],
-      body: Object.entries(report).map(([key, value]) => [key, value]),
-      styles: { halign: "left" },
-      margin: { top: 10, left: 20, right: 20 },
+    generatePDFReport({
+      title: "Interest Rate Report",
+      reportData,
+      disclaimer: disclaimerInterestRate,
+      filename: "InterestRateReport",
     });
-
-    doc.text(
-      "This model aims to provide an arm's length price comparable to market standards.",
-
-      20,
-      doc.autoTable.previous.finalY + 20
-    );
-
-    doc.text(
-      "The interest rate prediction was generated using a machine learning model trained on sample data.",
-
-      20,
-      doc.autoTable.previous.finalY + 30
-    );
-
-    doc.text(
-      "As such, the results may not represent a 100% reliable arm's length price.",
-      20,
-      doc.autoTable.previous.finalY + 40
-    );
-    doc.save("InterestRateReport.pdf");
   };
 
   return (
@@ -99,7 +70,7 @@ const InterestRateReport = ({ prediction, formData, calculatedData }) => {
           The prediction of the interest rates by the model is based on the
           following factors:
         </p>
-        {Object.entries(report).map(([key, value], index) => (
+        {Object.entries(reportData).map(([key, value], index) => (
           <p key={index}>
             <strong>{key}:</strong> {value}
           </p>
