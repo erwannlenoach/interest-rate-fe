@@ -59,7 +59,6 @@ const creditRatings = [
   "C",
 ];
 
-// Explanations for financial statements relationships
 const financialExplanations = {
   loanAmount:
     "The loan amount is the total sum borrowed by the borrower. A higher loan amount typically increases the lender's risk, which can result in a higher interest rate.",
@@ -69,7 +68,14 @@ const financialExplanations = {
     "The debt-to-income ratio measures the borrower's debt payments compared to their income. A higher ratio indicates higher risk for the lender and can lead to a higher interest rate.",
   loanToValueRatio:
     "The loan-to-value ratio compares the loan amount to the value of the collateral. A higher ratio suggests greater risk for the lender, which may result in a higher interest rate.",
+  region:
+    "The region where the borrower is located can affect the interest rate due to local economic conditions, market demand, and regulatory environment.",
+  sector:
+    "The sector indicates the industry in which the borrower operates. Different sectors have varying levels of risk associated with them, influencing the interest rate.",
+  subordination:
+    "Subordination refers to the order of repayment in case of default. Loans with higher subordination are riskier, potentially leading to higher interest rates.",
 };
+
 
 const profitSplitExplanations = {
   hq_revenue:

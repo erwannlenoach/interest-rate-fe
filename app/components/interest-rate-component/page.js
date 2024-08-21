@@ -27,9 +27,9 @@ const InterestRateReport = ({ prediction, formData, calculatedData }) => {
       formData.Collateral_Value / 1000
     ).toLocaleString()}K (${financialExplanations.collateralValue})`,
     "Loan Term (Years)": formData.Loan_Term_Years,
-    Subordination: formData.Subordination,
-    Sector: `${sectorName} (Index: ${industrySectors[sectorName]}/6)`,
-    Region: `${regionName} (Index: ${regions[regionName]}/6)`,
+    Subordination: `${formData.Subordination} (${financialExplanations.subordination})`,
+    Sector: `${sectorName} (Index: ${industrySectors[sectorName]}/6) (${financialExplanations.sector})`,
+    Region: `${regionName} (Index: ${regions[regionName]}/6) (${financialExplanations.region})`,
     "Assigned Credit Rating": `${formData.Assigned_Credit_Rating} (Index: ${
       creditRatings.indexOf(formData.Assigned_Credit_Rating) + 1
     }/21)`,
@@ -48,7 +48,6 @@ const InterestRateReport = ({ prediction, formData, calculatedData }) => {
       30
     );
 
-    // Add table with report details
     doc.autoTable({
       startY: 40,
       head: [["Factor", "Value"]],
@@ -57,15 +56,25 @@ const InterestRateReport = ({ prediction, formData, calculatedData }) => {
       margin: { top: 10, left: 20, right: 20 },
     });
 
-    // Disclaimer about the ML model and its beta version
     doc.text(
-      "The interest rate prediction was generated using a machine learning model trained on sample data. " +
-        "This model aims to provide an arm's length price comparable to market standards, " +
-        "but as the app is currently in beta, the results may not represent a 100% reliable arm's length price.",
+      "This model aims to provide an arm's length price comparable to market standards.",
+
       20,
       doc.autoTable.previous.finalY + 20
     );
 
+    doc.text(
+      "The interest rate prediction was generated using a machine learning model trained on sample data.",
+
+      20,
+      doc.autoTable.previous.finalY + 30
+    );
+
+    doc.text(
+      "As such, the results may not represent a 100% reliable arm's length price.",
+      20,
+      doc.autoTable.previous.finalY + 40
+    );
     doc.save("InterestRateReport.pdf");
   };
 
@@ -75,6 +84,9 @@ const InterestRateReport = ({ prediction, formData, calculatedData }) => {
         <span>Loan Report</span>
       </h3>
       <div className="uk-card uk-card-default uk-card-body uk-border-rounded">
+        <p className="uk-text-bold">
+          The predicted interest rate for the loan is {prediction} %.{" "}
+        </p>
         <p>
           The interest rate prediction is determined by analyzing a dataset of
           similar loans with comparable characteristics. This analysis is run
@@ -84,8 +96,8 @@ const InterestRateReport = ({ prediction, formData, calculatedData }) => {
           fully reliable arm's length price.
         </p>
         <p>
-          The predicted interest rate for this loan is based on the following
-          factors:
+          The prediction of the interest rates by the model is based on the
+          following factors:
         </p>
         {Object.entries(report).map(([key, value], index) => (
           <p key={index}>
