@@ -64,10 +64,18 @@ const ProfitSplitReport = ({ formData, hqProfit, subsProfit }) => {
     // Disclaimer about the ML model and its beta version
     doc.text(
       "The profit split prediction was generated using a machine learning model trained on sample data. " +
-        "This model aims to provide an arm's length profit allocation comparable to market standards, " +
-        "but as the app is currently in beta, the results may not represent a 100% reliable arm's length allocation.",
-      20,
+        20,
       doc.autoTable.previous.finalY + 20
+    );
+    doc.text(
+      "As such, the results may not represent a 100% reliable arm's length allocation.",
+      20,
+      doc.autoTable.previous.finalY + 30
+    );
+    doc.text(
+      "This model aims to provide an arm's length profit allocation comparable to market standards, " +
+        20,
+      doc.autoTable.previous.finalY + 40
     );
 
     // Add the Profit Chart
@@ -91,17 +99,21 @@ const ProfitSplitReport = ({ formData, hqProfit, subsProfit }) => {
         <span>Profit Split Report</span>
       </h3>
       <div className="uk-card uk-card-default uk-card-body uk-border-rounded">
-        <p>
+        <p className="uk-text-justify">
           The profit split prediction is determined by analyzing a dataset of
           similar companies with comparable characteristics. This analysis is
-          run through a machine learning model trained on all relevant data,
-          aiming to approximate an arm's length allocation. However, as the app
-          is currently in beta and utilizes sample data, this prediction may not
+          conducted through a machine learning model trained on all relevant
+          data, including an OECD-compliant approach that considers functions
+          performed, risks assumed, and assets employed in the profit allocation
+          process. Additionally, the model accounts for the broader economic
+          context, including industry-specific factors and the functional
+          environment in which the entities operate. However, as the app is
+          currently in beta and utilizes sample data, this prediction may not
           represent a fully reliable arm's length profit split.
         </p>
         <p>
-          The predicted profit split for this simulation is based on the
-          following factors:
+          The predicted profit split by the model is based on the following
+          factors:
         </p>
         {Object.entries(report).map(([key, value], index) => (
           <p key={index}>

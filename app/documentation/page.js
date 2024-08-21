@@ -139,8 +139,7 @@ export default function Documentation() {
           <ul className="uk-list uk-list-bullet">
             <li>
               <strong>Industries and Functions:</strong> The data covers various
-              industries (e.g., manufacturing, services) and functions (e.g.,
-              R&D, marketing) for both headquarters and subsidiaries.
+              industries and functions for both headquarters and subsidiaries.
             </li>
             <li>
               <strong>Industry-Specific Multipliers:</strong> Revenue, cost,

@@ -87,7 +87,7 @@ const InterestRateReport = ({ prediction, formData, calculatedData }) => {
         <p className="uk-text-bold">
           The predicted interest rate for the loan is {prediction} %.{" "}
         </p>
-        <p>
+        <p className="uk-text-justify">
           The interest rate prediction is determined by analyzing a dataset of
           similar loans with comparable characteristics. This analysis is run
           through a machine learning model trained on all relevant data, aiming
