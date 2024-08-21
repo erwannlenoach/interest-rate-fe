@@ -18,6 +18,7 @@ import {
 } from "../utils/constants";
 import moment from "moment";
 import { generatePDFReport } from "@/app/utils/helper";
+import "./styles.css";
 
 const InterestRatesHistory = () => {
   const { user } = useAuth();
@@ -238,18 +239,19 @@ const InterestRatesHistory = () => {
         Header: "Actions",
         accessor: "actions",
         Cell: ({ row }) => (
-          <span style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div className="actions-container">
             <span
               uk-icon="icon: download; ratio: 1.5"
-              style={{ cursor: "pointer", color: "green" }}
+              className="action-icon download-icon"
+              uk-tooltip="Download this report"
               onClick={() => handleDownloadReport(row.original)}
             />
             <span
               uk-icon="icon: trash; ratio: 1.5"
-              style={{ cursor: "pointer", color: "red" }}
+              className="action-icon delete-icon"
               onClick={() => handleDeleteLoan(row.original.id)}
             />
-          </span>
+          </div>
         ),
       },
     ];

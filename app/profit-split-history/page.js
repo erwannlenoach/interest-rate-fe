@@ -16,6 +16,7 @@ import {
   disclaimerProfitSplit,
   profitSplitExplanations,
 } from "@/app/utils/constants";
+import "./styles.css";
 
 const ProfitSplitHistory = () => {
   const { user } = useAuth();
@@ -186,15 +187,16 @@ const ProfitSplitHistory = () => {
         Header: "Actions",
         accessor: "actions",
         Cell: ({ row }) => (
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div className="actions-container">
             <span
               uk-icon="icon: download; ratio: 1.5"
-              style={{ cursor: "pointer", color: "blue", marginRight: "10px" }}
+              className="action-icon download-icon"
+              uk-tooltip="Download this report"
               onClick={() => handleDownloadReport(row.original)}
             />
             <span
               uk-icon="icon: trash; ratio: 1.5"
-              style={{ cursor: "pointer", color: "red" }}
+              className="action-icon delete-icon"
               onClick={() => handleDeleteProfitSplit(row.original.id)}
             />
           </div>

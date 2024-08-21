@@ -9,6 +9,8 @@ import { industrySectors, regions, creditRatings } from "@/app/utils/constants";
 import withAuth from "@/app/hoc/withAuth";
 import PageTitle from "../components/page-title/page";
 import InterestRateReport from "../components/interest-rate-report/page";
+import SimulationButtons from "../components/simulation-bottom/page";
+
 const InterestRatesForm = () => {
   const [formData, setFormData] = useState({
     Debt: "",
@@ -19,24 +21,17 @@ const InterestRatesForm = () => {
     Subordination: "",
     Sector: "",
     Region: "",
-    Assigned_Credit_Rating: "None", // Default to "None"
+    Assigned_Credit_Rating: "None", 
   });
 
   const [prediction, setPrediction] = useState(null);
-  const [token, setToken] = useState(null);
+  const [formDisabled, setFormDisabled] = useState(false); 
   const [calculatedData, setCalculatedData] = useState({});
 
   const { user } = useAuth();
 
   useEffect(() => {
     UIkit.use(Icons);
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedToken = sessionStorage.getItem("token");
-      setToken(storedToken);
-    }
   }, []);
 
   const handleChange = (e) => {
@@ -83,7 +78,8 @@ const InterestRatesForm = () => {
           }
         );
         setPrediction(parseFloat(response.data.prediction).toFixed(2));
-        setCalculatedData({ debtToIncomeRatio, loanToValueRatio }); // Store the calculated ratios
+        setCalculatedData({ debtToIncomeRatio, loanToValueRatio }); 
+        setFormDisabled(true); 
       } else {
         UIkit.notification({
           message: "No token found!",
@@ -101,120 +97,123 @@ const InterestRatesForm = () => {
 
   const handleNewSimulation = () => {
     setPrediction(null);
+    setFormDisabled(false); 
   };
 
   return (
     <div className="uk-container uk-container-small uk-margin-large">
       <PageTitle title="INTEREST RATES SIMULATOR" />
       <form onSubmit={handleSubmit} className="uk-form-stacked">
-        {[
-          {
-            label: "Income of the borrower (in thousands of $)",
-            name: "Income",
-            min: 1,
-            max: 1000000,
-            tooltip: "Enter the total annual income in thousands of dollars.",
-          },
-          {
-            label: "Liabilities of the borrower (in thousands of $)",
-            name: "Debt",
-            min: 1,
-            max: 1000000,
-            tooltip:
-              "Enter the total liabilities amount in thousands of dollars.",
-          },
-          {
-            label: "Loan Amount (in thousands of $)",
-            name: "Loan_Amount",
-            min: 100,
-            max: 1000000,
-            tooltip: "Enter the amount of the loan in thousands of dollars.",
-          },
-          {
-            label: "Collateral Value (in thousands of $)",
-            name: "Collateral_Value",
-            max: 1000000,
-            tooltip:
-              "Enter the collateral value associated with the loan in thousands of dollars.",
-          },
-          {
-            label: "Loan Term Years",
-            name: "Loan_Term_Years",
-            min: 0.25,
-            max: 50,
-            step: 0.25,
-            tooltip: "Enter the duration of the loan in years.",
-          },
-          {
-            label: "Subordination",
-            name: "Subordination",
-            min: 1,
-            max: 10,
-            tooltip:
-              "Enter the subordination rank related to the loan between 1 (least subordinated) to 10 (most subordinated).",
-          },
-          {
-            label: "Sector",
-            name: "Sector",
-            options: Object.keys(industrySectors),
-            tooltip: "Select the sector in which the borrower operates.",
-          },
-          {
-            label: "Region",
-            name: "Region",
-            options: Object.keys(regions),
-            tooltip: "Select the region where the borrower is based.",
-          },
-          {
-            label: "Assigned Credit Rating",
-            name: "Assigned_Credit_Rating",
-            options: ["None", ...creditRatings], // Add "None" option
-            tooltip: "Select the credit rating assigned to the borrower.",
-          },
-        ].map((field, index) => (
-          <div className="uk-margin" key={index}>
-            <label className="uk-form-label" htmlFor={field.name}>
-              {field.label}{" "}
-              <span
-                uk-icon="icon: question; ratio: 0.75"
-                uk-tooltip={field.tooltip}
-                className="uk-icon"
-              ></span>
-            </label>
-            <div className="uk-form-controls">
-              {field.options ? (
-                <select
-                  className="uk-select"
-                  id={field.name}
-                  name={field.name}
-                  value={formData[field.name]}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Please select...</option>
-                  {field.options.map((option, idx) => (
-                    <option key={`${field.name}-${idx}`} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <input
-                  className="uk-input"
-                  id={field.name}
-                  type="number"
-                  name={field.name}
-                  value={formData[field.name]}
-                  onChange={handleChange}
-                  min={field.min}
-                  max={field.max}
-                  step={field.step}
-                  required
-                />
-              )}
+        <fieldset className="uk-fieldset" disabled={formDisabled}> 
+          {[
+            {
+              label: "Income of the borrower (in thousands of $)",
+              name: "Income",
+              min: 1,
+              max: 1000000,
+              tooltip: "Enter the total annual income in thousands of dollars.",
+            },
+            {
+              label: "Liabilities of the borrower (in thousands of $)",
+              name: "Debt",
+              min: 1,
+              max: 1000000,
+              tooltip:
+                "Enter the total liabilities amount in thousands of dollars.",
+            },
+            {
+              label: "Loan Amount (in thousands of $)",
+              name: "Loan_Amount",
+              min: 100,
+              max: 1000000,
+              tooltip: "Enter the amount of the loan in thousands of dollars.",
+            },
+            {
+              label: "Collateral Value (in thousands of $)",
+              name: "Collateral_Value",
+              max: 1000000,
+              tooltip:
+                "Enter the collateral value associated with the loan in thousands of dollars.",
+            },
+            {
+              label: "Loan Term Years",
+              name: "Loan_Term_Years",
+              min: 0.25,
+              max: 50,
+              step: 0.25,
+              tooltip: "Enter the duration of the loan in years.",
+            },
+            {
+              label: "Subordination",
+              name: "Subordination",
+              min: 1,
+              max: 10,
+              tooltip:
+                "Enter the subordination rank related to the loan between 1 (least subordinated) to 10 (most subordinated).",
+            },
+            {
+              label: "Sector",
+              name: "Sector",
+              options: Object.keys(industrySectors),
+              tooltip: "Select the sector in which the borrower operates.",
+            },
+            {
+              label: "Region",
+              name: "Region",
+              options: Object.keys(regions),
+              tooltip: "Select the region where the borrower is based.",
+            },
+            {
+              label: "Assigned Credit Rating",
+              name: "Assigned_Credit_Rating",
+              options: ["None", ...creditRatings], 
+              tooltip: "Select the credit rating assigned to the borrower.",
+            },
+          ].map((field, index) => (
+            <div className="uk-margin" key={index}>
+              <label className="uk-form-label" htmlFor={field.name}>
+                {field.label}{" "}
+                <span
+                  uk-icon="icon: question; ratio: 0.75"
+                  uk-tooltip={field.tooltip}
+                  className="uk-icon"
+                ></span>
+              </label>
+              <div className="uk-form-controls">
+                {field.options ? (
+                  <select
+                    className="uk-select"
+                    id={field.name}
+                    name={field.name}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Please select...</option>
+                    {field.options.map((option, idx) => (
+                      <option key={`${field.name}-${idx}`} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    className="uk-input"
+                    id={field.name}
+                    type="number"
+                    name={field.name}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    min={field.min}
+                    max={field.max}
+                    step={field.step}
+                    required
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </fieldset>
         {!prediction && (
           <div className="uk-margin uk-flex uk-flex-center uk-flex-middle uk-margin-medium-top">
             <button
@@ -235,22 +234,14 @@ const InterestRatesForm = () => {
       )}
 
       {prediction && (
-        <div className="uk-margin uk-flex uk-flex-center uk-flex-middle">
-          <button
-            type="button"
-            className="uk-button uk-button-primary uk-border-rounded uk-margin-small-right"
-            onClick={handleNewSimulation}
-          >
-            Run New Simulation
-          </button>
-          <button
-            type="button"
-            className="uk-button uk-button-secondary uk-border-rounded"
-            onClick={() => (window.location.href = "/interest-rates-history")}
-          >
-            View Interest Rates History
-          </button>
-        </div>
+        <SimulationButtons
+          onNewSimulationClick={handleNewSimulation}
+          historyLink="/interest-rates-history"
+          newSimulationLabel="Run New Simulation"
+          historyLabel="View Interest Rates History"
+          newSimulationIcon="refresh"
+          historyIcon="list"
+        />
       )}
     </div>
   );

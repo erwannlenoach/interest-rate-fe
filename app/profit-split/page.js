@@ -11,6 +11,7 @@ import withAuth from "@/app/hoc/withAuth";
 import PageTitle from "../components/page-title/page";
 import { useAuth } from "../context/AuthContext";
 import ProfitSplitReport from "../components/profit-split-report/page";
+import SimulationButtons from "../components/simulation-bottom/page";
 
 const ProfitSplit = () => {
   const [formData, setFormData] = useState({
@@ -29,6 +30,8 @@ const ProfitSplit = () => {
   });
 
   const [prediction, setPrediction] = useState(null);
+  const [formDisabled, setFormDisabled] = useState(false); 
+
 
   const { user } = useAuth();
 
@@ -75,6 +78,7 @@ const ProfitSplit = () => {
           { formData: formDataToSend, email }
         );
         setPrediction(response.data.prediction);
+        setFormDisabled(true); 
       }
     } catch (error) {
       console.error("Failed to submit the form:", error);
@@ -86,8 +90,8 @@ const ProfitSplit = () => {
   };
 
   const handleNewSimulation = () => {
-    // Only reset the prediction, keep the form data intact
     setPrediction(null);
+    setFormDisabled(false); 
   };
 
   const hqProfitSplit =
@@ -101,7 +105,7 @@ const ProfitSplit = () => {
     <div className="uk-container uk-container-small uk-margin-large">
       <PageTitle title="PROFIT SPLIT SIMULATOR" />
       <form onSubmit={handleSubmit} className="uk-form-stacked">
-        <fieldset className="uk-fieldset">
+        <fieldset className="uk-fieldset" disabled={formDisabled}>
           <legend className="uk-legend">Headquarters</legend>
           {[
             {
@@ -194,7 +198,7 @@ const ProfitSplit = () => {
             </div>
           ))}
         </fieldset>
-        <fieldset className="uk-fieldset uk-margin-top">
+        <fieldset className="uk-fieldset uk-margin-top" disabled={formDisabled}>
           <legend className="uk-legend">Subsidiary</legend>
           {[
             {
@@ -306,22 +310,14 @@ const ProfitSplit = () => {
       )}
 
       {prediction && (
-        <div className="uk-margin-large uk-flex uk-flex-center uk-flex-middle">
-          <button
-            type="button"
-            className="uk-button uk-button-primary uk-border-rounded uk-margin-small-right"
-            onClick={handleNewSimulation}
-          >
-            Run New Simulation
-          </button>
-          <button
-            type="button"
-            className="uk-button uk-button-secondary uk-border-rounded"
-            onClick={() => (window.location.href = "/profit-split-history")}
-          >
-            View Profit Split History
-          </button>
-        </div>
+      <SimulationButtons
+      onNewSimulationClick={handleNewSimulation}
+      historyLink="/profit-split-history"
+      newSimulationLabel="Run New Simulation"
+      historyLabel="View Profit Split History"
+      newSimulationIcon="refresh"
+      historyIcon="list"
+    />
       )}
     </div>
   );

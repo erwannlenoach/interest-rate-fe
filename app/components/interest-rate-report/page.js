@@ -8,6 +8,7 @@ import {
   financialExplanations,
   disclaimerInterestRate,
 } from "@/app/utils/constants";
+import "./styles.css";
 
 const InterestRateReport = ({ prediction, formData, calculatedData }) => {
   const sectorName = formData.Sector;
@@ -75,11 +76,15 @@ const InterestRateReport = ({ prediction, formData, calculatedData }) => {
             <strong>{key}:</strong> {value}
           </p>
         ))}
-      </div>
-      <div className="uk-margin-large-top uk-flex uk-flex-center">
-        <button className="uk-button uk-button-secondary" onClick={downloadPDF}>
-          Download Report as PDF
-        </button>
+        <div className="uk-margin-large-top uk-flex uk-flex-center">
+          <button
+            className="uk-button button-pdf uk-border-rounded"
+            onClick={downloadPDF}
+          >
+            <span uk-icon="icon: download; ratio: 1.5" />
+            <span>Download Report PDF</span>
+          </button>
+        </div>
       </div>
     </div>
   );

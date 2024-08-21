@@ -1,3 +1,24 @@
 td:last-child {
     text-align: center;
   }
+
+
+  .actions-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .action-icon {
+    cursor: pointer;
+    transition: color 0.3s;
+    margin: 0 1rem
+  }
+  
+  .download-icon {
+    color: green!important;
+  }
+  
+  .delete-icon {
+    color: red;
+  }
+  

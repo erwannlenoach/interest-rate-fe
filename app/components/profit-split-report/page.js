@@ -7,6 +7,7 @@ import {
   disclaimerProfitSplit,
 } from "@/app/utils/constants";
 import ProfitChart from "../profit-chart/page";
+import "./styles.css";
 
 const ProfitSplitReport = ({ formData, hqProfit, subsProfit }) => {
   const formatNumberUs = (num) => {
@@ -96,11 +97,14 @@ const ProfitSplitReport = ({ formData, hqProfit, subsProfit }) => {
             <strong>{key}:</strong> {value}
           </p>
         ))}
-      </div>
-      <div className="uk-margin-large-top uk-flex uk-flex-center">
-        <button className="uk-button uk-button-secondary" onClick={downloadPDF}>
-          Download Report PDF
-        </button>
+        <div className="uk-margin-large-top uk-flex uk-flex-center">
+          <button
+            className="uk-button button-pdf uk-border-rounded"
+            onClick={downloadPDF}
+          >
+            Download Report PDF
+          </button>
+        </div>
       </div>
     </div>
   );
