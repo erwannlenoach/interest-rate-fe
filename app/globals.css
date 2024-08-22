@@ -43,8 +43,8 @@ a:hover {
 }
 
 .uk-form-label {
-  font-size: 1.25rem;
-  font-weight: bold;
+  font-size: 1.25rem!important;
+  font-weight: bold!important;
 }
 
 .uk-border-rounded {

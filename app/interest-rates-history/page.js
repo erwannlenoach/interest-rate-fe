@@ -67,7 +67,7 @@ const InterestRatesHistory = () => {
       "Loan Term (Years)": `${loanData.loan_term_years} (${financialExplanations.loanTerm})`,
       Subordination: `${loanData.subordination} (${financialExplanations.subordination})`,
       Sector: `${loanData.sector} (Index: ${loanData.sector_index}/6) (${financialExplanations.sector})`,
-      Region: `${loan.region} (Index: ${loanData.political_stability_index}/6) (${financialExplanations.region})`,
+      Region: `${loanData.region} (Index: ${loanData.political_stability_index}/6) (${financialExplanations.region})`,
       "Assigned Credit Rating": `${
         loanData.company_credit_rating_value !== undefined
           ? `${creditRatings[loanData.company_credit_rating_value]} (Index: ${
