@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
 import "./styles.css";
@@ -26,7 +26,6 @@ const SignupPage = () => {
         "Password must be at least 8 characters long, include uppercase and lowercase letters, and a number."
       );
       setIsLoading(false);
-
       return;
     }
 
@@ -54,6 +53,13 @@ const SignupPage = () => {
       console.error("Error signing up:", error);
     }
   };
+
+  // Clear error when user starts typing a new password
+  useEffect(() => {
+    if (password.length > 0) {
+      setError("");
+    }
+  }, [password]);
 
   return (
     <div className="signup-container">
@@ -101,7 +107,10 @@ const SignupPage = () => {
           </div>
         </form>
         <p className="uk-text-center uk-margin-top">
-          Already have an account ? <Link href="/login" className="link-login">Log in</Link>
+          Already have an account?{" "}
+          <Link href="/login" className="link-login">
+            Log in
+          </Link>
         </p>
       </div>
     </div>

@@ -47,23 +47,10 @@ const InterestRatesHistory = () => {
     fetchLoans();
   }, [user]);
 
-  const getNameByIndex = (object, index) => {
-    return (
-      Object.keys(object).find((key) => object[key] === index) || "Unknown"
-    );
-  };
-
   const handleDownloadReport = (loanData) => {
-    const sectorName = getNameByIndex(industrySectors, loanData.sector_index);
-    const regionName = getNameByIndex(
-      regions,
-      loanData.political_stability_index
-    );
-
     const formatNumberUs = (num) => {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
-
     const reportData = {
       "Debt-to-Income Ratio": `${loanData.debt_to_income_ratio.toFixed(2)} (${
         financialExplanations.debtToIncomeRatio
@@ -79,8 +66,8 @@ const InterestRatesHistory = () => {
       )} (${financialExplanations.collateralValue})`,
       "Loan Term (Years)": `${loanData.loan_term_years} (${financialExplanations.loanTerm})`,
       Subordination: `${loanData.subordination} (${financialExplanations.subordination})`,
-      Sector: `${sectorName} (Index: ${loanData.sector_index}/6) (${financialExplanations.sector})`,
-      Region: `${regionName} (Index: ${loanData.political_stability_index}/6) (${financialExplanations.region})`,
+      Sector: `${loanData.sector} (Index: ${loanData.sector_index}/6) (${financialExplanations.sector})`,
+      Region: `${loan.region} (Index: ${loanData.political_stability_index}/6) (${financialExplanations.region})`,
       "Assigned Credit Rating": `${
         loanData.company_credit_rating_value !== undefined
           ? `${creditRatings[loanData.company_credit_rating_value]} (Index: ${
@@ -152,14 +139,6 @@ const InterestRatesHistory = () => {
       return `${value.toFixed(2)}%`;
     }
 
-    if (key === "sector_index" && typeof value === "number") {
-      return industrySectors[value] || "Unknown Sector";
-    }
-
-    if (key === "political_stability_index" && typeof value === "number") {
-      return regions[value] || "Unknown Region";
-    }
-
     if (key === "company_credit_rating_value" && typeof value === "number") {
       return creditRatings[value] || "Unknown Rating";
     }
@@ -185,14 +164,6 @@ const InterestRatesHistory = () => {
       return `${value.toFixed(2)}%`;
     }
 
-    if (key === "sector_index" && typeof value === "number") {
-      return industrySectors[value] || "Unknown Sector";
-    }
-
-    if (key === "political_stability_index" && typeof value === "number") {
-      return regions[value] || "Unknown Region";
-    }
-
     if (key === "company_credit_rating_value" && typeof value === "number") {
       return creditRatings[value] || "Unknown Rating";
     }
@@ -210,7 +181,12 @@ const InterestRatesHistory = () => {
     const keys =
       loans &&
       Object.keys(loans[0]).filter(
-        (key) => key !== "id" && key !== "UserId" && key !== "interest_rate"
+        (key) =>
+          key !== "id" &&
+          key !== "UserId" &&
+          key !== "interest_rate" &&
+          key !== "sector_index" &&
+          key !== "political_stability_index"
       );
     return [
       {
@@ -225,8 +201,6 @@ const InterestRatesHistory = () => {
       },
       ...keys.map((key) => {
         let headerLabel = key.replace(/_/g, " ");
-        if (key === "sector_index") headerLabel = "Sector";
-        if (key === "political_stability_index") headerLabel = "Location";
         if (key === "createdAt") headerLabel = "Created at";
         if (key === "updatedAt") headerLabel = "Updated at";
         return {
