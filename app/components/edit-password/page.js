@@ -14,7 +14,7 @@ const EditPassword = ({ user, token }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{8,}$/;
     return passwordRegex.test(password);
   };
 

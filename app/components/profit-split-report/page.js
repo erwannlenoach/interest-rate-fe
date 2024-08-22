@@ -71,10 +71,10 @@ const ProfitSplitReport = ({ formData, hqProfit, subsProfit }) => {
         <p>The simulated profit split is as follows:</p>
         <p className="uk-text-bold">
           {" "}
-          Profit in % allocated to the headquarters: {hqProfit}%
+          Profit allocated to the headquarters: {hqProfit}%
         </p>
         <p className="uk-text-bold">
-          Profit in % allocated to the subsidiary: {subsProfit}%
+          Profit allocated to the subsidiary: {subsProfit}%
         </p>
         <p className="uk-text-justify">
           The profit split prediction is determined by analyzing a dataset of
@@ -102,7 +102,8 @@ const ProfitSplitReport = ({ formData, hqProfit, subsProfit }) => {
             className="uk-button button-pdf uk-border-rounded"
             onClick={downloadPDF}
           >
-            Download Report PDF
+            <span uk-icon="icon: download; ratio: 1.5" />
+            <span>Download Report PDF</span>
           </button>
         </div>
       </div>

@@ -13,7 +13,7 @@ const SignupPage = () => {
   const { login } = useAuth();
 
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{8,}$/;
     return passwordRegex.test(password);
   };
 
@@ -101,7 +101,7 @@ const SignupPage = () => {
           </div>
         </form>
         <p className="uk-text-center uk-margin-top">
-          Already have an account ? <Link href="/login">Log in</Link>
+          Already have an account ? <Link href="/login" className="link-login">Log in</Link>
         </p>
       </div>
     </div>

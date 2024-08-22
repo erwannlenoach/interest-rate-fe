@@ -34,6 +34,10 @@ textarea {
   text-decoration: none;
 }
 
+button {
+  height: 3rem;
+}
+
 a:hover {
   text-decoration: underline;
 }
@@ -81,9 +85,15 @@ td:last-child {
   background-color: #0056b3;
 }
 
+.button-signup-home {
+  background-color: #105c24!important;
+}
+
 .button-signup-home:hover {
   background-color: #2a9d8f;
 }
+
+
 
 @media (max-width: 768px) {
   .container-buttom-history {

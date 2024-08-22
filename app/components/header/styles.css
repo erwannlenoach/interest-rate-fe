@@ -1,14 +1,21 @@
-
 @media (max-width: 760px) {
   .custom-navbar {
     display: flex;
-    flex-direction: column 
+    flex-direction: column;
   }
   .navbar-elements-container {
     display: flex;
-    flex-direction: column 
+    flex-direction: column;
+  }
+  .navbar-logo {
+    margin: 0 !important;
   }
 }
+
+.navbar-logo {
+  margin-left: 5rem
+}
+
 
 .uk-button-icon {
   border: none;
@@ -50,26 +57,25 @@
 
 .uk-button-icon {
   padding: 30px !important;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .uk-button-icon:hover .uk-icon {
-  color: lightgray; 
+  color: lightgray;
 }
 
-/* styles.css */
 .uk-button-icon .uk-icon {
   color: white;
-  width: 24px; 
+  width: 24px;
   height: 24px;
 }
 
 .uk-button-icon:hover .uk-icon {
-  color: lightgray; 
+  color: lightgray;
 }
 
 .button-header {
-  border: none !important; 
+  border: none !important;
   color: white !important;
   padding: 10px 20px;
   cursor: pointer;

@@ -8,35 +8,13 @@ import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 import "./styles.css";
 
-
 export default function Header() {
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [isInterestRatesMenuOpen, setIsInterestRatesMenuOpen] = useState(false);
-  const [isProfitSplitMenuOpen, setIsProfitSplitMenuOpen] = useState(false);
   const [userName, setUserName] = useState(null);
 
   useLayoutEffect(() => {
     UIkit.use(Icons);
     UIkit.update();
   }, []);
-
-  useEffect(() => {
-    if (isUserMenuOpen || isInterestRatesMenuOpen || isProfitSplitMenuOpen) {
-      UIkit.update();
-    }
-  }, [isUserMenuOpen, isInterestRatesMenuOpen, isProfitSplitMenuOpen]);
-
-  const toggleUserMenu = () => {
-    setIsUserMenuOpen(!isUserMenuOpen);
-  };
-
-  const toggleInterestRatesMenu = () => {
-    setIsInterestRatesMenuOpen(!isInterestRatesMenuOpen);
-  };
-
-  const toggleProfitSplitMenu = () => {
-    setIsProfitSplitMenuOpen(!isProfitSplitMenuOpen);
-  };
 
   const { token, logout, user } = useAuth();
 
@@ -49,7 +27,7 @@ export default function Header() {
   return (
     <header>
       <nav className="uk-background-secondary uk-navbar custom-navbar">
-        <div className="uk-navbar-left uk-margin-large-left">
+        <div className="uk-navbar-left navbar-logo">
           <ul className="uk-navbar-nav">
             <li>
               <Link href="/">
@@ -68,25 +46,24 @@ export default function Header() {
               {/* Interest Rates Dropdown */}
               <div className="uk-inline">
                 <button
-                  className="uk-button uk-button-default button-header uk-button-icon"
+                  className="uk-button uk-button-default button-header uk-button-icon uk-flex uk-flex-middle"
                   type="button"
-                  onClick={toggleInterestRatesMenu}
                   aria-haspopup="true"
-                  aria-expanded={isInterestRatesMenuOpen}
+                  aria-expanded={false} // Always false since we rely on hover
                 >
-                  <span uk-icon="icon: arrow-up-right; ratio: 2"></span>{" "}
-                  Interest Rates
+                  <span uk-icon="icon: arrow-up-right; ratio: 1.5"></span>{" "}
+                  <span className="uk-margin-small-left"> Interest Rates</span>
+
                 </button>
                 <div
                   uk-dropdown="mode: hover; pos: bottom-center"
-                  hidden={!isInterestRatesMenuOpen}
                   className="uk-dropdown uk-border-rounded"
                 >
                   <ul className="uk-nav uk-dropdown-nav">
                     <li>
                       <Link href="/interest-rates">
                         <span uk-icon="icon: laptop; ratio: 1.5"></span>{" "}
-                        <span>Simulator</span>
+                        <span className="uk-margin-small-left"> Simulator</span>
                       </Link>
                     </li>
                     <li>
@@ -96,7 +73,7 @@ export default function Header() {
                           uk-icon="icon: list; ratio: 1.5"
                           className="uk-icon"
                         ></span>
-                        <span> History</span>
+                        <span className="uk-margin-small-left"> History</span>
                       </Link>
                     </li>
                   </ul>
@@ -106,17 +83,16 @@ export default function Header() {
               {/* Profit Split Dropdown */}
               <div className="uk-inline">
                 <button
-                  className="uk-button uk-button-default button-header uk-button-icon"
+                  className="uk-button uk-button-default button-header uk-button-icon uk-flex uk-flex-middle"
                   type="button"
-                  onClick={toggleProfitSplitMenu}
                   aria-haspopup="true"
-                  aria-expanded={isProfitSplitMenuOpen}
+                  aria-expanded={false} // Always false since we rely on hover
                 >
-                  <span uk-icon="icon: more; ratio: 1.5"></span> Profit Split
+                  <span uk-icon="icon: more; ratio: 1.5"></span> 
+                  <span className="uk-margin-small-left"> Profit Split</span>
                 </button>
                 <div
                   uk-dropdown="mode: hover; pos: bottom-center"
-                  hidden={!isProfitSplitMenuOpen}
                   className="uk-dropdown uk-border-rounded"
                 >
                   <ul className="uk-nav uk-dropdown-nav">
@@ -124,14 +100,14 @@ export default function Header() {
                       <Link href="/profit-split">
                         {" "}
                         <span uk-icon="icon: laptop; ratio: 1.5"></span>
-                        <span> Simulator</span>
+                        <span className="uk-margin-small-left"> Simulator</span>
                       </Link>
                     </li>
                     <li>
                       <Link href="/profit-split-history">
                         {" "}
                         <span uk-icon="icon: list; ratio: 1.5"></span>
-                        <span> History</span>
+                        <span className="uk-margin-small-left"> History</span>
                       </Link>
                     </li>
                   </ul>
@@ -139,9 +115,9 @@ export default function Header() {
               </div>
               {/* Documentation Link */}
               <div className="uk-inline div-icon-docs">
-                <Link href="/documentation">
-                  <button
-                    className="uk-button uk-button-default button-header uk-button-icon"
+              <Link href="/documentation" style={{ textDecoration: 'none' }}>
+              <button
+                    className="uk-button uk-button-default button-header uk-button-icon uk-flex uk-flex-middle"
                     type="button"
                     aria-haspopup="true"
                   >
@@ -149,18 +125,17 @@ export default function Header() {
                       uk-icon="icon: info; ratio: 1.5"
                       className="uk-icon"
                     ></span>
-                    <span> Documentation</span>
+                    <span className="uk-margin-small-left">  Documentation</span>
                   </button>
                 </Link>
               </div>
 
               <div className="uk-inline div-icon-user">
                 <button
-                  className="uk-button uk-button-default button-header uk-button-icon"
+                  className="uk-button uk-button-default button-header uk-button-icon uk-flex uk-flex-middle"
                   type="button"
-                  onClick={toggleUserMenu}
                   aria-haspopup="true"
-                  aria-expanded={isUserMenuOpen}
+                  aria-expanded={false} // Always false since we rely on hover
                 >
                   <span
                     uk-icon="icon: user; ratio: 1.5"
@@ -169,7 +144,6 @@ export default function Header() {
                 </button>
                 <div
                   uk-dropdown="mode: hover; pos: bottom-center"
-                  hidden={!isUserMenuOpen}
                   className="uk-dropdown uk-border-rounded"
                 >
                   <div className="uk-card uk-card-body uk-card-default uk-margin-bottom uk-text-center">
@@ -207,9 +181,8 @@ export default function Header() {
               <button
                 className="uk-button-icon"
                 type="button"
-                onClick={toggleUserMenu}
                 aria-haspopup="true"
-                aria-expanded={isUserMenuOpen}
+                aria-expanded={false} // Always false since we rely on hover
               >
                 <span
                   uk-icon="icon: user; ratio: 1.5"
@@ -218,7 +191,6 @@ export default function Header() {
               </button>
               <div
                 uk-dropdown="mode: hover; pos: bottom-center"
-                hidden={!isUserMenuOpen}
                 className="uk-dropdown uk-border-rounded"
               >
                 <ul className="uk-nav uk-dropdown-nav header-dropdown">

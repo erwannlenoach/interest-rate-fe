@@ -21,14 +21,14 @@ const ConnexionInfo = ({ user }) => {
     }
   }, [user]);
 
-  const usernameRegex = /^[a-zA-Z0-9_]{3,30}$/;
+  const usernameRegex = /^.{1,30}$/;
 
   const handleUpdateUsername = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     if (!usernameRegex.test(username)) {
       setError(
-        "Username must be 3-15 characters long and can only contain letters, numbers, and underscores."
+        "Username cannot be more than 30 characters long."
       );
       setIsLoading(false);
       return;

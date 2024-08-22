@@ -39,7 +39,7 @@ export default function HomeScreen() {
                   </button>
                 </Link>
                 <Link href="/signup">
-                  <button className="uk-button uk-button-secondary uk-margin-top uk-margin-left uk-border-rounded">
+                  <button className="uk-button uk-button-secondary uk-margin-top uk-margin-left uk-border-rounded button-signup-home">
                     Sign up
                   </button>
                 </Link>
