@@ -12,23 +12,67 @@ export default function Documentation() {
     >
       <div className="uk-container">
         <PageTitle title="DOCUMENTATION" />
-        <div className="uk-card uk-card-secondary uk-card-body uk-margin">
+        
+        {/* Index of Contents */}
+        <div className="uk-card uk-card-primary uk-card-body uk-margin">
+          <h3 className="uk-card-title">Table of Contents</h3>
+          <ul className="uk-list uk-list-divider">
+            <li><a href="#concept-of-nostra">Concept of Nostra</a></li>
+            <li><a href="#how-to-use">How to Use the App</a></li>
+            <li><a href="#interest-rates-model">Interest Rates Model</a></li>
+            <li><a href="#profit-split-model">Profit Split Model</a></li>
+          </ul>
+        </div>
+        
+        {/* Concept of Nostra */}
+        <div id="concept-of-nostra" className="uk-card uk-card-secondary uk-card-body uk-margin">
           <h3 className="uk-card-title">Concept of Nostra</h3>
           <p>
-            Determining transfer pricing can be time-consuming and often
-            requires expensive databases and analytical tools. Nostra is
-            designed to facilitate the determination of arm's length prices for
-            financial transactions, while also managing these transactions
-            throughout the fiscal years. With Nostra, simply use the simulators,
-            input the required financial data, and instantly receive an arm's
-            length price—it's that simple. Nostra is currently available for TP
-            analysis of interest rates and profit splits. The sections below
-            provide detailed insights into the machine learning processes that
-            drive these transfer pricing predictions.
+            Nostra is an experimental app designed to facilitate the
+            determination of arm's length prices for financial transactions and
+            the overall management of transfer pricing. Nostra is currently
+            available for TP analysis of interest rates and profit splits. The
+            sections below provide detailed insights into the machine learning
+            processes that drive these transfer pricing predictions.
           </p>
         </div>
 
-        <div className="uk-card uk-card-default uk-card-body uk-margin">
+        {/* How to Use the App */}
+        <div id="how-to-use" className="uk-card uk-card-default uk-card-body uk-margin">
+          <h3 className="uk-card-title">How to Use the App</h3>
+          <p>
+            The Nostra app provides an intuitive process for generating interest
+            rate and profit split predictions, as well as managing the resulting
+            reports. Here’s a step-by-step guide:
+          </p>
+
+          <h4 className="uk-heading-bullet">1. Filling Out the Form to Generate Predictions</h4>
+          <p>
+            Each form in the Nostra app collects specific data points necessary
+            for generating a prediction. For example, in the <strong>Interest
+            Rates Form</strong>, you will be prompted to enter information such
+            as income, debt, loan amount, collateral value, and other relevant
+            factors. After entering the data, submit the form to generate the prediction.
+          </p>
+
+          <h4 className="uk-heading-bullet">2. Viewing the Prediction Report</h4>
+          <p>
+            Once the form is submitted, the app will return a prediction, such as the interest rate or profit split, based on the provided data. This prediction will be displayed in a report format within the app.
+          </p>
+
+          <h4 className="uk-heading-bullet">3. Downloading the Prediction Report</h4>
+          <p>
+            After generating the prediction, you can download the report as a PDF by clicking the download icon. This feature allows you to keep a record of each prediction.
+          </p>
+
+          <h4 className="uk-heading-bullet">4. Accessing Historical Data</h4>
+          <p>
+            All past simulations are stored in the app's history sections, such as <strong>Interest Rates History</strong> and <strong>Profit Split History</strong>. These sections display a table of all previous predictions, allowing you to review, download individual reports, delete entries, and export the data as a CSV file.
+          </p>
+        </div>
+
+        {/* Interest Rates Model */}
+        <div id="interest-rates-model" className="uk-card uk-card-default uk-card-body uk-margin">
           <h3 className="uk-card-title">Interest Rates Model</h3>
           <p>
             The interest rates model is designed to predict the appropriate
@@ -43,8 +87,9 @@ export default function Documentation() {
 
           <h5>Data Collection and Preparation</h5>
           <p>
+            Nostra currently uses sample data through the generation of a dataset used for machine learning purposes.
             The dataset for training the interest rates model is generated
-            synthetically to cover a wide range of possible scenarios.
+            synthetically to cover a wide range of possible scenarios. The following features of the generated loans are used for the training of the model.
           </p>
           <ul className="uk-list uk-list-bullet">
             <li>
@@ -75,9 +120,7 @@ export default function Documentation() {
           </ul>
 
           <h5>Feature Selection and Target Variable</h5>
-          <p>
-            Key features such as Credit_Rating_Index, Sector_Index, and
-            Region_Index are used to predict the Interest_Rate. These features
+          <p> The above features are used for the training of the model as they
             simulate the factors an independent lender would consider when
             determining an interest rate.
           </p>
@@ -122,7 +165,8 @@ export default function Documentation() {
           </p>
         </div>
 
-        <div className="uk-card uk-card-secondary uk-card-body uk-margin">
+        {/* Profit Split Model */}
+        <div id="profit-split-model" className="uk-card uk-card-secondary uk-card-body uk-margin">
           <h3 className="uk-card-title">Profit Split Model</h3>
           <p>
             The profit split model is used to determine the distribution of
@@ -193,81 +237,6 @@ export default function Documentation() {
             based on their economic substance and contributions. This approach
             ensures that the profit splits are consistent with independent,
             arm's length transactions.
-          </p>
-        </div>
-
-        <div className="uk-card uk-card-default uk-card-body uk-margin">
-          <h3 className="uk-card-title">Synthetic Data Generation Process</h3>
-          <p>
-            The synthetic data generation process involves creating diverse
-            scenarios that reflect realistic market conditions. This includes:
-          </p>
-          <ul className="uk-list uk-list-bullet">
-            <li>
-              <strong>Random Sampling:</strong> Values for factors like Debt to
-              Income Ratio, Loan to Value Ratio, and Annual Income are randomly
-              sampled within predefined ranges.
-            </li>
-            <li>
-              <strong>Categorical Variables:</strong> Region, Sector, and Credit
-              Rating are chosen based on distributions that reflect real-world
-              scenarios, ensuring that the data is varied and representative.
-            </li>
-          </ul>
-
-          <h4 className="uk-heading-bullet">Realism Considerations</h4>
-          <p>
-            While the data generation process is designed to create a wide range
-            of realistic scenarios, there are some limitations:
-          </p>
-          <ul className="uk-list uk-list-bullet">
-            <li>
-              <strong>Risk of Similar Data:</strong> Synthetic data can result
-              in similar data points, which may reduce the diversity of the
-              dataset and affect model performance.
-            </li>
-            <li>
-              <strong>Lack of Outliers:</strong> Predefined ranges may limit the
-              occurrence of extreme cases, leading to a model that performs less
-              effectively on outlier data.
-            </li>
-            <li>
-              <strong>Overtraining:</strong> The model might overfit to patterns
-              in the synthetic data, affecting its ability to generalize to
-              real-world data.
-            </li>
-          </ul>
-
-          <h4 className="uk-heading-bullet">Limitations of Synthetic Data</h4>
-          <p>The reliance on synthetic data introduces certain limitations:</p>
-          <ul className="uk-list uk-list-bullet">
-            <li>
-              <strong>Compliance Limitations:</strong> While synthetic data
-              provides a broad training set, it does not reflect actual
-              transactions. This limits the model’s ability to fully comply with
-              the arm's length principle as defined by the OECD.
-            </li>
-            <li>
-              <strong>Legal Robustness:</strong> In legal scenarios, the
-              synthetic nature of the data might be scrutinized. The models are
-              better suited as compliance tools rather than primary evidence in
-              legal disputes.
-            </li>
-          </ul>
-        </div>
-
-        <div className="uk-card uk-card-primary uk-card-body uk-margin">
-          <h3 className="uk-card-title ">Use and Limitations</h3>
-          <p>
-            The interest rate and profit split models are powerful tools for
-            ensuring compliance with transfer pricing regulations. They are
-            designed to simulate arm's length transactions, ensuring that
-            intra-group interest rates and profit allocations are consistent
-            with what independent entities would agree upon. However, due to
-            their reliance on synthetic data, these models should be used
-            primarily as compliance tools. For legal defense, especially in
-            contentious transfer pricing cases, real-world transaction data is
-            essential to complement the model's outputs.
           </p>
         </div>
       </div>

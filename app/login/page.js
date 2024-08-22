@@ -91,11 +91,11 @@ const LoginPage = () => {
         <div>
           <p className="uk-text-center uk-margin-top">
             You don't have an account yet?{" "}
-            <Link href="/signup">Sign up</Link>
+            <Link href="/signup" className="link-login">Sign up</Link>
           </p>
           <p className="uk-text-center uk-margin-top">
             Forgot your password?{" "}
-            <Link href="/forgot-password">Reset your password</Link>
+            <Link href="/forgot-password" className="link-login">Reset your password</Link>
           </p>
         </div>
       </div>

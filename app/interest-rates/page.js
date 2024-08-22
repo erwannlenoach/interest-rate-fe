@@ -104,7 +104,7 @@ const InterestRatesForm = () => {
     <div className="uk-container uk-container-small uk-margin-large">
       <PageTitle title="INTEREST RATES SIMULATOR" />
       <form onSubmit={handleSubmit} className="uk-form-stacked">
-        <fieldset className="uk-fieldset" disabled={formDisabled}> 
+        <fieldset className="uk-fieldset" hidden={formDisabled}> 
           {[
             {
               label: "Income of the borrower (in thousands of $)",

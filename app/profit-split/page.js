@@ -31,8 +31,7 @@ const ProfitSplit = () => {
 
   const [prediction, setPrediction] = useState(null);
   const [formDisabled, setFormDisabled] = useState(false); 
-
-
+  
   const { user } = useAuth();
 
   const handleChange = (e) => {
@@ -105,7 +104,7 @@ const ProfitSplit = () => {
     <div className="uk-container uk-container-small uk-margin-large">
       <PageTitle title="PROFIT SPLIT SIMULATOR" />
       <form onSubmit={handleSubmit} className="uk-form-stacked">
-        <fieldset className="uk-fieldset" disabled={formDisabled}>
+        <fieldset className="uk-fieldset" hidden={formDisabled}>
           <legend className="uk-legend">Headquarters</legend>
           {[
             {
@@ -198,7 +197,7 @@ const ProfitSplit = () => {
             </div>
           ))}
         </fieldset>
-        <fieldset className="uk-fieldset uk-margin-top" disabled={formDisabled}>
+        <fieldset className="uk-fieldset uk-margin-top" hidden={formDisabled}>
           <legend className="uk-legend">Subsidiary</legend>
           {[
             {

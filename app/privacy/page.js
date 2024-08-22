@@ -1,10 +1,11 @@
 import React from "react";
+import PageTitle from "../components/page-title/page";
 
 export default function Privacy() {
   return (
     <div className="uk-container uk-margin-large-top uk-margin-large-bottom">
-      <h2>Privacy Policy</h2>
-      <p>
+      <PageTitle title="PRIVACY" />
+      <p className="uk-margin-large-top">
         This project does not use personal data for commercial purposes. All user data, including passwords, are
         fully encrypted and stored securely. Our practices are in full
         compliance with GDPR requirements, ensuring that your information is
