@@ -31,7 +31,7 @@ const ForgotPassword = () => {
 
       setTimeout(() => {
         setCooldown(false);
-      }, 60000);
+      }, 20000); 
     } catch (error) {
       setMessage("Error sending email. Please try again later.");
     } finally {
@@ -66,6 +66,7 @@ const ForgotPassword = () => {
               type="submit"
               className="uk-button uk-button-primary uk-border-rounded"
               disabled={isLoading || cooldown}
+              style={{ padding: "10px 20px", lineHeight: "normal" }} 
             >
               {isLoading ? (
                 <div uk-spinner="ratio: 0.6"></div>

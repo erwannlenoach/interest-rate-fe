@@ -52,10 +52,7 @@ const ResetPassword = () => {
       setMessage(
         response.data.message || "Password has been reset successfully"
       );
-
-      setTimeout(() => {
-        router.push("/login");
-      }, 2000);
+      router.push("/login");
     } catch (error) {
       setMessage("Error resetting password. Please try again later.");
     } finally {
