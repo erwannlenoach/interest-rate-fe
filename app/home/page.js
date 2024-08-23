@@ -20,7 +20,7 @@ export default function HomeScreen() {
           <div className="uk-height-viewport uk-position-relative">
             <div className="background-image">
               <Image
-                src="/planet.jpg"
+                src="/planet.webp"
                 alt="Background"
                 layout="fill"
                 objectFit="cover"
