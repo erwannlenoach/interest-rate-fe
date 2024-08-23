@@ -44,7 +44,10 @@ a:hover {
 
 .uk-form-label {
   font-size: 1.25rem!important;
-  font-weight: bold!important;
+}
+
+legend {
+  font-weight: bold;
 }
 
 .uk-border-rounded {

@@ -45,7 +45,7 @@ const ResetPassword = () => {
 
   return (
     <div className="reset-password-container uk-container uk-margin-large-top">
-      <div className="reset-password-form-container uk-card uk-card-default uk-card-body uk-width-1-2@m uk-align-center">
+      <div className="reset-password-form-container uk-card uk-card-default uk-card-body uk-width-1-2@m uk-align-center uk-margin-top-large">
         <h1 className="uk-heading-medium uk-text-center">
           Reset your password
         </h1>
@@ -75,13 +75,15 @@ const ResetPassword = () => {
               required
             />
           </div>
-          <button
-            type="submit"
-            className="uk-button uk-button-primary uk-border-rounded"
-            disabled={isLoading}
-          >
-            {isLoading ? <div uk-spinner="ratio: 0.6"></div> : "Reset Password"}
-          </button>
+          <div className="uk-margin uk-text-center">
+            <button
+              type="submit"
+              className="uk-button uk-button-primary uk-border-rounded"
+              disabled={isLoading}
+            >
+              {isLoading ? <div uk-spinner="ratio: 0.6"></div> : "Reset Password"}
+            </button>
+          </div>
         </form>
       </div>
     </div>

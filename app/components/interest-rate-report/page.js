@@ -53,7 +53,7 @@ const InterestRateReport = ({ prediction, formData, calculatedData }) => {
   return (
     <div className="uk-margin-large">
       <h3 className="uk-heading-line uk-text-center">
-        <span>Loan Report</span>
+        <span>Transfer Pricing Report</span>
       </h3>
       <div className="uk-card uk-card-default uk-card-body uk-border-rounded">
         <p className="uk-text-bold">
