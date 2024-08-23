@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import "uikit/dist/css/uikit.min.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
@@ -14,6 +15,7 @@ const ResetPassword = () => {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [token, setToken] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const urlParts = window.location.pathname.split("/");
@@ -21,12 +23,26 @@ const ResetPassword = () => {
     setToken(tokenFromUrl);
   }, []);
 
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleResetPassword = async (e) => {
     e.preventDefault();
+
+    if (!validatePassword(newPassword)) {
+      setMessage(
+        "Password must be at least 8 characters long, include uppercase and lowercase letters, and a number."
+      );
+      return;
+    }
+
     if (newPassword !== confirmPassword) {
       setMessage("Passwords do not match");
       return;
     }
+
     setIsLoading(true);
     try {
       const response = await axios.post(
@@ -36,6 +52,10 @@ const ResetPassword = () => {
       setMessage(
         response.data.message || "Password has been reset successfully"
       );
+
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
     } catch (error) {
       setMessage("Error resetting password. Please try again later.");
     } finally {
@@ -81,7 +101,11 @@ const ResetPassword = () => {
               className="uk-button uk-button-primary uk-border-rounded"
               disabled={isLoading}
             >
-              {isLoading ? <div uk-spinner="ratio: 0.6"></div> : "Reset Password"}
+              {isLoading ? (
+                <div uk-spinner="ratio: 0.6"></div>
+              ) : (
+                "Reset Password"
+              )}
             </button>
           </div>
         </form>
