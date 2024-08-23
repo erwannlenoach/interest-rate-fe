@@ -24,7 +24,9 @@ export default function HomeScreen() {
                 alt="Background"
                 layout="fill"
                 objectFit="cover"
-                quality={100}
+                quality={75}
+                loading="eager"
+                priority="true"
                 onLoadingComplete={() => setIsImageLoaded(true)}
               />
             </div>
