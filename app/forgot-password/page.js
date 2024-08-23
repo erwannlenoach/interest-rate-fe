@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './styles.css';
 
-const forgotPassword = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -38,17 +38,19 @@ const forgotPassword = () => {
               required
             />
           </div>
-          <button type="submit" className="uk-button uk-button-primary uk-border-rounded" disabled={isLoading}>
-            {isLoading ? (
-              <div uk-spinner="ratio: 0.6"></div>
-            ) : (
-              "Send Reset Link"
-            )}
-          </button>
+          <div className="uk-margin uk-text-center">
+            <button type="submit" className="uk-button uk-button-primary uk-border-rounded" disabled={isLoading}>
+              {isLoading ? (
+                <div uk-spinner="ratio: 0.6"></div>
+              ) : (
+                "Send Reset Link"
+              )}
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
 };
 
-export default forgotPassword;
+export default ForgotPassword;
